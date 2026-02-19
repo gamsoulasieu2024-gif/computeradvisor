@@ -37,11 +37,19 @@ const CATEGORIES: PartCategory[] = [
 ];
 
 export default function BuildPage() {
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { selectedParts, preset, setPreset, removePart, addPart } = useBuild();
-  const [showPresetSelector, setShowPresetSelector] = useState(!preset || preset === "custom");
+  const [showPresetSelector, setShowPresetSelector] = useState(false);
   const [searchCategory, setSearchCategory] = useState<PartCategory | null>(null);
   const [catalog, setCatalog] = useState<Catalog | null>(null);
+
+  // Fix hydration by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+    // Set initial preset selector state after mount when we know the actual preset value
+    setShowPresetSelector(!preset || preset === "custom");
+  }, [preset]);
 
   // Load catalog
   useEffect(() => {
@@ -120,6 +128,18 @@ export default function BuildPage() {
       )}
     </div>
   );
+
+  // Show loading state during SSR/hydration
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading builder...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
