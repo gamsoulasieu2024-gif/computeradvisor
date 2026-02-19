@@ -234,6 +234,7 @@ export const useBuildStore = create<BuildStoreState & BuildStoreActions>()(
     {
       name: STORAGE_KEY,
       version: STORAGE_VERSION,
+      skipHydration: true, // Prevents SSR localStorage access
       partialize: (s) => ({
         selectedParts: s.selectedParts,
         buildId: s.buildId,
