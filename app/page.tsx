@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Cpu, Gauge, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -34,9 +35,11 @@ export default function Home() {
               Plan your dream build with confidence. Our advisor checks compatibility, scores performance, and helps you find the best upgrade path—all in one place.
             </p>
             <div className="mt-10">
-              <Button as="link" href="/build" size="lg" variant="primary">
-                Start Build
-              </Button>
+              <Link href="/build">
+                <Button size="lg" variant="primary" className="px-8 py-6 text-lg">
+                  Start Build
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
