@@ -2,7 +2,7 @@
  * Compatibility scoring logic
  */
 
-import type { CompatibilityResult, Issue } from "@/lib/compatibility/types";
+import type { CompatibilityResult } from "@/lib/compatibility/types";
 import type { Score, ScoreBreakdownItem } from "./types";
 
 const WARNING_PENALTY: Record<string, number> = {

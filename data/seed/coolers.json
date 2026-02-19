@@ -1,0 +1,153 @@
+[
+  {
+    "id": "cooler-001",
+    "name": "Noctua NH-D15",
+    "manufacturer": "Noctua",
+    "price_usd": 109,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 220,
+      "fan_size_mm": 140,
+      "height_mm": 165,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-002",
+    "name": "Corsair iCUE H150i ELITE",
+    "manufacturer": "Corsair",
+    "price_usd": 199,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 360,
+      "fan_size_mm": 120,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-003",
+    "name": "be quiet! Dark Rock Pro 4",
+    "manufacturer": "be quiet!",
+    "price_usd": 89,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 250,
+      "fan_size_mm": 135,
+      "height_mm": 163,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-004",
+    "name": "Arctic Liquid Freezer II 280",
+    "manufacturer": "Arctic",
+    "price_usd": 119,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 280,
+      "fan_size_mm": 140,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-005",
+    "name": "Noctua NH-U12A",
+    "manufacturer": "Noctua",
+    "price_usd": 99,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 200,
+      "fan_size_mm": 120,
+      "height_mm": 158,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-006",
+    "name": "NZXT Kraken X63",
+    "manufacturer": "NZXT",
+    "price_usd": 179,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 280,
+      "fan_size_mm": 140,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-007",
+    "name": "Cooler Master Hyper 212",
+    "manufacturer": "Cooler Master",
+    "price_usd": 39,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 150,
+      "fan_size_mm": 120,
+      "height_mm": 159,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-008",
+    "name": "Corsair iCUE H100i ELITE",
+    "manufacturer": "Corsair",
+    "price_usd": 149,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 240,
+      "fan_size_mm": 120,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-009",
+    "name": "Noctua NH-L9i",
+    "manufacturer": "Noctua",
+    "price_usd": 49,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 65,
+      "fan_size_mm": 92,
+      "height_mm": 37,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151"]
+    }
+  },
+  {
+    "id": "cooler-010",
+    "name": "be quiet! Pure Rock 2",
+    "manufacturer": "be quiet!",
+    "price_usd": 44,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 150,
+      "fan_size_mm": 120,
+      "height_mm": 155,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-011",
+    "name": "Arctic Liquid Freezer II 240",
+    "manufacturer": "Arctic",
+    "price_usd": 99,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 240,
+      "fan_size_mm": 120,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  },
+  {
+    "id": "cooler-012",
+    "name": "Deepcool AK620",
+    "manufacturer": "Deepcool",
+    "price_usd": 64,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 260,
+      "fan_size_mm": 120,
+      "height_mm": 160,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+    }
+  }
+]

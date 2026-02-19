@@ -9,18 +9,22 @@ export function useTheme() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const stored = localStorage.getItem("theme") as Theme | null;
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    if (stored) {
-      setThemeState(stored);
-      document.documentElement.classList.toggle("dark", stored === "dark");
-    } else {
-      const initial = prefersDark ? "dark" : "light";
-      setThemeState(initial);
-      document.documentElement.classList.toggle("dark", initial === "dark");
-    }
+    // Use queueMicrotask to make setState async and avoid cascading renders
+    queueMicrotask(() => {
+      if (stored) {
+        setThemeState(stored);
+        document.documentElement.classList.toggle("dark", stored === "dark");
+      } else {
+        const initial = prefersDark ? "dark" : "light";
+        setThemeState(initial);
+        document.documentElement.classList.toggle("dark", initial === "dark");
+      }
+
+      setMounted(true);
+    });
   }, []);
 
   const setTheme = (newTheme: Theme) => {

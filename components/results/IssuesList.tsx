@@ -9,14 +9,12 @@ interface IssuesListProps {
   hardFails: Issue[];
   warnings: Issue[];
   notes: Issue[];
-  onPartClick?: (partId: string) => void;
 }
 
 export function IssuesList({
   hardFails,
   warnings,
   notes,
-  onPartClick,
 }: IssuesListProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -83,8 +81,8 @@ export function IssuesList({
                 How to fix:
               </p>
               <ul className="mt-1 list-disc space-y-0.5 pl-4 text-sm">
-                {issue.suggestedFixes.map((fix, i) => (
-                  <li key={i}>{fix}</li>
+                {issue.suggestedFixes.map((fix) => (
+                  <li key={fix}>{fix}</li>
                 ))}
               </ul>
             </div>

@@ -21,7 +21,6 @@ export interface BuildsIndex {
 }
 
 const STORAGE_KEY = "pc-builds";
-const MAX_URL_LENGTH = 2000;
 
 /** Get all builds from localStorage */
 export function getLocalBuilds(): BuildsIndex {

@@ -135,7 +135,7 @@ export function BuildPageClient() {
         manufacturer: string;
       }[];
       const partType = cat as "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case";
-      return filterByPreset(preset, partType, raw, catalog as never) as {
+      return filterByPreset(preset, partType, raw) as {
         id: string;
         name: string;
         manufacturer: string;

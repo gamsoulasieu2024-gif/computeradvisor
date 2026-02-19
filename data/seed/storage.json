@@ -1,0 +1,183 @@
+[
+  {
+    "id": "storage-001",
+    "name": "Samsung 990 Pro 1TB",
+    "manufacturer": "Samsung",
+    "price_usd": 109,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 7450,
+      "write_speed_mb_s": 6900,
+      "tbw": 600
+    }
+  },
+  {
+    "id": "storage-002",
+    "name": "WD Black SN850X 2TB",
+    "manufacturer": "Western Digital",
+    "price_usd": 179,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 7300,
+      "write_speed_mb_s": 6300,
+      "tbw": 1200
+    }
+  },
+  {
+    "id": "storage-003",
+    "name": "Crucial MX500 1TB",
+    "manufacturer": "Crucial",
+    "price_usd": 69,
+    "specs": {
+      "interface": "SATA",
+      "form_factor": "2.5\" SATA",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 560,
+      "write_speed_mb_s": 510,
+      "tbw": 360
+    }
+  },
+  {
+    "id": "storage-004",
+    "name": "Samsung 980 Pro 500GB",
+    "manufacturer": "Samsung",
+    "price_usd": 79,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 500,
+      "read_speed_mb_s": 7000,
+      "write_speed_mb_s": 5000,
+      "tbw": 300
+    }
+  },
+  {
+    "id": "storage-005",
+    "name": "Seagate BarraCuda 2TB",
+    "manufacturer": "Seagate",
+    "price_usd": 59,
+    "specs": {
+      "interface": "SATA",
+      "form_factor": "3.5\" SATA",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 210,
+      "write_speed_mb_s": 210
+    }
+  },
+  {
+    "id": "storage-006",
+    "name": "Kingston NV2 1TB",
+    "manufacturer": "Kingston",
+    "price_usd": 59,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 3500,
+      "write_speed_mb_s": 2100,
+      "tbw": 320
+    }
+  },
+  {
+    "id": "storage-007",
+    "name": "Crucial P5 Plus 2TB",
+    "manufacturer": "Crucial",
+    "price_usd": 149,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 6600,
+      "write_speed_mb_s": 5000,
+      "tbw": 1200
+    }
+  },
+  {
+    "id": "storage-008",
+    "name": "Samsung 870 EVO 1TB",
+    "manufacturer": "Samsung",
+    "price_usd": 89,
+    "specs": {
+      "interface": "SATA",
+      "form_factor": "2.5\" SATA",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 560,
+      "write_speed_mb_s": 530,
+      "tbw": 600
+    }
+  },
+  {
+    "id": "storage-009",
+    "name": "WD Blue SN580 1TB",
+    "manufacturer": "Western Digital",
+    "price_usd": 69,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 4150,
+      "write_speed_mb_s": 4150,
+      "tbw": 600
+    }
+  },
+  {
+    "id": "storage-010",
+    "name": "Samsung 990 Pro 2TB",
+    "manufacturer": "Samsung",
+    "price_usd": 199,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 7450,
+      "write_speed_mb_s": 6900,
+      "tbw": 1200
+    }
+  },
+  {
+    "id": "storage-011",
+    "name": "Seagate FireCuda 530 1TB",
+    "manufacturer": "Seagate",
+    "price_usd": 119,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 7300,
+      "write_speed_mb_s": 6000,
+      "tbw": 1275
+    }
+  },
+  {
+    "id": "storage-012",
+    "name": "Crucial MX500 2TB",
+    "manufacturer": "Crucial",
+    "price_usd": 119,
+    "specs": {
+      "interface": "SATA",
+      "form_factor": "2.5\" SATA",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 560,
+      "write_speed_mb_s": 510,
+      "tbw": 700
+    }
+  },
+  {
+    "id": "storage-013",
+    "name": "Samsung 980 500GB",
+    "manufacturer": "Samsung",
+    "price_usd": 49,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 500,
+      "read_speed_mb_s": 3500,
+      "write_speed_mb_s": 3000,
+      "tbw": 300
+    }
+  }
+]

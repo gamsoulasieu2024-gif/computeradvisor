@@ -1,0 +1,206 @@
+[
+  {
+    "id": "case-001",
+    "name": "Fractal Design Meshify 2",
+    "manufacturer": "Fractal Design",
+    "price_usd": 159,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 360,
+      "max_cooler_height_mm": 185,
+      "max_psu_length_mm": 250,
+      "drive_bays_2_5": 4,
+      "drive_bays_3_5": 6,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-002",
+    "name": "NZXT H7 Flow",
+    "manufacturer": "NZXT",
+    "price_usd": 149,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 413,
+      "max_cooler_height_mm": 185,
+      "max_psu_length_mm": 200,
+      "drive_bays_2_5": 3,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [120, 240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-003",
+    "name": "Fractal Design Define 7 Compact",
+    "manufacturer": "Fractal Design",
+    "price_usd": 109,
+    "specs": {
+      "form_factor": "Micro-ATX",
+      "max_gpu_length_mm": 341,
+      "max_cooler_height_mm": 162,
+      "max_psu_length_mm": 175,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 4,
+      "supports_radiator_mm": [240, 280],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-004",
+    "name": "Cooler Master NR200P",
+    "manufacturer": "Cooler Master",
+    "price_usd": 99,
+    "specs": {
+      "form_factor": "Mini-ITX",
+      "max_gpu_length_mm": 330,
+      "max_cooler_height_mm": 155,
+      "max_psu_length_mm": 130,
+      "drive_bays_2_5": 3,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 2,
+      "supports_radiator_mm": [240, 280],
+      "max_psu_form_factor": "SFX"
+    }
+  },
+  {
+    "id": "case-005",
+    "name": "Corsair 4000D Airflow",
+    "manufacturer": "Corsair",
+    "price_usd": 104,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 360,
+      "max_cooler_height_mm": 170,
+      "max_psu_length_mm": 180,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-006",
+    "name": "Lian Li O11 Dynamic EVO",
+    "manufacturer": "Lian Li",
+    "price_usd": 179,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 442,
+      "max_cooler_height_mm": 167,
+      "max_psu_length_mm": 200,
+      "drive_bays_2_5": 4,
+      "drive_bays_3_5": 3,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [120, 240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-007",
+    "name": "Fractal Design Terra",
+    "manufacturer": "Fractal Design",
+    "price_usd": 189,
+    "specs": {
+      "form_factor": "Mini-ITX",
+      "max_gpu_length_mm": 322,
+      "max_cooler_height_mm": 77,
+      "max_psu_length_mm": 130,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 0,
+      "expansion_slots": 2,
+      "supports_radiator_mm": [],
+      "max_psu_form_factor": "SFX"
+    }
+  },
+  {
+    "id": "case-008",
+    "name": "be quiet! Pure Base 500DX",
+    "manufacturer": "be quiet!",
+    "price_usd": 109,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 369,
+      "max_cooler_height_mm": 190,
+      "max_psu_length_mm": 224,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-009",
+    "name": "Phanteks Eclipse P400A",
+    "manufacturer": "Phanteks",
+    "price_usd": 89,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 420,
+      "max_cooler_height_mm": 160,
+      "max_psu_length_mm": 200,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-010",
+    "name": "ASUS ROG Strix Helios",
+    "manufacturer": "ASUS",
+    "price_usd": 349,
+    "specs": {
+      "form_factor": "E-ATX",
+      "max_gpu_length_mm": 420,
+      "max_cooler_height_mm": 190,
+      "max_psu_length_mm": 200,
+      "drive_bays_2_5": 4,
+      "drive_bays_3_5": 4,
+      "expansion_slots": 8,
+      "supports_radiator_mm": [120, 240, 280, 360],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-011",
+    "name": "Cooler Master MasterBox Q300L",
+    "manufacturer": "Cooler Master",
+    "price_usd": 49,
+    "specs": {
+      "form_factor": "Micro-ATX",
+      "max_gpu_length_mm": 360,
+      "max_cooler_height_mm": 159,
+      "max_psu_length_mm": 160,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 1,
+      "expansion_slots": 4,
+      "supports_radiator_mm": [120, 240],
+      "max_psu_form_factor": "ATX"
+    }
+  },
+  {
+    "id": "case-012",
+    "name": "NZXT H1 V2",
+    "manufacturer": "NZXT",
+    "price_usd": 399,
+    "specs": {
+      "form_factor": "Mini-ITX",
+      "max_gpu_length_mm": 324,
+      "max_cooler_height_mm": 140,
+      "max_psu_length_mm": 130,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 0,
+      "expansion_slots": 2,
+      "supports_radiator_mm": [140],
+      "max_psu_form_factor": "SFX"
+    }
+  }
+]

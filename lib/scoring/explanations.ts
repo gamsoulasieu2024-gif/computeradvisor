@@ -2,7 +2,7 @@
  * Score explanation generator
  */
 
-import type { Score, ScoreResult } from "./types";
+import type { ScoreResult } from "./types";
 
 /**
  * Generate user-facing explanations for each score

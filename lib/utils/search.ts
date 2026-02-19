@@ -51,7 +51,7 @@ export function searchParts<T extends SearchablePart>(
   sort: SortOption = "name"
 ): T[] {
   const q = query.trim();
-  let result = q
+  const result = q
     ? parts.filter((p) => fuzzyMatch(`${p.name} ${p.manufacturer}`, q))
     : [...parts];
 

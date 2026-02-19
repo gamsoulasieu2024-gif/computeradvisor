@@ -13,7 +13,6 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import type { SelectedParts } from "@/lib/store/types";
 import type { PCComponent } from "@/lib/store/types";
 
@@ -84,7 +83,7 @@ export function BuildSummary({ selectedParts }: BuildSummaryProps) {
       {expanded && (
         <div className="border-t border-zinc-200 px-4 pb-4 pt-2 dark:border-zinc-800">
           <ul className="space-y-2">
-            {items.map(({ key, label, icon: Icon, part }) => (
+            {items.map(({ key, icon: Icon, part }) => (
               <li
                 key={key}
                 className="flex items-start gap-3 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-800/50"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useBuild } from "@/hooks/use-build";
+import { useMemo } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -101,13 +101,13 @@ export function ComponentCard({
 
   const status = getPartStatus(category, part as PCComponent | undefined, issues);
 
-  const StatusBadge = () => {
+  const statusBadge = useMemo(() => {
     if (status === "ok")
       return <Badge variant="success">OK</Badge>;
     if (status === "warning")
       return <Badge variant="warning">Warning</Badge>;
     return <Badge variant="error">Error</Badge>;
-  };
+  }, [status]);
 
   return (
     <div
@@ -127,7 +127,7 @@ export function ComponentCard({
           <div>
             <div className="flex items-center gap-2">
               <h3 className="font-medium text-foreground">{meta.label}</h3>
-              {part && <StatusBadge />}
+              {part && statusBadge}
             </div>
             {part ? (
               <>

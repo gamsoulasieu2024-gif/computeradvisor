@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useCallback, useState, useEffect, useRef } from "react";
+import { createContext, useContext, useCallback, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { CheckCircle, AlertTriangle, XCircle, Info, X } from "lucide-react";
 
@@ -94,7 +94,7 @@ export function useToast() {
   const ctx = useContext(ToastContext);
   if (!ctx) {
     return {
-      toast: (_v: ToastVariant, _m: string) => {},
+      toast: () => {},
     };
   }
   return ctx;

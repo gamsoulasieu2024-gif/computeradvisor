@@ -26,7 +26,6 @@ export function PartSearch<T extends { id: string; name: string; manufacturer: s
   onSelect,
   onManualEntry,
   renderPartCard,
-  getPartName,
 }: PartSearchProps<T>) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortOption>("name");
@@ -45,7 +44,11 @@ export function PartSearch<T extends { id: string; name: string; manufacturer: s
   );
 
   useEffect(() => {
-    if (isOpen) setQuery("");
+    if (!isOpen) return;
+    // Use queueMicrotask to make setState async and avoid cascading renders
+    queueMicrotask(() => {
+      setQuery("");
+    });
   }, [isOpen]);
 
   if (!isOpen) return null;

@@ -4,7 +4,6 @@
 
 import type { BuildInput } from "@/lib/compatibility/types";
 import type { CompatibilityResult } from "@/lib/compatibility/types";
-import type { Issue } from "@/lib/compatibility/types";
 import { estimateLoad } from "@/lib/compatibility/power";
 import type { CPU, GPU, Motherboard, RAM, Storage, PSU, Cooler, Case } from "@/types/components";
 
@@ -40,7 +39,6 @@ export interface Catalog {
   cases: Case[];
 }
 
-const BUDGET_TIERS = [100, 200, 500] as const;
 
 /**
  * Generate upgrade suggestions based on compatibility issues and build state

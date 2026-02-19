@@ -13,29 +13,29 @@ interface FixSuggestionsProps {
 
 const ISSUE_FIX_MAP: Record<
   string,
-  (issue: Issue) => string[]
+  (_issue: Issue) => string[]
 > = {
-  gpuTooLong: (i) => [
+  gpuTooLong: () => [
     "Switch to a shorter GPU",
     "Choose a larger case with more GPU clearance",
   ],
-  coolerTooTall: (i) => [
+  coolerTooTall: () => [
     "Use a shorter cooler",
     "Choose a case with more CPU cooler height",
   ],
-  insufficientPower: (i) => [
+  insufficientPower: () => [
     "Upgrade to a higher wattage PSU",
     "Remove power-hungry components",
   ],
-  lowPsuHeadroom: (i) => [
+  lowPsuHeadroom: () => [
     "Upgrade to a PSU with 25%+ headroom",
     "Consider a more efficient PSU",
   ],
-  socketMismatch: (i) => ["Select a CPU that matches your motherboard socket"],
-  ramTypeMismatch: (i) => [
+  socketMismatch: () => ["Select a CPU that matches your motherboard socket"],
+  ramTypeMismatch: () => [
     "Select RAM that matches motherboard memory type (DDR4/DDR5)",
   ],
-  noM2Slots: (i) => [
+  noM2Slots: () => [
     "Use fewer NVMe drives",
     "Select a motherboard with more M.2 slots",
   ],
@@ -87,8 +87,8 @@ export function FixSuggestions({
             <div className="min-w-0 flex-1">
               <p className="font-medium">{s.title}</p>
               <ul className="mt-2 space-y-1">
-                {s.fixes.map((fix, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm">
+                {s.fixes.map((fix) => (
+                  <li key={fix} className="flex items-center gap-2 text-sm">
                     <span className="text-zinc-600 dark:text-zinc-400">
                       • {fix}
                     </span>

@@ -1,14 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
-  CPU,
-  GPU,
-  Motherboard,
   RAM,
   Storage,
-  PSU,
-  Cooler,
-  Case,
 } from "@/types/components";
 import type {
   BuildState,
@@ -54,7 +48,7 @@ function getPartTdp(part: PCComponent): number {
   return 0;
 }
 
-function getStoragePower(_storage: Storage): number {
+function getStoragePower(): number {
   return STORAGE_W_PER_DRIVE;
 }
 
@@ -70,7 +64,7 @@ function calculateEstimatedLoad(parts: SelectedParts): number {
   if (parts.gpu) total += getPartTdp(parts.gpu);
   if (parts.ram) total += getRamPower(parts.ram);
   if (parts.storage?.length) {
-    total += parts.storage.reduce((sum, s) => sum + getStoragePower(s), 0);
+    total += parts.storage.reduce((sum) => sum + getStoragePower(), 0);
   }
 
   return total;

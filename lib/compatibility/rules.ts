@@ -6,7 +6,6 @@
 import type { CPU, GPU, Motherboard, RAM, Storage, PSU, Cooler, Case } from "@/types/components";
 import type { FormFactor } from "@/types/components";
 import type { Issue } from "./types";
-import { estimateLoad } from "./power";
 
 // ============ Helpers ============
 

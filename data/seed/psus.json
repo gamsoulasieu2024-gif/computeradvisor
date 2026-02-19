@@ -1,0 +1,170 @@
+[
+  {
+    "id": "psu-001",
+    "name": "Corsair RM850x",
+    "manufacturer": "Corsair",
+    "price_usd": 139,
+    "specs": {
+      "wattage_w": 850,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-002",
+    "name": "Seasonic FOCUS GX-850",
+    "manufacturer": "Seasonic",
+    "price_usd": 129,
+    "specs": {
+      "wattage_w": 850,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-003",
+    "name": "Corsair RM1000e",
+    "manufacturer": "Corsair",
+    "price_usd": 179,
+    "specs": {
+      "wattage_w": 1000,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "3.0",
+      "pcie_5_ready": true
+    }
+  },
+  {
+    "id": "psu-004",
+    "name": "EVGA SuperNOVA 650 G5",
+    "manufacturer": "EVGA",
+    "price_usd": 89,
+    "specs": {
+      "wattage_w": 650,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-005",
+    "name": "Corsair SF750",
+    "manufacturer": "Corsair",
+    "price_usd": 159,
+    "specs": {
+      "wattage_w": 750,
+      "efficiency": "80+ Platinum",
+      "form_factor": "SFX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-006",
+    "name": "Thermaltake Toughpower GF1 750W",
+    "manufacturer": "Thermaltake",
+    "price_usd": 99,
+    "specs": {
+      "wattage_w": 750,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-007",
+    "name": "Seasonic PRIME TX-1000",
+    "manufacturer": "Seasonic",
+    "price_usd": 299,
+    "specs": {
+      "wattage_w": 1000,
+      "efficiency": "80+ Titanium",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-008",
+    "name": "Corsair CV550",
+    "manufacturer": "Corsair",
+    "price_usd": 49,
+    "specs": {
+      "wattage_w": 550,
+      "efficiency": "80+ Bronze",
+      "form_factor": "ATX",
+      "modular": "Non-modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-009",
+    "name": "be quiet! Straight Power 11 750W",
+    "manufacturer": "be quiet!",
+    "price_usd": 119,
+    "specs": {
+      "wattage_w": 750,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-010",
+    "name": "ASUS ROG Thor 850P",
+    "manufacturer": "ASUS",
+    "price_usd": 199,
+    "specs": {
+      "wattage_w": 850,
+      "efficiency": "80+ Platinum",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "3.0",
+      "pcie_5_ready": true
+    }
+  },
+  {
+    "id": "psu-011",
+    "name": "Cooler Master V750 SFX",
+    "manufacturer": "Cooler Master",
+    "price_usd": 129,
+    "specs": {
+      "wattage_w": 750,
+      "efficiency": "80+ Gold",
+      "form_factor": "SFX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  },
+  {
+    "id": "psu-012",
+    "name": "EVGA SuperNOVA 850 G6",
+    "manufacturer": "EVGA",
+    "price_usd": 149,
+    "specs": {
+      "wattage_w": 850,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "pcie_5_ready": false
+    }
+  }
+]

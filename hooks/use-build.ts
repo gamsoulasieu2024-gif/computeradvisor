@@ -2,7 +2,7 @@
 
 import { useBuildStore } from "@/lib/store/build-store";
 import { useCallback } from "react";
-import type { PartCategory, PartByCategory, BuildPreset } from "@/lib/store/types";
+import type { PartCategory, PartByCategory } from "@/lib/store/types";
 
 /**
  * Custom hook for build store access with optional selectors.

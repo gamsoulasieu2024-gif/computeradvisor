@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/Button";
-import { X, FolderOpen, Trash2, Search } from "lucide-react";
+import { X, Trash2, Search } from "lucide-react";
 import { listBuilds, deleteBuild } from "@/lib/persistence/build-saver";
 import { BuildThumbnail } from "./BuildThumbnail";
 import type { PersistedBuild } from "@/lib/persistence/storage";
@@ -37,11 +37,15 @@ export function LoadBuildModal({
   const [confirmLoad, setConfirmLoad] = useState<PersistedBuild | null>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setBuilds(listBuilds());
+    if (!isOpen) return;
+
+    // Use queueMicrotask to batch state updates and avoid cascading renders
+    queueMicrotask(() => {
+      const savedBuilds = listBuilds();
+      setBuilds(savedBuilds);
       setSearch("");
       setConfirmLoad(null);
-    }
+    });
   }, [isOpen]);
 
   const filtered = useMemo(() => {

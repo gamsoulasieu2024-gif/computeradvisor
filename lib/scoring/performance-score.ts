@@ -3,7 +3,6 @@
  */
 
 import type { BuildInput } from "@/lib/compatibility/types";
-import { estimateLoad } from "@/lib/compatibility/power";
 import type { Score, ScoreBreakdownItem, BuildPreset } from "./types";
 
 /** Map tier (1-10) to 0-100 score */

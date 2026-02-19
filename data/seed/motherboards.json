@@ -1,0 +1,218 @@
+[
+  {
+    "id": "mobo-001",
+    "name": "ASUS ROG STRIX Z790-E",
+    "manufacturer": "ASUS",
+    "price_usd": 449,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 4,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-002",
+    "name": "MSI MAG B650 TOMAHAWK",
+    "manufacturer": "MSI",
+    "price_usd": 219,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-003",
+    "name": "ASUS ROG STRIX X670E-F",
+    "manufacturer": "ASUS",
+    "price_usd": 449,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "X670E",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 4,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-004",
+    "name": "Gigabyte B550 AORUS PRO",
+    "manufacturer": "Gigabyte",
+    "price_usd": 179,
+    "specs": {
+      "socket": "AM4",
+      "chipset": "B550",
+      "form_factor": "ATX",
+      "memory_type": "DDR4",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 6,
+      "pcie_version": "4.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-005",
+    "name": "ASRock B650M PRO RS",
+    "manufacturer": "ASRock",
+    "price_usd": 149,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "form_factor": "Micro-ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "5.0",
+      "has_bios_flashback": false
+    }
+  },
+  {
+    "id": "mobo-006",
+    "name": "ASUS ROG STRIX B550-I",
+    "manufacturer": "ASUS",
+    "price_usd": 229,
+    "specs": {
+      "socket": "AM4",
+      "chipset": "B550",
+      "form_factor": "Mini-ITX",
+      "memory_type": "DDR4",
+      "ram_slots": 2,
+      "max_ram_gb": 64,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "4.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-007",
+    "name": "MSI PRO Z790-A",
+    "manufacturer": "MSI",
+    "price_usd": 249,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 3,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-008",
+    "name": "ASRock B660M PRO RS",
+    "manufacturer": "ASRock",
+    "price_usd": 119,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "B660",
+      "form_factor": "Micro-ATX",
+      "memory_type": "DDR4",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "4.0",
+      "has_bios_flashback": false
+    }
+  },
+  {
+    "id": "mobo-009",
+    "name": "Gigabyte X670E AORUS MASTER",
+    "manufacturer": "Gigabyte",
+    "price_usd": 699,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "X670E",
+      "form_factor": "E-ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 5,
+      "sata_ports": 8,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-010",
+    "name": "ASUS ROG STRIX Z690-I",
+    "manufacturer": "ASUS",
+    "price_usd": 399,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Z690",
+      "form_factor": "Mini-ITX",
+      "memory_type": "DDR5",
+      "ram_slots": 2,
+      "max_ram_gb": 64,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true
+    }
+  },
+  {
+    "id": "mobo-011",
+    "name": "MSI MAG B550M MORTAR",
+    "manufacturer": "MSI",
+    "price_usd": 159,
+    "specs": {
+      "socket": "AM4",
+      "chipset": "B550",
+      "form_factor": "Micro-ATX",
+      "memory_type": "DDR4",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 6,
+      "pcie_version": "4.0",
+      "has_bios_flashback": false
+    }
+  },
+  {
+    "id": "mobo-012",
+    "name": "ASRock Z790M-ITX",
+    "manufacturer": "ASRock",
+    "price_usd": 279,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "form_factor": "Mini-ITX",
+      "memory_type": "DDR5",
+      "ram_slots": 2,
+      "max_ram_gb": 64,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "5.0",
+      "has_bios_flashback": false
+    }
+  }
+]

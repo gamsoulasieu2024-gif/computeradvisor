@@ -3,29 +3,16 @@
  */
 
 import type { BuildPreset } from "@/lib/store/types";
-import type { CPU, GPU, Motherboard, RAM, Storage, PSU, Cooler, Case } from "@/types/components";
 import { getPresetDefinition } from "./definitions";
 import type { FormFactor } from "@/types/components";
 
 export type PartType = "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case";
 
-interface Catalog {
-  cpus: CPU[];
-  gpus: GPU[];
-  motherboards: Motherboard[];
-  ram: RAM[];
-  storage: Storage[];
-  psus: PSU[];
-  coolers: Cooler[];
-  cases: Case[];
-}
-
 /** Filter parts by preset constraints */
 export function filterByPreset(
   preset: BuildPreset,
   category: PartType,
-  parts: unknown[],
-  catalog?: Catalog
+  parts: unknown[]
 ): unknown[] {
   const def = getPresetDefinition(preset);
   const specs = def.recommendedSpecs;
@@ -34,7 +21,7 @@ export function filterByPreset(
 
   switch (category) {
     case "cpu": {
-      const cpuParts = parts as CPU[];
+      const cpuParts = parts as Array<{ specs?: { tier?: number; cores?: number; tdp_w?: number } }>;
       return cpuParts.filter((p) => {
         const tier = p.specs?.tier ?? 0;
         const cores = p.specs?.cores ?? 0;
@@ -47,7 +34,7 @@ export function filterByPreset(
       });
     }
     case "gpu": {
-      const gpuParts = parts as GPU[];
+      const gpuParts = parts as Array<{ specs?: { tier?: number; length_mm?: number } }>;
       return gpuParts.filter((p) => {
         const tier = p.specs?.tier ?? 0;
         const length = p.specs?.length_mm ?? 0;
@@ -58,14 +45,14 @@ export function filterByPreset(
       });
     }
     case "motherboard": {
-      const mbParts = parts as Motherboard[];
+      const mbParts = parts as Array<{ specs?: { form_factor?: FormFactor } }>;
       if (!specs.formFactors?.length) return mbParts;
       return mbParts.filter((p) =>
         specs.formFactors!.includes(p.specs?.form_factor as FormFactor)
       );
     }
     case "ram": {
-      const ramParts = parts as RAM[];
+      const ramParts = parts as Array<{ specs?: { capacity_gb?: number; modules?: number } }>;
       if (specs.ramGbMin == null) return ramParts;
       return ramParts.filter((p) => {
         const cap = p.specs?.capacity_gb ?? 0;
@@ -74,7 +61,7 @@ export function filterByPreset(
       });
     }
     case "storage": {
-      const storageParts = parts as Storage[];
+      const storageParts = parts as Array<{ specs?: { capacity_gb?: number; interface?: string } }>;
       return storageParts.filter((p) => {
         const cap = p.specs?.capacity_gb ?? 0;
         const iface = p.specs?.interface;
@@ -85,7 +72,7 @@ export function filterByPreset(
     }
     case "case": {
       if (!specs.formFactors?.length && !specs.maxGpuLengthMm) return parts;
-      const caseParts = parts as Case[];
+      const caseParts = parts as Array<{ specs?: { form_factor?: FormFactor; max_gpu_length_mm?: number } }>;
       return caseParts.filter((p) => {
         const ff = p.specs?.form_factor as FormFactor;
         const maxGpu = p.specs?.max_gpu_length_mm;

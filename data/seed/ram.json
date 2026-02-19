@@ -1,0 +1,170 @@
+[
+  {
+    "id": "ram-001",
+    "name": "Corsair Vengeance DDR5 32GB (2x16GB)",
+    "manufacturer": "Corsair",
+    "price_usd": 139,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 32,
+      "speed_mhz": 6000,
+      "modules": 2,
+      "latency": "CL36",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-002",
+    "name": "G.Skill Trident Z5 DDR5 32GB (2x16GB)",
+    "manufacturer": "G.Skill",
+    "price_usd": 149,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 32,
+      "speed_mhz": 6400,
+      "modules": 2,
+      "latency": "CL32",
+      "voltage_v": 1.4
+    }
+  },
+  {
+    "id": "ram-003",
+    "name": "Corsair Vengeance LPX DDR4 16GB (2x8GB)",
+    "manufacturer": "Corsair",
+    "price_usd": 59,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 16,
+      "speed_mhz": 3200,
+      "modules": 2,
+      "latency": "CL16",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-004",
+    "name": "G.Skill Ripjaws V DDR4 32GB (2x16GB)",
+    "manufacturer": "G.Skill",
+    "price_usd": 89,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 32,
+      "speed_mhz": 3600,
+      "modules": 2,
+      "latency": "CL18",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-005",
+    "name": "Corsair Dominator Platinum DDR5 64GB (2x32GB)",
+    "manufacturer": "Corsair",
+    "price_usd": 299,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 64,
+      "speed_mhz": 5600,
+      "modules": 2,
+      "latency": "CL36",
+      "voltage_v": 1.25
+    }
+  },
+  {
+    "id": "ram-006",
+    "name": "TeamGroup T-Force Vulcan DDR4 16GB (2x8GB)",
+    "manufacturer": "TeamGroup",
+    "price_usd": 49,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 16,
+      "speed_mhz": 3000,
+      "modules": 2,
+      "latency": "CL16",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-007",
+    "name": "Kingston FURY Beast DDR5 16GB (2x8GB)",
+    "manufacturer": "Kingston",
+    "price_usd": 89,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 16,
+      "speed_mhz": 5200,
+      "modules": 2,
+      "latency": "CL40",
+      "voltage_v": 1.25
+    }
+  },
+  {
+    "id": "ram-008",
+    "name": "G.Skill Trident Z Neo DDR4 32GB (2x16GB)",
+    "manufacturer": "G.Skill",
+    "price_usd": 109,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 32,
+      "speed_mhz": 3600,
+      "modules": 2,
+      "latency": "CL16",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-009",
+    "name": "Corsair Vengeance DDR5 16GB (2x8GB)",
+    "manufacturer": "Corsair",
+    "price_usd": 79,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 16,
+      "speed_mhz": 5600,
+      "modules": 2,
+      "latency": "CL36",
+      "voltage_v": 1.25
+    }
+  },
+  {
+    "id": "ram-010",
+    "name": "Crucial Ballistix DDR4 32GB (2x16GB)",
+    "manufacturer": "Crucial",
+    "price_usd": 99,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 32,
+      "speed_mhz": 3200,
+      "modules": 2,
+      "latency": "CL16",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-011",
+    "name": "G.Skill Trident Z5 RGB DDR5 64GB (2x32GB)",
+    "manufacturer": "G.Skill",
+    "price_usd": 319,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 64,
+      "speed_mhz": 6000,
+      "modules": 2,
+      "latency": "CL30",
+      "voltage_v": 1.35
+    }
+  },
+  {
+    "id": "ram-012",
+    "name": "Patriot Viper Steel DDR4 16GB (2x8GB)",
+    "manufacturer": "Patriot",
+    "price_usd": 55,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 16,
+      "speed_mhz": 3200,
+      "modules": 2,
+      "latency": "CL16",
+      "voltage_v": 1.35
+    }
+  }
+]

@@ -399,14 +399,6 @@ describe("useBuildStore", () => {
       // Let's instead test: after adding, the persisted data is correct,
       // and importBuild can restore from that format.
       const payload = JSON.parse(json);
-      const restored = {
-        state: {
-          selectedParts: payload.selectedParts,
-          preset: payload.preset,
-          manualOverrides: payload.manualOverrides,
-          buildId: payload.buildId,
-        },
-      };
       useBuildStore.getState().importBuild(JSON.stringify(payload));
 
       expect(useBuildStore.getState().selectedParts.cpu?.id).toBe("cpu-test-1");

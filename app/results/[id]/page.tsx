@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useBuild } from "@/hooks/use-build";
 import { checkCompatibility } from "@/lib/compatibility";
-import { calculateScores, generateExplanations } from "@/lib/scoring";
+import { calculateScores } from "@/lib/scoring";
 import { getRecommendations } from "@/lib/recommendations/engine";
 import { loadBuild } from "@/lib/persistence/build-saver";
 import { VerdictBanner, type VerdictType } from "@/components/results/VerdictBanner";
@@ -23,7 +23,7 @@ export default function ResultsPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
-  const { selectedParts, preset, addPart, setPreset } = useBuild();
+  const { selectedParts, preset, addPart } = useBuild();
 
   const [build, setBuild] = useState<{
     selectedParts: typeof selectedParts;
@@ -40,23 +40,35 @@ export default function ResultsPage() {
   }
 
   useEffect(() => {
-    if (id === "current") {
-      setBuild({ selectedParts, preset });
-      setLoading(false);
-    } else {
-      loadBuild(id).then((stored) => {
-        if (stored) {
-          setBuild({
-            selectedParts: stored.parts,
-            preset: stored.preset,
-          });
-        } else {
-          setBuild(null);
-        }
+    const loadBuildData = async () => {
+      if (id === "current") {
+        // Use setTimeout to make setState async and avoid cascading renders
+        await Promise.resolve();
+        setBuild({ selectedParts, preset });
         setLoading(false);
-      });
-    }
-  }, [id, selectedParts, preset]);
+      } else {
+        try {
+          const stored = await loadBuild(id);
+          if (stored) {
+            setBuild({
+              selectedParts: stored.parts,
+              preset: stored.preset,
+            });
+          } else {
+            setBuild(null);
+          }
+        } catch (err) {
+          console.error("Failed to load build:", err);
+          setBuild(null);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadBuildData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]); // selectedParts and preset intentionally omitted to avoid cascading renders for "current" case
 
   useEffect(() => {
     fetchCatalog().then(setCatalog);

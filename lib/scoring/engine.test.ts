@@ -39,12 +39,6 @@ const cpuHigh: CPU = {
   specs: { ...cpuMid.specs, tier: 9 },
 };
 
-const cpuLow: CPU = {
-  ...cpuMid,
-  id: "cpu-low",
-  price_usd: 149,
-  specs: { ...cpuMid.specs, tier: 4 },
-};
 
 const gpuMid: GPU = {
   id: "gpu-1",
@@ -129,11 +123,6 @@ const psu850: PSU = {
   },
 };
 
-const psu600: PSU = {
-  ...psu850,
-  id: "psu-600",
-  specs: { ...psu850.specs, wattage_w: 600 },
-};
 
 const pcCase: Case = {
   id: "case-1",

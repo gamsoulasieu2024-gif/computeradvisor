@@ -3,7 +3,7 @@
  * Formula: estimatedLoad = cpu.tdp_w * 1.2 + gpu.tdp_w * 1.3 + 60 (base)
  */
 
-import type { CPU, GPU, RAM, Storage, PSU } from "@/types/components";
+import type { CPU, GPU, RAM, Storage } from "@/types/components";
 
 const BASE_LOAD_W = 60;
 const CPU_MULTIPLIER = 1.2;
