@@ -1,15 +1,21 @@
 "use client";
 
 import { useBuildStore } from "@/lib/store/build-store";
-import { useCallback } from "react";
-import type { PartCategory, PartByCategory } from "@/lib/store/types";
+import { useMemo, useCallback } from "react";
+import type { PartCategory, PartByCategory, PCComponent } from "@/lib/store/types";
 
-/**
- * Custom hook for build store access with optional selectors.
- * Wraps Zustand store with convenient access patterns.
- */
+const CATEGORIES: PartCategory[] = [
+  "cpu",
+  "gpu",
+  "motherboard",
+  "ram",
+  "storage",
+  "psu",
+  "cooler",
+  "case",
+];
+
 export function useBuild() {
-
   // State
   const selectedParts = useBuildStore((s) => s.selectedParts);
   const buildId = useBuildStore((s) => s.buildId);
@@ -17,11 +23,7 @@ export function useBuild() {
   const manualOverrides = useBuildStore((s) => s.manualOverrides);
   const isDirty = useBuildStore((s) => s.isDirty ?? false);
 
-  // Computed (re-evaluated when selectedParts changes)
-  const estimatedLoad = useBuildStore((s) => s.getEstimatedLoad());
-  const allSelectedParts = useBuildStore((s) => s.getAllSelectedParts());
-
-  // Actions
+  // Actions (stable references)
   const setPreset = useBuildStore((s) => s.setPreset);
   const addPart = useBuildStore((s) => s.addPart);
   const removePart = useBuildStore((s) => s.removePart);
@@ -30,8 +32,30 @@ export function useBuild() {
   const loadBuild = useBuildStore((s) => s.loadBuild);
   const exportBuild = useBuildStore((s) => s.exportBuild);
   const importBuild = useBuildStore((s) => s.importBuild);
+  const getEstimatedLoad = useBuildStore((s) => s.getEstimatedLoad);
 
-  // Type-safe add part wrapper
+  // Compute allSelectedParts with useMemo to prevent infinite loops
+  const allSelectedParts = useMemo(() => {
+    const result: Array<{ category: PartCategory; part: PCComponent }> = [];
+    for (const cat of CATEGORIES) {
+      const value = selectedParts[cat];
+      if (cat === "storage" && Array.isArray(value)) {
+        for (const part of value) {
+          result.push({ category: "storage", part });
+        }
+      } else if (value && typeof value === "object" && !Array.isArray(value)) {
+        result.push({ category: cat, part: value as PCComponent });
+      }
+    }
+    return result;
+  }, [selectedParts]);
+
+  // Compute estimated load with useMemo to avoid calling store getter every render
+  const estimatedLoad = useMemo(
+    () => getEstimatedLoad(),
+    [getEstimatedLoad, selectedParts]
+  );
+
   const addPartTyped = useCallback(
     <K extends PartCategory>(category: K, part: PartByCategory[K], index?: number) => {
       addPart(category, part, index);
@@ -40,18 +64,13 @@ export function useBuild() {
   );
 
   return {
-    // State
     selectedParts,
     buildId,
     preset,
     manualOverrides,
     isDirty,
-
-    // Computed
     estimatedLoad,
     allSelectedParts,
-
-    // Actions
     setPreset,
     addPart: addPartTyped,
     removePart,
@@ -63,23 +82,16 @@ export function useBuild() {
   };
 }
 
-/**
- * Selector hook - use only a subset of the build state to avoid re-renders.
- */
 export function useBuildPart<K extends PartCategory>(category: K) {
   return useBuildStore((s) => s.selectedParts[category]);
 }
 
-/**
- * Selector hook for preset only.
- */
 export function useBuildPreset() {
   return useBuildStore((s) => s.preset);
 }
 
-/**
- * Selector hook for estimated power load only.
- */
 export function useEstimatedLoad() {
-  return useBuildStore((s) => s.getEstimatedLoad());
+  const selectedParts = useBuildStore((s) => s.selectedParts);
+  const getEstimatedLoad = useBuildStore((s) => s.getEstimatedLoad);
+  return useMemo(() => getEstimatedLoad(), [getEstimatedLoad, selectedParts]);
 }

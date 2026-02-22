@@ -70,6 +70,32 @@ function calculateEstimatedLoad(parts: SelectedParts): number {
   return total;
 }
 
+/** Pure helper for tests / computing all selected parts from state (not on store to avoid new ref every render) */
+export function getAllSelectedPartsFromState(selectedParts: SelectedParts): Array<{ category: PartCategory; part: PCComponent }> {
+  const result: Array<{ category: PartCategory; part: PCComponent }> = [];
+  const categories: PartCategory[] = [
+    "cpu",
+    "gpu",
+    "motherboard",
+    "ram",
+    "storage",
+    "psu",
+    "cooler",
+    "case",
+  ];
+  for (const cat of categories) {
+    const value = selectedParts[cat];
+    if (cat === "storage" && Array.isArray(value)) {
+      for (const part of value) {
+        result.push({ category: "storage", part });
+      }
+    } else if (value && typeof value === "object" && !Array.isArray(value)) {
+      result.push({ category: cat, part: value as PCComponent });
+    }
+  }
+  return result;
+}
+
 // ============ Store ============
 
 const STORAGE_KEY = "pc-build-advisor-store";
@@ -78,7 +104,6 @@ const STORAGE_VERSION = 1;
 interface BuildStoreState extends BuildState {
   isDirty: boolean;
   getEstimatedLoad: () => number;
-  getAllSelectedParts: () => Array<{ category: PartCategory; part: PCComponent }>;
 }
 
 interface BuildStoreActions {
@@ -105,32 +130,6 @@ export const useBuildStore = create<BuildStoreState & BuildStoreActions>()(
       ...initialState,
 
       getEstimatedLoad: () => calculateEstimatedLoad(get().selectedParts),
-
-      getAllSelectedParts: () => {
-        const { selectedParts } = get();
-        const result: Array<{ category: PartCategory; part: PCComponent }> = [];
-        const categories: PartCategory[] = [
-          "cpu",
-          "gpu",
-          "motherboard",
-          "ram",
-          "storage",
-          "psu",
-          "cooler",
-          "case",
-        ];
-        for (const cat of categories) {
-          const value = selectedParts[cat];
-          if (cat === "storage" && Array.isArray(value)) {
-            for (const part of value) {
-              result.push({ category: "storage", part });
-            }
-          } else if (value && typeof value === "object" && !Array.isArray(value)) {
-            result.push({ category: cat, part: value as PCComponent });
-          }
-        }
-        return result;
-      },
 
       setPreset: (preset) => set({ preset, isDirty: true }),
 

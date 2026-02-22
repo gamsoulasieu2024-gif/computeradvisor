@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { useBuildStore } from "./build-store";
+import { useBuildStore, getAllSelectedPartsFromState } from "./build-store";
 import type { CPU, GPU, RAM, Storage } from "@/types/components";
 
 // ============ Fixtures ============
@@ -351,7 +351,7 @@ describe("useBuildStore", () => {
     });
   });
 
-  describe("getAllSelectedParts", () => {
+  describe("getAllSelectedPartsFromState", () => {
     it("returns flat array of selected parts with categories", () => {
       const { addPart } = useBuildStore.getState();
 
@@ -359,7 +359,8 @@ describe("useBuildStore", () => {
       addPart("storage", mockStorage1);
       addPart("storage", mockStorage2);
 
-      const parts = useBuildStore.getState().getAllSelectedParts();
+      const selectedParts = useBuildStore.getState().selectedParts;
+      const parts = getAllSelectedPartsFromState(selectedParts);
 
       expect(parts).toHaveLength(3);
       expect(parts.find((p) => p.category === "cpu")?.part).toEqual(mockCPU);
@@ -368,7 +369,8 @@ describe("useBuildStore", () => {
     });
 
     it("returns empty array when no parts selected", () => {
-      const parts = useBuildStore.getState().getAllSelectedParts();
+      const selectedParts = useBuildStore.getState().selectedParts;
+      const parts = getAllSelectedPartsFromState(selectedParts);
       expect(parts).toHaveLength(0);
     });
   });

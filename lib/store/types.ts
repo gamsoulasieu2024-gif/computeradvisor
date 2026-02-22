@@ -113,7 +113,6 @@ export interface BuildActions {
 
 export interface BuildStore extends BuildState, BuildActions {
   getEstimatedLoad: () => number;
-  getAllSelectedParts: () => Array<{ category: PartCategory; part: PCComponent }>;
 }
 
 export type PCComponent =

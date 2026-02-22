@@ -7,6 +7,14 @@ import { estimateLoad, getHeadroom } from "@/lib/compatibility/power";
 import { cn } from "@/lib/utils";
 import { AlertCircle, AlertTriangle, CheckCircle, Zap } from "lucide-react";
 
+function SeverityIcon({ severity }: { severity: string }) {
+  if (severity === "critical")
+    return <AlertCircle className="h-4 w-4 text-error shrink-0" />;
+  if (severity === "warning")
+    return <AlertTriangle className="h-4 w-4 text-warning shrink-0" />;
+  return <CheckCircle className="h-4 w-4 text-success shrink-0" />;
+}
+
 export function LiveStatus() {
   const { selectedParts } = useBuild();
 
@@ -33,9 +41,13 @@ export function LiveStatus() {
     });
   }, [selectedParts]);
 
-  const headroom = selectedParts.psu
-    ? getHeadroom(selectedParts.psu.specs.wattage_w, load)
-    : 0;
+  const headroom = useMemo(
+    () =>
+      selectedParts.psu
+        ? getHeadroom(selectedParts.psu.specs.wattage_w, load)
+        : 0,
+    [selectedParts.psu, load]
+  );
 
   const topIssues = useMemo(() => {
     const all = [
@@ -45,14 +57,6 @@ export function LiveStatus() {
     ];
     return all.slice(0, 3);
   }, [compatResult]);
-
-  const SeverityIcon = ({ severity }: { severity: string }) => {
-    if (severity === "critical")
-      return <AlertCircle className="h-4 w-4 text-error shrink-0" />;
-    if (severity === "warning")
-      return <AlertTriangle className="h-4 w-4 text-warning shrink-0" />;
-    return <CheckCircle className="h-4 w-4 text-success shrink-0" />;
-  };
 
   return (
     <div className="space-y-4">
