@@ -423,6 +423,53 @@ describe("Hard fail rules", () => {
     const issue = result.hardFails.find((i) => i.id === "psuTooLong");
     expect(issue).toBeDefined();
   });
+
+  it("gpuTooThick: GPU thickness exceeds case max slots", () => {
+    const caseMax2Slots: Case = {
+      ...caseAtx,
+      specs: { ...caseAtx.specs, max_gpu_thickness_slots: 2 },
+    };
+    const build: BuildInput = {
+      gpu: gpuLong, // 3 slots
+      case: caseMax2Slots,
+    };
+    const result = checkCompatibility(build);
+    const issue = result.hardFails.find((i) => i.id === "gpuTooThick");
+    expect(issue).toBeDefined();
+    expect(result.isCompatible).toBe(false);
+  });
+
+  it("radiatorNotSupported: AIO radiator size not in case support list", () => {
+    const case240Only: Case = {
+      ...caseAtx,
+      specs: { ...caseAtx.specs, supports_radiator_mm: [240] },
+    };
+    const build: BuildInput = {
+      cooler: coolerAio, // 360mm
+      case: case240Only,
+    };
+    const result = checkCompatibility(build);
+    const issue = result.hardFails.find((i) => i.id === "radiatorNotSupported");
+    expect(issue).toBeDefined();
+  });
+
+  it("radiatorTooThick: radiator + fan exceeds case clearance", () => {
+    const caseThinRadiator: Case = {
+      ...caseAtx,
+      specs: { ...caseAtx.specs, max_radiator_thickness_mm: 50 },
+    };
+    const coolerThick: Cooler = {
+      ...coolerAio,
+      specs: { ...coolerAio.specs, radiator_fan_thickness_mm: 62 },
+    };
+    const build: BuildInput = {
+      cooler: coolerThick,
+      case: caseThinRadiator,
+    };
+    const result = checkCompatibility(build);
+    const issue = result.hardFails.find((i) => i.id === "radiatorTooThick");
+    expect(issue).toBeDefined();
+  });
 });
 
 describe("Warning rules", () => {
@@ -514,13 +561,17 @@ describe("Power estimation", () => {
 
 describe("Confidence score", () => {
   it("starts at 100 for complete build", () => {
+    const caseWithAllSpecs = {
+      ...caseAtx,
+      specs: { ...caseAtx.specs, max_gpu_thickness_slots: 4 },
+    } as Case;
     const build: BuildInput = {
       cpu: cpuAm5,
       motherboard: mbAm5,
       ram: ramDdr5,
       gpu: gpuShort,
       psu: psu850,
-      case: caseAtx,
+      case: caseWithAllSpecs,
       cooler: coolerAir,
     };
     const result = checkCompatibility(build, { psuPcieConnectors: 3 });

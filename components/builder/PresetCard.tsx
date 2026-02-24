@@ -1,9 +1,9 @@
 "use client";
 
-import { useBuild } from "@/hooks/use-build";
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { getPresetDefinition } from "@/lib/presets/definitions";
 import type { BuildPreset } from "@/lib/store/types";
+import { getPresetDefinition } from "@/lib/presets/definitions";
 import {
   Gamepad2,
   Palette,
@@ -11,10 +11,10 @@ import {
   Box,
   Wallet,
   Wrench,
-  Monitor,
+  type LucideIcon,
 } from "lucide-react";
 
-const ICONS: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, LucideIcon> = {
   Gamepad2,
   Palette,
   Volume2,
@@ -23,82 +23,80 @@ const ICONS: Record<string, React.ElementType> = {
   Wrench,
 };
 
-function formatSpecs(specs: Record<string, unknown>): string[] {
+function formatSpecSummary(specs: ReturnType<typeof getPresetDefinition>["recommendedSpecs"]): string[] {
   const lines: string[] = [];
-  if (specs.cpuTierMin != null) lines.push(`CPU tier ${specs.cpuTierMin}+`);
-  if (specs.gpuTierMin != null) lines.push(`GPU tier ${specs.gpuTierMin}+`);
-  if (specs.ramGbMin != null) lines.push(`${specs.ramGbMin}GB+ RAM`);
-  if (specs.storageGbMin != null) lines.push(`${specs.storageGbMin}GB+ storage`);
-  const ff = specs.formFactors as unknown[] | undefined;
-  if (Array.isArray(ff) && ff.length) lines.push(`Form: ${ff.join(", ")}`);
-  if (specs.maxGpuLengthMm != null) lines.push(`GPU <${specs.maxGpuLengthMm}mm`);
+  if (specs.cpuTierMin != null || specs.cpuTierMax != null) {
+    const range = [specs.cpuTierMin, specs.cpuTierMax].filter((x) => x != null).join("–");
+    lines.push(`CPU tier ${range}`);
+  }
+  if (specs.gpuTierMin != null || specs.gpuTierMax != null) {
+    const range = [specs.gpuTierMin, specs.gpuTierMax].filter((x) => x != null).join("–");
+    lines.push(`GPU tier ${range}`);
+  }
+  if (specs.ramGbMin != null) lines.push(`RAM ${specs.ramGbMin}GB+`);
+  if (specs.storageGbMin != null) lines.push(`Storage ${specs.storageGbMin}GB+`);
+  if (specs.storageInterface) lines.push(specs.storageInterface);
+  if (specs.cpuCoresMin != null) lines.push(`${specs.cpuCoresMin}+ cores`);
+  if (specs.formFactors?.length) lines.push(specs.formFactors.join(", "));
+  if (specs.maxGpuLengthMm != null) lines.push(`GPU ≤${specs.maxGpuLengthMm}mm`);
+  if (specs.maxTdpTarget != null) lines.push(`TDP ≤${specs.maxTdpTarget}W`);
   return lines;
 }
 
 interface PresetCardProps {
   presetId: BuildPreset;
+  selected: boolean;
+  onSelect: () => void;
 }
 
-export function PresetCard({ presetId }: PresetCardProps) {
-  const { preset, setPreset } = useBuild();
-  const def = getPresetDefinition(presetId);
-  const Icon = ICONS[def.icon] ?? Wrench;
-  const isSelected = preset === presetId;
+export function PresetCard({ presetId, selected, onSelect }: PresetCardProps) {
+  const def = useMemo(() => getPresetDefinition(presetId), [presetId]);
+  const Icon = ICON_MAP[def.icon] ?? Wrench;
+  const specLines = useMemo(() => formatSpecSummary(def.recommendedSpecs), [def.recommendedSpecs]);
 
   return (
     <button
       type="button"
-      onClick={() => setPreset(presetId)}
+      onClick={onSelect}
       className={cn(
-        "group relative flex flex-col items-start rounded-xl border p-4 text-left transition-all",
-        isSelected
-          ? "border-foreground bg-foreground/5 shadow-md dark:bg-foreground/10"
-          : "border-zinc-200 bg-white hover:border-zinc-300 hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-900/50 dark:hover:border-zinc-600"
+        "group relative flex flex-col items-start rounded-xl border-2 p-4 text-left transition-all",
+        "hover:border-foreground/50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2",
+        selected
+          ? "border-foreground bg-foreground/10 shadow-sm"
+          : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900/50 dark:hover:border-zinc-600"
       )}
-      tabIndex={0}
+      aria-pressed={selected}
+      aria-label={`Select ${def.name}: ${def.description}`}
     >
       <div className="flex items-center gap-3">
         <div
           className={cn(
             "rounded-lg p-2 transition-colors",
-            isSelected ? "bg-foreground/15" : "bg-zinc-100 dark:bg-zinc-800"
+            selected ? "bg-foreground/20" : "bg-zinc-100 dark:bg-zinc-800"
           )}
         >
-          <Icon className="h-5 w-5 text-foreground" />
+          <Icon className={cn("h-5 w-5", selected ? "text-foreground" : "text-zinc-600 dark:text-zinc-400")} />
         </div>
         <div>
-          <h3 className="font-semibold text-foreground">{def.name}</h3>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {def.description}
-          </p>
+          <p className="font-semibold text-foreground">{def.name}</p>
+          {def.targetResolution && (
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">{def.targetResolution}</p>
+          )}
         </div>
       </div>
-      {def.targetResolution && (
-        <div className="mt-2 flex items-center gap-1 text-xs text-zinc-500">
-          <Monitor className="h-3.5 w-3.5" />
-          {def.targetResolution}
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">{def.description}</p>
+
+      {/* Recommended specs - visible on hover */}
+      {specLines.length > 0 && (
+        <div className="mt-3 border-t border-zinc-200 pt-3 dark:border-zinc-700 opacity-0 transition-opacity group-hover:opacity-100">
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Recommended</p>
+          <ul className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-zinc-600 dark:text-zinc-300">
+            {specLines.map((line, i) => (
+              <li key={i}>{line}</li>
+            ))}
+          </ul>
         </div>
       )}
-      <div
-        className={cn(
-          "absolute inset-x-4 bottom-4 mt-2 max-h-0 overflow-hidden opacity-0 transition-all group-hover:max-h-32 group-hover:opacity-100",
-          isSelected && "max-h-32 opacity-100"
-        )}
-      >
-        <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-          Recommended:
-        </p>
-        <ul className="mt-0.5 space-y-0.5 text-xs text-zinc-600 dark:text-zinc-500">
-          {formatSpecs(def.recommendedSpecs as Record<string, unknown>).map(
-            (line, i) => (
-              <li key={i}>• {line}</li>
-            )
-          )}
-          {formatSpecs(def.recommendedSpecs as Record<string, unknown>).length === 0 && (
-            <li>No constraints</li>
-          )}
-        </ul>
-      </div>
     </button>
   );
 }

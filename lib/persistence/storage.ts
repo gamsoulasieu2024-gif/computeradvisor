@@ -1,5 +1,10 @@
 /**
  * LocalStorage + optional DB abstraction for build persistence
+ *
+ * LOCALSTORAGE STRUCTURE:
+ * - Key "pc-builds": JSON object { [buildId: string]: PersistedBuild }
+ * - Key "pc-builds-autosave": JSON PersistedBuild (temp draft, id "__autosave__")
+ * Each PersistedBuild: { id, name?, createdAt, updatedAt, preset, parts, manualOverrides }
  */
 
 import type { SelectedParts } from "@/lib/store/types";
@@ -14,6 +19,8 @@ export interface PersistedBuild {
   preset: BuildPreset;
   parts: SelectedParts;
   manualOverrides: ManualOverrides;
+  /** Performance target (gaming or creator) */
+  targetId?: string;
 }
 
 export interface BuildsIndex {

@@ -30,11 +30,20 @@ function fuzzyMatch(text: string, query: string): boolean {
 }
 
 /**
+ * Build searchable text: name, manufacturer, and optional model/brand
+ */
+function searchText(part: SearchablePart): string {
+  const p = part as SearchablePart & { model?: string; specs?: { brand?: string } };
+  const extra = [p.model, p.specs?.brand].filter(Boolean).join(" ");
+  return `${part.name} ${part.manufacturer} ${extra}`.trim();
+}
+
+/**
  * Score for ranking: exact matches rank higher
  */
 function scoreMatch(part: SearchablePart, query: string): number {
   const q = query.toLowerCase();
-  const searchStr = `${part.name} ${part.manufacturer}`.toLowerCase();
+  const searchStr = searchText(part).toLowerCase();
   if (searchStr.includes(q)) return 100;
   if (fuzzyMatch(searchStr, query)) return 80;
   return 0;
@@ -52,7 +61,7 @@ export function searchParts<T extends SearchablePart>(
 ): T[] {
   const q = query.trim();
   const result = q
-    ? parts.filter((p) => fuzzyMatch(`${p.name} ${p.manufacturer}`, q))
+    ? parts.filter((p) => fuzzyMatch(searchText(p), q))
     : [...parts];
 
   // Sort

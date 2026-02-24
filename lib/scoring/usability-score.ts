@@ -46,13 +46,13 @@ export function calculateUsabilityScore(build: BuildInput): Score {
       });
     }
 
-    // Noise: PSU load > 75%
+    // Likely noise: PSU load > 75% (headroom < 1.33)
     if (headroom < 1.33) {
       score -= 10;
       breakdown.push({
         factor: "PSU load / noise",
         impact: -10,
-        explanation: "PSU may run near capacity, potentially increasing fan noise.",
+        explanation: "PSU load over 75% may increase fan noise under load.",
       });
     }
   } else if (!build.psu) {

@@ -86,7 +86,8 @@ export function BuildSummary({ selectedParts }: BuildSummaryProps) {
             {items.map(({ key, icon: Icon, part }) => (
               <li
                 key={key}
-                className="flex items-start gap-3 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-800/50"
+                id={`part-${part.id}`}
+                className="flex items-start gap-3 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-800/50 scroll-mt-4"
               >
                 <Icon className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
                 <div className="min-w-0 flex-1">

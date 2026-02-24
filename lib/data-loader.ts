@@ -47,10 +47,11 @@ const gpuSpecsSchema = z.object({
   length_mm: z.number().positive(),
   thickness_slots: z.number().positive(),
   tdp_w: z.number().nonnegative(),
-  power_connectors: z.array(powerConnectorSchema),
+  power_connectors: z.array(z.union([powerConnectorSchema, z.string()])),
   pcie_version: pcieVersionSchema,
   vram_gb: z.number().positive(),
   tier: z.number().int().min(1).max(10),
+  peak_power_w: z.number().positive().optional(),
 });
 
 const gpuSchema = z.object({
@@ -116,13 +117,26 @@ const storageSchema = z.object({
   specs: storageSpecsSchema,
 });
 
+const psuConnectorsSchema = z.object({
+  pin_24_main: z.number().int().min(0),
+  pin_8_cpu: z.number().int().min(0),
+  pin_8_pcie: z.number().int().min(0),
+  pin_6_pcie: z.number().int().min(0).optional(),
+  pin_16_12vhpwr: z.number().int().min(0).optional(),
+  sata: z.number().int().min(0),
+  molex: z.number().int().min(0).optional(),
+});
+
 const psuSpecsSchema = z.object({
   wattage_w: z.number().positive(),
   efficiency: psuEfficiencySchema,
   form_factor: psuFormFactorSchema,
   modular: z.enum(["Non-modular", "Semi-modular", "Fully modular"]),
   atx_version: z.enum(["2.x", "3.0"]).optional(),
+  atx_standard: z.enum(["ATX2.x", "ATX3.0", "ATX3.1"]).optional(),
   pcie_5_ready: z.boolean(),
+  length_mm: z.number().positive().optional(),
+  connectors: psuConnectorsSchema.optional(),
 });
 
 const psuSchema = z.object({

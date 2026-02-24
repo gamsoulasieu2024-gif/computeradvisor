@@ -86,6 +86,8 @@ export interface BuildState {
   selectedParts: SelectedParts;
   buildId: string | null;
   preset: BuildPreset;
+  /** Performance target (gaming resolution/refresh or creator workload) */
+  targetId?: string;
   manualOverrides: ManualOverrides;
 }
 
@@ -93,6 +95,7 @@ export interface BuildState {
 
 export interface BuildActions {
   setPreset: (preset: BuildPreset) => void;
+  setTargetId: (targetId: string | undefined) => void;
   addPart: <K extends PartCategory>(
     category: K,
     part: PartByCategory[K],

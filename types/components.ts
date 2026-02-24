@@ -37,6 +37,17 @@ export interface CPU {
 
 export type PowerConnector = "8-pin" | "12-pin" | "16-pin" | "6-pin";
 
+/** GPU power connector requirements (e.g. "1x16pin" 12VHPWR, "2x8pin") */
+export type GPUPowerConnector =
+  | "1x16pin"
+  | "1x12vhpwr"
+  | "2x8pin"
+  | "3x8pin"
+  | "1x8pin"
+  | "1x8pin+1x6pin"
+  | "2x8pin+1x6pin"
+  | "1x6pin";
+
 export interface GPU {
   id: string;
   name: string;
@@ -47,10 +58,13 @@ export interface GPU {
     length_mm: number;
     thickness_slots: number;
     tdp_w: number;
-    power_connectors: PowerConnector[];
+    /** Power connector(s) - legacy e.g. "16-pin"/"8-pin" or new e.g. "1x16pin"/"2x8pin" */
+    power_connectors: (PowerConnector | GPUPowerConnector)[];
     pcie_version: PcieVersion;
     vram_gb: number;
     tier: number; // 1-10
+    /** Transient power spike (for ATX 3.0 / 12VHPWR validation) */
+    peak_power_w?: number;
   };
 }
 
@@ -117,6 +131,18 @@ export interface Storage {
 
 export type PsuEfficiency = "80+ Bronze" | "80+ Silver" | "80+ Gold" | "80+ Platinum" | "80+ Titanium";
 
+/** PSU power connector counts for GPU/CPU validation */
+export interface PSUConnectors {
+  pin_24_main: number;
+  pin_8_cpu: number;
+  pin_8_pcie: number;
+  pin_6_pcie?: number;
+  /** 12VHPWR (ATX 3.0) or 12V-2x6 (ATX 3.1) */
+  pin_16_12vhpwr?: number;
+  sata: number;
+  molex?: number;
+}
+
 export interface PSU {
   id: string;
   name: string;
@@ -128,7 +154,13 @@ export interface PSU {
     form_factor: "ATX" | "SFX" | "SFX-L";
     modular: "Non-modular" | "Semi-modular" | "Fully modular";
     atx_version?: "2.x" | "3.0"; // ATX 3.0 has 12VHPWR
+    /** ATX standard for 12VHPWR / transient validation (use when available) */
+    atx_standard?: "ATX2.x" | "ATX3.0" | "ATX3.1";
     pcie_5_ready: boolean;
+    /** PSU length in mm (for case clearance validation) */
+    length_mm?: number;
+    /** Detailed connector counts for GPU power validation */
+    connectors?: PSUConnectors;
   };
 }
 
@@ -148,6 +180,8 @@ export interface Cooler {
     fan_size_mm?: number;
     height_mm?: number; // for air coolers - RAM clearance
     sockets: string[]; // compatible sockets
+    /** AIO: total radiator + fan thickness in mm (for case mount clearance) */
+    radiator_fan_thickness_mm?: number;
   };
 }
 
@@ -162,11 +196,17 @@ export interface Case {
     form_factor: FormFactor;
     max_gpu_length_mm: number;
     max_cooler_height_mm: number;
+    /** Max PSU length in mm (for PSU length validation) */
     max_psu_length_mm?: number;
+    /** Max GPU thickness in PCIe slots (e.g. 3 = triple-slot) */
+    max_gpu_thickness_slots?: number;
     drive_bays_2_5: number;
     drive_bays_3_5: number;
     expansion_slots: number;
-    supports_radiator_mm?: number[]; // e.g. [240, 360]
+    /** Supported radiator sizes in mm, e.g. [240, 360] */
+    supports_radiator_mm?: number[];
+    /** Max radiator + fan thickness in mm for top/front mount */
+    max_radiator_thickness_mm?: number;
     max_psu_form_factor: "ATX" | "SFX" | "SFX-L";
   };
 }

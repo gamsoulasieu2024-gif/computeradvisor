@@ -108,6 +108,7 @@ interface BuildStoreState extends BuildState {
 
 interface BuildStoreActions {
   setPreset: (preset: BuildPreset) => void;
+  setTargetId: (targetId: string | undefined) => void;
   addPart: <K extends PartCategory>(
     category: K,
     part: PartByCategory[K],
@@ -132,6 +133,7 @@ export const useBuildStore = create<BuildStoreState & BuildStoreActions>()(
       getEstimatedLoad: () => calculateEstimatedLoad(get().selectedParts),
 
       setPreset: (preset) => set({ preset, isDirty: true }),
+      setTargetId: (targetId) => set({ targetId, isDirty: true }),
 
       addPart: (category, part, index) => {
         set((state) => {
@@ -215,12 +217,14 @@ export const useBuildStore = create<BuildStoreState & BuildStoreActions>()(
           const parsed = JSON.parse(json) as {
             buildId?: string | null;
             preset?: BuildPreset;
+            targetId?: string;
             manualOverrides?: ManualOverrides;
             selectedParts?: SelectedParts;
           };
           set({
             buildId: parsed.buildId ?? null,
             preset: parsed.preset ?? "custom",
+            targetId: parsed.targetId,
             manualOverrides: parsed.manualOverrides ?? {},
             selectedParts: parsed.selectedParts ?? initialState.selectedParts,
             isDirty: false,
@@ -238,6 +242,7 @@ export const useBuildStore = create<BuildStoreState & BuildStoreActions>()(
         selectedParts: s.selectedParts,
         buildId: s.buildId,
         preset: s.preset,
+        targetId: s.targetId,
         manualOverrides: s.manualOverrides,
       }),
     }

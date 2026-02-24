@@ -23,6 +23,7 @@ interface SaveBuildModalProps {
     preset: PersistedBuild["preset"];
     parts: PersistedBuild["parts"];
     manualOverrides: PersistedBuild["manualOverrides"];
+    targetId?: string;
   };
   onSaved?: (id: string) => void;
   apiAvailable?: boolean;
@@ -81,6 +82,7 @@ export function SaveBuildModal({
       preset: build.preset,
       parts: build.parts,
       manualOverrides: build.manualOverrides,
+      targetId: build.targetId,
     };
     const url = buildShareUrl(persisted);
     try {

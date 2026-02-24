@@ -39,6 +39,20 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
+/* Page transition for route changes */
+main {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Smooth transitions */
 * {
   scroll-behavior: smooth;

@@ -1,8 +1,21 @@
 /**
  * Compatibility engine - Result and issue types
+ *
+ * Core result shape:
+ * - isCompatible: true when hardFails.length === 0
+ * - hardFails: critical issues that must be fixed
+ * - warnings: recommended fixes
+ * - notes: informational (e.g. no upgrade room)
+ * - confidence: 0-100 data completeness score
  */
 
 export type IssueSeverity = "critical" | "warning" | "info";
+
+export interface IssueEvidence {
+  values: Record<string, string | number>;
+  comparison?: string;
+  calculation?: string;
+}
 
 export interface Issue {
   id: string;
@@ -12,6 +25,7 @@ export interface Issue {
   description: string;
   affectedParts: string[];
   suggestedFixes?: string[];
+  evidence?: IssueEvidence;
 }
 
 export interface CompatibilityResult {
@@ -20,6 +34,8 @@ export interface CompatibilityResult {
   warnings: Issue[];
   notes: Issue[];
   confidence: number; // 0-100
+  /** Number of compatibility rules that were evaluated (for display) */
+  checksRun: number;
 }
 
 /** Build input for compatibility check - matches store selectedParts structure */

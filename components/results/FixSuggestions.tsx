@@ -16,8 +16,12 @@ const ISSUE_FIX_MAP: Record<
   (_issue: Issue) => string[]
 > = {
   gpuTooLong: () => [
-    "Switch to a shorter GPU",
-    "Choose a larger case with more GPU clearance",
+    "Switch to a shorter GPU that fits case clearance",
+    "Choose a larger case with more GPU length clearance",
+  ],
+  gpuTooThick: () => [
+    "Switch to a thinner (fewer slot) GPU",
+    "Choose a case with more expansion slot clearance",
   ],
   coolerTooTall: () => [
     "Use a shorter cooler",
@@ -25,19 +29,34 @@ const ISSUE_FIX_MAP: Record<
   ],
   insufficientPower: () => [
     "Upgrade to a higher wattage PSU",
-    "Remove power-hungry components",
+    "Remove or replace power-hungry components",
   ],
   lowPsuHeadroom: () => [
-    "Upgrade to a PSU with 25%+ headroom",
-    "Consider a more efficient PSU",
+    "Upgrade to a PSU with 25%+ headroom (e.g. +100–200W)",
+    "Consider a more efficient or ATX 3.0 PSU",
   ],
   socketMismatch: () => ["Select a CPU that matches your motherboard socket"],
   ramTypeMismatch: () => [
     "Select RAM that matches motherboard memory type (DDR4/DDR5)",
   ],
+  ramSpeedRisk: () => [
+    "Enable XMP (Intel) or EXPO (AMD) in BIOS",
+    "Or select RAM at or below CPU max memory speed",
+  ],
   noM2Slots: () => [
     "Use fewer NVMe drives",
     "Select a motherboard with more M.2 slots",
+  ],
+  radiatorNotSupported: () => [
+    "Choose an AIO that matches case radiator support (e.g. 240mm)",
+    "Or choose a case that supports your radiator size",
+  ],
+  radiatorTooThick: () => [
+    "Choose a slimmer AIO (radiator + fan thickness)",
+    "Or a case with more radiator clearance",
+  ],
+  noUpgradeRoom: () => [
+    "Plan for future expansion: add RAM or storage later may require replacing parts",
   ],
 };
 

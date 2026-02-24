@@ -7,32 +7,42 @@ import { useBuild } from "@/hooks/use-build";
 import { checkCompatibility } from "@/lib/compatibility";
 import { calculateScores } from "@/lib/scoring";
 import { getRecommendations } from "@/lib/recommendations/engine";
+import { generateAutoFixPlan } from "@/lib/recommendations/auto-fix";
 import { loadBuild } from "@/lib/persistence/build-saver";
 import { VerdictBanner, type VerdictType } from "@/components/results/VerdictBanner";
+import { MissingDataPanel } from "@/components/results/MissingDataPanel";
 import { ScoreCard } from "@/components/results/ScoreCard";
 import { IssuesList } from "@/components/results/IssuesList";
 import { FixSuggestions } from "@/components/results/FixSuggestions";
-import { UpgradePath } from "@/components/results/UpgradePath";
+import { UpgradePathInteractive } from "@/components/results/UpgradePathInteractive";
+import type { UpgradeOption } from "@/lib/recommendations/upgrade-path";
 import { Alternatives } from "@/components/results/Alternatives";
 import { BuildSummary } from "@/components/results/BuildSummary";
 import { ShareButtons } from "@/components/results/ShareButtons";
 import { ExportModal } from "@/components/export/ExportModal";
+import { AutoFixModal } from "@/components/results/AutoFixModal";
 import { Button } from "@/components/ui/Button";
+import { Zap } from "lucide-react";
 
 export default function ResultsPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
-  const { selectedParts, preset, addPart } = useBuild();
+  const { selectedParts, preset, addPart, removePart, importBuild } = useBuild();
 
   const [build, setBuild] = useState<{
     selectedParts: typeof selectedParts;
     preset: typeof preset;
+    targetId?: string;
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [catalog, setCatalog] = useState<Awaited<ReturnType<typeof fetchCatalog>> | null>(null);
   const [tab, setTab] = useState<"upgrades" | "alternatives">("upgrades");
   const [showExport, setShowExport] = useState(false);
+  const [showAutoFix, setShowAutoFix] = useState(false);
+  const [cheapestPlan, setCheapestPlan] = useState<Awaited<ReturnType<typeof generateAutoFixPlan>> | null>(null);
+  const [performancePlan, setPerformancePlan] = useState<Awaited<ReturnType<typeof generateAutoFixPlan>> | null>(null);
+  const [loadingPlans, setLoadingPlans] = useState(false);
 
   async function fetchCatalog() {
     const res = await fetch("/api/parts");
@@ -53,6 +63,7 @@ export default function ResultsPage() {
             setBuild({
               selectedParts: stored.parts,
               preset: stored.preset,
+              targetId: stored.targetId,
             });
           } else {
             setBuild(null);
@@ -104,15 +115,18 @@ export default function ResultsPage() {
     );
   }
 
-  const compatResult = checkCompatibility({
-    ...build.selectedParts,
-    storage: build.selectedParts.storage ?? [],
-  });
+  const compatResult = checkCompatibility(
+    {
+      ...build.selectedParts,
+      storage: build.selectedParts.storage ?? [],
+    },
+    { preset: build.preset }
+  );
 
   const scoreResult = calculateScores(
     { ...build.selectedParts, storage: build.selectedParts.storage ?? [] },
     compatResult,
-    { preset: build.preset }
+    { preset: build.preset, targetId: build.targetId }
   );
 
   const recommendations = catalog
@@ -158,11 +172,90 @@ export default function ResultsPage() {
     updatedAt: new Date().toISOString(),
   };
 
-  const handleApplyUpgrade = (partId: string, category: string) => {
+  const catalogKey: Record<string, string> = {
+    cpu: "cpus",
+    gpu: "gpus",
+    motherboard: "motherboards",
+    ram: "ram",
+    storage: "storage",
+    psu: "psus",
+    cooler: "coolers",
+    case: "cases",
+  };
+  const handleFixAll = async () => {
+    if (!build || !catalog) return;
+    setShowAutoFix(true);
+    setLoadingPlans(true);
+    setCheapestPlan(null);
+    setPerformancePlan(null);
+
+    try {
+      const buildForFix = {
+        selectedParts: build.selectedParts,
+        preset: build.preset,
+      };
+      const allIssues = [
+        ...compatResult.hardFails,
+        ...compatResult.warnings.filter((w) => w.severity === "critical" || w.category === "power"),
+      ];
+
+      const [cheapest, performance] = await Promise.all([
+        generateAutoFixPlan(buildForFix, allIssues, "cheapest", catalog),
+        generateAutoFixPlan(buildForFix, allIssues, "performance", catalog),
+      ]);
+
+      setCheapestPlan(cheapest);
+      setPerformancePlan(performance);
+    } catch (err) {
+      console.error("Failed to generate fix plans:", err);
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
+
+  const handleApplyFixes = (plan: Awaited<ReturnType<typeof generateAutoFixPlan>>) => {
+    if (id !== "current" && build) {
+      importBuild(
+        JSON.stringify({
+          selectedParts: build.selectedParts,
+          preset: build.preset,
+        })
+      );
+    }
+    for (const fix of plan.fixes) {
+      if (fix.action === "replace" && fix.newPart && fix.category) {
+        const cat = fix.category as "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case";
+        if (cat === "storage") {
+          removePart("storage");
+          addPart(cat, fix.newPart as never);
+        } else {
+          addPart(cat, fix.newPart as never);
+        }
+      }
+    }
+    setShowAutoFix(false);
+    router.push("/build");
+  };
+
+  const handleApplyUpgrade = (upgrade: UpgradeOption) => {
+    const cat = upgrade.category as "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case";
+    addPart(cat, upgrade.suggestedPart as never);
+    if (upgrade.platformChangeParts?.motherboard) {
+      addPart("motherboard", upgrade.platformChangeParts.motherboard as never);
+    }
+    if (upgrade.platformChangeParts?.psu) {
+      addPart("psu", upgrade.platformChangeParts.psu as never);
+    }
+    if (upgrade.platformChangeParts?.ram) {
+      addPart("ram", upgrade.platformChangeParts.ram as never);
+    }
+    router.push("/build");
+  };
+
+  const handleApplyAlternative = (partId: string, category: string) => {
     if (!catalog) return;
-    const parts = (catalog as Record<string, { id: string }[]>)[
-      category === "motherboard" ? "motherboards" : `${category}s`
-    ];
+    const key = catalogKey[category] ?? `${category}s`;
+    const parts = (catalog as Record<string, { id: string }[]>)[key];
     const part = parts?.find((p) => p.id === partId);
     if (part) {
       addPart(category as "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case", part as never);
@@ -187,7 +280,16 @@ export default function ResultsPage() {
           verdict={verdict}
           issueCount={issueCount}
           confidence={compatResult.confidence}
+          checksCount={compatResult.checksRun}
         />
+
+        {/* Missing data (improves confidence) */}
+        <div className="mt-6">
+          <MissingDataPanel
+            compatResult={compatResult}
+            selectedParts={build.selectedParts}
+          />
+        </div>
 
         {/* Score Grid */}
         <section className="mt-8">
@@ -223,7 +325,7 @@ export default function ResultsPage() {
                 const u = recommendations.upgrades.find(
                   (x) => x.suggestedPart.id === partId
                 );
-                if (u) handleApplyUpgrade(partId, u.category);
+                if (u) handleApplyAlternative(partId, u.category);
               }}
             />
           </div>
@@ -261,12 +363,24 @@ export default function ResultsPage() {
             </button>
           </div>
           {tab === "upgrades" ? (
-            <UpgradePath
-              upgrades={recommendations.upgrades}
+            <UpgradePathInteractive
+              currentBuild={{
+                selectedParts: {
+                  ...build.selectedParts,
+                  storage: build.selectedParts.storage ?? [],
+                },
+                preset: build.preset,
+                targetId: build.targetId,
+              }}
+              currentScores={scoreResult}
+              catalog={catalog}
               onApply={handleApplyUpgrade}
             />
           ) : (
-            <Alternatives alternatives={recommendations.alternatives} />
+            <Alternatives
+              alternatives={recommendations.alternatives}
+              onApply={handleApplyAlternative}
+            />
           )}
         </section>
 
@@ -294,6 +408,14 @@ export default function ResultsPage() {
             parts: build.selectedParts,
             name: undefined,
           }}
+        />
+        <AutoFixModal
+          isOpen={showAutoFix}
+          onClose={() => setShowAutoFix(false)}
+          onApply={handleApplyFixes}
+          cheapestPlan={cheapestPlan}
+          performancePlan={performancePlan}
+          loading={loadingPlans}
         />
       </div>
     </div>

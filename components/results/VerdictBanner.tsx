@@ -2,6 +2,7 @@
 
 import { CheckCircle, AlertTriangle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ConfidenceIndicator } from "./ConfidenceIndicator";
 
 export type VerdictType = "compatible" | "warnings" | "incompatible";
 
@@ -9,12 +10,15 @@ interface VerdictBannerProps {
   verdict: VerdictType;
   issueCount: number;
   confidence: number;
+  /** Number of compatibility checks performed (optional, for display) */
+  checksCount?: number;
 }
 
 export function VerdictBanner({
   verdict,
   issueCount,
   confidence,
+  checksCount,
 }: VerdictBannerProps) {
   const config = {
     compatible: {
@@ -60,10 +64,16 @@ export function VerdictBanner({
           {issueCount > 0
             ? `${issueCount} issue${issueCount === 1 ? "" : "s"} found`
             : "No issues detected"}
-          {confidence < 100 && (
-            <span className="ml-2 opacity-80"> · {confidence}% confidence</span>
-          )}
         </p>
+        <div className="flex flex-wrap items-center gap-4 mt-3">
+          <ConfidenceIndicator confidence={confidence} size="lg" />
+          {checksCount != null && (
+            <span className="text-sm text-muted-foreground">
+              Based on {checksCount} compatibility check
+              {checksCount === 1 ? "" : "s"}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

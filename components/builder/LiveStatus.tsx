@@ -5,6 +5,7 @@ import { useBuild } from "@/hooks/use-build";
 import { checkCompatibility } from "@/lib/compatibility";
 import { estimateLoad, getHeadroom } from "@/lib/compatibility/power";
 import { cn } from "@/lib/utils";
+import { ProgressIndicator } from "./ProgressIndicator";
 import { AlertCircle, AlertTriangle, CheckCircle, Zap } from "lucide-react";
 
 function SeverityIcon({ severity }: { severity: string }) {
@@ -16,7 +17,7 @@ function SeverityIcon({ severity }: { severity: string }) {
 }
 
 export function LiveStatus() {
-  const { selectedParts } = useBuild();
+  const { selectedParts, preset } = useBuild();
 
   const compatResult = useMemo(() => {
     const build = {
@@ -29,8 +30,8 @@ export function LiveStatus() {
       cooler: selectedParts.cooler,
       case: selectedParts.case,
     };
-    return checkCompatibility(build);
-  }, [selectedParts]);
+    return checkCompatibility(build, { preset });
+  }, [selectedParts, preset]);
 
   const load = useMemo(() => {
     return estimateLoad({
@@ -60,6 +61,8 @@ export function LiveStatus() {
 
   return (
     <div className="space-y-4">
+      <ProgressIndicator />
+
       <h3 className="text-sm font-medium text-foreground">Live Status</h3>
 
       {/* Compatibility */}

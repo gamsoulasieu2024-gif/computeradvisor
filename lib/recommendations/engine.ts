@@ -17,9 +17,17 @@ export interface UpgradeSuggestion {
   priceDelta: number;
 }
 
+export interface AlternativeSwap {
+  category: string;
+  from: string;
+  to: string;
+  /** Part id to apply (for "View Build" / Apply) */
+  toPartId: string;
+}
+
 export interface AlternativeBuild {
   label: string;
-  swaps: { category: string; from: string; to: string }[];
+  swaps: AlternativeSwap[];
   scoreImpact: string;
 }
 
@@ -138,6 +146,62 @@ export function getRecommendations(
     }
   }
 
+  // RAM speed warning → suggest slower RAM at or below CPU max (or same speed, different kit for value)
+  const ramSpeedIssue = compatResult.warnings.find((i) => i.id === "ramSpeedRisk");
+  if (ramSpeedIssue && build.ram && build.cpu) {
+    const maxSpeed = build.cpu.specs.max_mem_speed_mhz;
+    const slower = catalog.ram
+      .filter(
+        (r) =>
+          r.specs.memory_type === build.ram!.specs.memory_type &&
+          r.specs.speed_mhz <= maxSpeed &&
+          r.specs.capacity_gb >= build.ram!.specs.capacity_gb &&
+          r.id !== build.ram!.id
+      )
+      .sort((a, b) => b.specs.speed_mhz - a.specs.speed_mhz)
+      .slice(0, 1);
+    for (const r of slower) {
+      upgrades.push({
+        category: "ram",
+        currentPartId: build.ram!.id,
+        currentPartName: build.ram!.name,
+        suggestedPart: { id: r.id, name: r.name, price_usd: r.price_usd },
+        reason: `RAM at ${r.specs.speed_mhz}MHz (within CPU spec)`,
+        scoreDelta: 5,
+        priceDelta: (r.price_usd ?? 0) - (build.ram!.price_usd ?? 0),
+      });
+    }
+  }
+
+  // Poor value: suggest same-tier GPU/CPU with lower price
+  if (build.gpu && upgrades.length < 3) {
+    const gpuTier = build.gpu.specs.tier;
+    const cheaperSameTier = catalog.gpus
+      .filter(
+        (g) =>
+          g.specs.tier >= gpuTier - 1 &&
+          g.specs.tier <= gpuTier + 1 &&
+          (g.price_usd ?? 0) < (build.gpu!.price_usd ?? Infinity) &&
+          g.id !== build.gpu!.id &&
+          (!build.case || g.specs.length_mm <= build.case.specs.max_gpu_length_mm)
+      )
+      .sort((a, b) => (a.price_usd ?? 0) - (b.price_usd ?? 0))
+      .slice(0, 1);
+    for (const g of cheaperSameTier) {
+      if (!upgrades.some((u) => u.suggestedPart.id === g.id)) {
+        upgrades.push({
+          category: "gpu",
+          currentPartId: build.gpu.id,
+          currentPartName: build.gpu.name,
+          suggestedPart: { id: g.id, name: g.name, price_usd: g.price_usd },
+          reason: "Similar performance, better value",
+          scoreDelta: 3,
+          priceDelta: (g.price_usd ?? 0) - (build.gpu.price_usd ?? 0),
+        });
+      }
+    }
+  }
+
   // Ensure at least 2 upgrades
   if (upgrades.length < 2 && build.gpu) {
     const gpuTier = build.gpu.specs.tier;
@@ -160,7 +224,7 @@ export function getRecommendations(
     }
   }
 
-  // Alternatives: suggest swap combinations
+  // Alternatives: suggest swap combinations (include toPartId for Apply / View Build)
   if (build.cpu && catalog.cpus.length > 1) {
     const alt = catalog.cpus.find(
       (c) =>
@@ -172,7 +236,7 @@ export function getRecommendations(
       alternatives.push({
         label: `Switch to ${alt.name}`,
         swaps: [
-          { category: "cpu", from: build.cpu.name, to: alt.name },
+          { category: "cpu", from: build.cpu.name, to: alt.name, toPartId: alt.id },
         ],
         scoreImpact: alt.specs.tier > build.cpu.specs.tier ? "+5–10 performance" : "Better value",
       });
@@ -189,7 +253,7 @@ export function getRecommendations(
     if (alt) {
       alternatives.push({
         label: `Upgrade to ${alt.name}`,
-        swaps: [{ category: "gpu", from: build.gpu.name, to: alt.name }],
+        swaps: [{ category: "gpu", from: build.gpu.name, to: alt.name, toPartId: alt.id }],
         scoreImpact: `+${Math.min(15, (alt.specs.tier - build.gpu.specs.tier) * 3)} performance`,
       });
     }

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-type BadgeVariant = "success" | "warning" | "error";
+type BadgeVariant = "success" | "warning" | "error" | "outline";
 
 interface BadgeProps {
   variant: BadgeVariant;
@@ -14,6 +14,8 @@ const variantStyles: Record<BadgeVariant, string> = {
   warning:
     "bg-warning text-warning-foreground dark:bg-warning dark:text-warning-foreground",
   error: "bg-error text-error-foreground dark:bg-error dark:text-error-foreground",
+  outline:
+    "border border-zinc-300 bg-transparent text-foreground dark:border-zinc-600",
 };
 
 export function Badge({ variant, children, className }: BadgeProps) {

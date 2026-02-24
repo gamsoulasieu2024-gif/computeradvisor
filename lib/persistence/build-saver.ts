@@ -21,6 +21,7 @@ export interface SaveBuildInput {
   preset: BuildPreset;
   parts: SelectedParts;
   manualOverrides: ManualOverrides;
+  targetId?: string;
   /** If true, also POST to /api/builds. Default: false. */
   saveToCloud?: boolean;
 }
@@ -46,6 +47,7 @@ export async function saveBuild(input: SaveBuildInput): Promise<SaveBuildResult>
     preset: input.preset,
     parts: input.parts,
     manualOverrides: input.manualOverrides,
+    targetId: input.targetId,
   };
 
   saveToLocal(build);

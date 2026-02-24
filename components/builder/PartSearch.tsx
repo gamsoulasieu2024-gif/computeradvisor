@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { searchParts, type SortOption } from "@/lib/utils/search";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -29,6 +29,8 @@ export function PartSearch<T extends { id: string; name: string; manufacturer: s
 }: PartSearchProps<T>) {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortOption>("name");
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(
     () => searchParts(parts, query, sort),
@@ -45,11 +47,39 @@ export function PartSearch<T extends { id: string; name: string; manufacturer: s
 
   useEffect(() => {
     if (!isOpen) return;
-    // Use queueMicrotask to make setState async and avoid cascading renders
     queueMicrotask(() => {
       setQuery("");
+      setFocusedIndex(0);
     });
   }, [isOpen]);
+
+  useEffect(() => {
+    setFocusedIndex((i) => (filtered.length ? Math.min(i, filtered.length - 1) : 0));
+  }, [filtered.length]);
+
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Enter" && filtered.length > 0) {
+        e.preventDefault();
+        handleSelect(filtered[focusedIndex]);
+        return;
+      }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setFocusedIndex((i) => (i + 1) % filtered.length);
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setFocusedIndex((i) => (i - 1 + filtered.length) % filtered.length);
+      }
+    },
+    [filtered, focusedIndex, handleSelect, onClose]
+  );
 
   if (!isOpen) return null;
 
@@ -86,9 +116,8 @@ export function PartSearch<T extends { id: string; name: string; manufacturer: s
               className="w-full rounded-lg border border-zinc-300 py-2 pl-10 pr-4 text-foreground placeholder:text-zinc-400 focus:border-foreground focus:outline-none focus:ring-1 focus:ring-foreground dark:border-zinc-700 dark:bg-zinc-800"
               tabIndex={0}
               autoFocus
-              onKeyDown={(e) => {
-                if (e.key === "Escape") onClose();
-              }}
+              onKeyDown={onKeyDown}
+              aria-label="Search parts"
             />
           </div>
           <div className="flex gap-2">
@@ -110,12 +139,19 @@ export function PartSearch<T extends { id: string; name: string; manufacturer: s
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div ref={listRef} className="flex-1 overflow-y-auto p-4">
           <div className="grid gap-3 sm:grid-cols-2">
-            {filtered.map((part) => (
+            {filtered.map((part, i) => (
               <div
                 key={part.id}
-                className="flex flex-col gap-2 rounded-lg border border-zinc-200 p-3 dark:border-zinc-800"
+                className={cn(
+                  "flex flex-col gap-2 rounded-lg border p-3 dark:border-zinc-800",
+                  i === focusedIndex
+                    ? "border-foreground ring-2 ring-foreground/20"
+                    : "border-zinc-200"
+                )}
+                onFocus={() => setFocusedIndex(i)}
+                tabIndex={0}
               >
                 <div className="flex-1">{renderPartCard(part)}</div>
                 <Button

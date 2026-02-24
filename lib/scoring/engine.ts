@@ -1,5 +1,5 @@
 /**
- * Main scoring orchestrator
+ * Main scoring orchestrator – 4-score system (Compatibility, Performance, Value, Usability)
  */
 
 import type { BuildInput } from "@/lib/compatibility/types";
@@ -17,10 +17,17 @@ const USAB_WEIGHT = 0.15;
 
 export interface CalculateScoresOptions {
   preset?: BuildPreset;
+  targetId?: string;
 }
 
 /**
- * Calculate all 4 scores and overall result
+ * Calculate all 4 scores and overall result.
+ * Overall = weighted average (compat 40%, performance 30%, value 15%, usability 15%).
+ * If compatibility &lt; 50, overall = compatibility * 0.5.
+ *
+ * @param build - Build input (selected parts)
+ * @param compatResult - Result from checkCompatibility(build)
+ * @param options - Optional preset for performance/value weighting (gaming vs creator vs custom)
  */
 export function calculateScores(
   build: BuildInput,
@@ -28,9 +35,10 @@ export function calculateScores(
   options?: CalculateScoresOptions
 ): ScoreResult {
   const preset = options?.preset ?? "custom";
+  const targetId = options?.targetId;
 
   const compatibility = calculateCompatibilityScore(compatResult);
-  const performance = calculatePerformanceScore(build, preset);
+  const performance = calculatePerformanceScore(build, preset, targetId);
   const value = calculateValueScore(build, preset);
   const usability = calculateUsabilityScore(build);
 

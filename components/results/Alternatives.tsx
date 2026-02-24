@@ -6,10 +6,11 @@ import type { AlternativeBuild } from "@/lib/recommendations/engine";
 
 interface AlternativesProps {
   alternatives: AlternativeBuild[];
-  onViewBuild?: (swaps: AlternativeBuild["swaps"]) => void;
+  /** Apply first swap and go to builder (same as upgrade Apply) */
+  onApply?: (partId: string, category: string) => void;
 }
 
-export function Alternatives({ alternatives, onViewBuild }: AlternativesProps) {
+export function Alternatives({ alternatives, onApply }: AlternativesProps) {
   if (alternatives.length === 0) {
     return (
       <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50">
@@ -48,14 +49,16 @@ export function Alternatives({ alternatives, onViewBuild }: AlternativesProps) {
               ))}
             </ul>
             <p className="mt-2 text-xs text-success">{alt.scoreImpact}</p>
-            <Button
-              size="sm"
-              variant="outline"
-              className="mt-3"
-              onClick={() => onViewBuild?.(alt.swaps)}
-            >
-              View Build
-            </Button>
+            {alt.swaps[0] && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-3"
+                onClick={() => onApply?.(alt.swaps[0].toPartId, alt.swaps[0].category)}
+              >
+                View Build
+              </Button>
+            )}
           </div>
         ))}
       </div>

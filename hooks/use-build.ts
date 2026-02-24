@@ -20,11 +20,13 @@ export function useBuild() {
   const selectedParts = useBuildStore((s) => s.selectedParts);
   const buildId = useBuildStore((s) => s.buildId);
   const preset = useBuildStore((s) => s.preset);
+  const targetId = useBuildStore((s) => s.targetId);
   const manualOverrides = useBuildStore((s) => s.manualOverrides);
   const isDirty = useBuildStore((s) => s.isDirty ?? false);
 
   // Actions (stable references)
   const setPreset = useBuildStore((s) => s.setPreset);
+  const setTargetId = useBuildStore((s) => s.setTargetId);
   const addPart = useBuildStore((s) => s.addPart);
   const removePart = useBuildStore((s) => s.removePart);
   const updateManualOverride = useBuildStore((s) => s.updateManualOverride);
@@ -67,11 +69,13 @@ export function useBuild() {
     selectedParts,
     buildId,
     preset,
+    targetId,
     manualOverrides,
     isDirty,
     estimatedLoad,
     allSelectedParts,
     setPreset,
+    setTargetId,
     addPart: addPartTyped,
     removePart,
     updateManualOverride,

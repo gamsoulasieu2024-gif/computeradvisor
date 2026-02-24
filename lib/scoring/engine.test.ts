@@ -146,6 +146,7 @@ const compatClean: CompatibilityResult = {
   warnings: [],
   notes: [],
   confidence: 100,
+  checksRun: 10,
 };
 
 const compatWithWarnings: CompatibilityResult = {
@@ -163,6 +164,7 @@ const compatWithWarnings: CompatibilityResult = {
   ],
   notes: [],
   confidence: 90,
+  checksRun: 10,
 };
 
 const compatWithFails: CompatibilityResult = {
@@ -180,6 +182,7 @@ const compatWithFails: CompatibilityResult = {
   warnings: [],
   notes: [],
   confidence: 100,
+  checksRun: 10,
 };
 
 // ============ Tests ============
@@ -205,6 +208,18 @@ describe("calculateScores", () => {
         usability: expect.objectContaining({ value: expect.any(Number) }),
       },
     });
+    for (const [key, score] of Object.entries(result.scores)) {
+      expect(score).toMatchObject({
+        value: expect.any(Number),
+        confidence: expect.any(Number),
+        weight: expect.any(Number),
+        breakdown: expect.any(Array),
+        summary: expect.any(String),
+      });
+      for (const item of score.breakdown) {
+        expect(item).toMatchObject({ factor: expect.any(String), impact: expect.any(Number), explanation: expect.any(String) });
+      }
+    }
   });
 
   it("overall is weighted average when compatibility >= 50", () => {
@@ -348,6 +363,23 @@ describe("Edge cases", () => {
     const result = calculateScores(build, compatClean);
     expect(result.scores.usability.breakdown).toBeDefined();
   });
+
+  it("performance: missing tier data reduces confidence", () => {
+    const cpuNoTier = { ...cpuMid, specs: { ...cpuMid.specs } } as CPU;
+    (cpuNoTier.specs as { tier?: number }).tier = undefined;
+    const build: BuildInput = { cpu: cpuNoTier, gpu: gpuMid };
+    const score = calculatePerformanceScore(build);
+    expect(score.confidence).toBeLessThan(100);
+    expect(score.value).toBeGreaterThanOrEqual(0);
+    expect(score.value).toBeLessThanOrEqual(100);
+  });
+
+  it("performance: no GPU uses CPU-heavy weighting", () => {
+    const build: BuildInput = { cpu: cpuMid };
+    const score = calculatePerformanceScore(build, "custom");
+    expect(score.breakdown.some((b) => b.factor === "No dedicated GPU")).toBe(true);
+    expect(score.value).toBeLessThan(100);
+  });
 });
 
 describe("Explanations", () => {
@@ -366,5 +398,32 @@ describe("Explanations", () => {
     expect(explanations.performance).toBeTruthy();
     expect(explanations.value).toBeTruthy();
     expect(explanations.usability).toBeTruthy();
+  });
+
+  it("explanations are clear and point to breakdown", () => {
+    const build: BuildInput = {
+      cpu: cpuMid,
+      gpu: gpuMid,
+      motherboard: mb,
+      ram,
+      psu: psu850,
+      case: pcCase,
+    };
+    const result = calculateScores(build, compatClean);
+    const explanations = generateExplanations(result);
+    expect(explanations.compatibility).toMatch(/breakdown/);
+    expect(explanations.performance).toMatch(/breakdown/);
+    expect(explanations.value).toMatch(/breakdown/);
+    expect(explanations.usability).toMatch(/breakdown/);
+  });
+
+  it("compatibility explanation with hard fails is actionable", () => {
+    const result = calculateScores(
+      { cpu: cpuMid, motherboard: mb },
+      compatWithFails
+    );
+    const explanations = generateExplanations(result);
+    expect(explanations.compatibility).toMatch(/critical|fix|issue/i);
+    expect(explanations.compatibility).toMatch(/breakdown/);
   });
 });

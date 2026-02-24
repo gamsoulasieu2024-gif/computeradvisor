@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/Badge";
 import type { Score } from "@/lib/scoring/types";
 
 interface ScoreCardProps {
@@ -14,6 +15,8 @@ export function ScoreCard({ name, score }: ScoreCardProps) {
   const [expanded, setExpanded] = useState(false);
 
   const value = score.value;
+  const target = score.targetName;
+  const evaluation = score.targetEvaluation;
   const color =
     value >= 80
       ? "success"
@@ -74,6 +77,63 @@ export function ScoreCard({ name, score }: ScoreCardProps) {
           {score.summary}
         </p>
       </div>
+
+      {target && evaluation && name === "performance" && (
+        <div className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/50">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-sm font-medium">Target: {target}</span>
+            <Badge variant={evaluation.meetsTarget ? "success" : "warning"}>
+              {evaluation.meetsTarget ? "✓ Meets Target" : "⚠ Below Target"}
+            </Badge>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-xs">
+            <div>
+              <span className="text-zinc-500">CPU: </span>
+              <span
+                className={cn(
+                  "ml-1 font-medium",
+                  evaluation.cpuFit === "exceeds" && "text-green-600 dark:text-green-400",
+                  evaluation.cpuFit === "below" && "text-red-500",
+                  evaluation.cpuFit === "meets" && "text-foreground"
+                )}
+              >
+                {evaluation.cpuFit}
+              </span>
+            </div>
+            <div>
+              <span className="text-zinc-500">GPU: </span>
+              <span
+                className={cn(
+                  "ml-1 font-medium",
+                  evaluation.gpuFit === "exceeds" && "text-green-600 dark:text-green-400",
+                  evaluation.gpuFit === "below" && "text-red-500",
+                  evaluation.gpuFit === "meets" && "text-foreground"
+                )}
+              >
+                {evaluation.gpuFit}
+              </span>
+            </div>
+            <div>
+              <span className="text-zinc-500">RAM: </span>
+              <span
+                className={cn(
+                  "ml-1 font-medium",
+                  evaluation.ramFit === "exceeds" && "text-green-600 dark:text-green-400",
+                  evaluation.ramFit === "below" && "text-red-500",
+                  evaluation.ramFit === "meets" && "text-foreground"
+                )}
+              >
+                {evaluation.ramFit}
+              </span>
+            </div>
+          </div>
+          {evaluation.bottleneck !== "none" && (
+            <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">
+              ⚠ {evaluation.bottleneck.toUpperCase()} may bottleneck this target
+            </p>
+          )}
+        </div>
+      )}
 
       {score.breakdown.length > 0 && (
         <>

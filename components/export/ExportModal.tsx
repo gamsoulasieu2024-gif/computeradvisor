@@ -54,8 +54,8 @@ export function ExportModal({
           ? formatPCPartPicker(input)
           : formatMarkdown(input);
 
-  const ext = tab === "json" ? "json" : "txt";
-  const mime = tab === "json" ? "application/json" : "text/plain";
+  const ext = tab === "json" ? "json" : tab === "markdown" ? "md" : "txt";
+  const mime = tab === "json" ? "application/json" : tab === "markdown" ? "text/markdown" : "text/plain";
 
   const handleCopy = async () => {
     try {
