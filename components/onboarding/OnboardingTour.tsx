@@ -129,23 +129,32 @@ export function OnboardingTour() {
               ))}
             </div>
 
-            <div className="flex gap-2">
-              {currentStep > 0 && (
-                <Button variant="outline" size="sm" onClick={handlePrevious}>
-                  <ChevronLeft className="mr-1 h-4 w-4" />
-                  Back
-                </Button>
-              )}
-              <Button size="sm" onClick={handleNext}>
-                {currentStep < TOUR_STEPS.length - 1 ? (
-                  <>
-                    Next
-                    <ChevronRight className="ml-1 h-4 w-4" />
-                  </>
-                ) : (
-                  "Get Started"
+            <div className="flex flex-col items-end gap-2 sm:flex-row sm:items-center">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="text-sm text-zinc-500 hover:text-foreground underline underline-offset-2"
+              >
+                Skip tutorial
+              </button>
+              <div className="flex gap-2">
+                {currentStep > 0 && (
+                  <Button variant="outline" size="sm" onClick={handlePrevious}>
+                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    Back
+                  </Button>
                 )}
-              </Button>
+                <Button size="sm" onClick={handleNext}>
+                  {currentStep < TOUR_STEPS.length - 1 ? (
+                    <>
+                      Next
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </>
+                  ) : (
+                    "Get Started"
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
