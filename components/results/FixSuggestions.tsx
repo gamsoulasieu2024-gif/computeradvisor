@@ -58,6 +58,19 @@ const ISSUE_FIX_MAP: Record<
   noUpgradeRoom: () => [
     "Plan for future expansion: add RAM or storage later may require replacing parts",
   ],
+  "insufficient-fan-headers": () => [
+    "Use a PWM fan splitter or powered fan hub",
+    "Choose a motherboard with more fan headers",
+  ],
+  "rgb-header-missing": () => [
+    "Choose a motherboard with 12V RGB header or use an external RGB controller",
+  ],
+  "argb-header-missing": () => [
+    "Choose a motherboard with 5V ARGB header or use an external ARGB controller",
+  ],
+  "usbc-header-missing": () => [
+    "Choose a motherboard with USB-C internal header (Type-E) or use rear USB-C ports",
+  ],
 };
 
 export function FixSuggestions({

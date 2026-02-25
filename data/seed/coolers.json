@@ -9,7 +9,9 @@
       "tdp_rating_w": 220,
       "fan_size_mm": 140,
       "height_mm": 165,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
     }
   },
   {
@@ -21,7 +23,9 @@
       "type": "AIO",
       "radiator_size_mm": 360,
       "fan_size_mm": 120,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 3,
+      "rgb_type": "5v_argb"
     }
   },
   {
@@ -34,7 +38,9 @@
       "tdp_rating_w": 250,
       "fan_size_mm": 135,
       "height_mm": 163,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
     }
   },
   {
@@ -46,7 +52,9 @@
       "type": "AIO",
       "radiator_size_mm": 280,
       "fan_size_mm": 140,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
     }
   },
   {
@@ -59,7 +67,9 @@
       "tdp_rating_w": 200,
       "fan_size_mm": 120,
       "height_mm": 158,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 1,
+      "rgb_type": "none"
     }
   },
   {
@@ -71,7 +81,9 @@
       "type": "AIO",
       "radiator_size_mm": 280,
       "fan_size_mm": 140,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "5v_argb"
     }
   },
   {
@@ -84,7 +96,9 @@
       "tdp_rating_w": 150,
       "fan_size_mm": 120,
       "height_mm": 159,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 1,
+      "rgb_type": "none"
     }
   },
   {
@@ -96,7 +110,9 @@
       "type": "AIO",
       "radiator_size_mm": 240,
       "fan_size_mm": 120,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "5v_argb"
     }
   },
   {
@@ -109,7 +125,9 @@
       "tdp_rating_w": 65,
       "fan_size_mm": 92,
       "height_mm": 37,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151"],
+      "fan_count": 1,
+      "rgb_type": "none"
     }
   },
   {
@@ -122,7 +140,9 @@
       "tdp_rating_w": 150,
       "fan_size_mm": 120,
       "height_mm": 155,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 1,
+      "rgb_type": "none"
     }
   },
   {
@@ -134,7 +154,9 @@
       "type": "AIO",
       "radiator_size_mm": 240,
       "fan_size_mm": 120,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
     }
   },
   {
@@ -147,7 +169,9 @@
       "tdp_rating_w": 260,
       "fan_size_mm": 120,
       "height_mm": 160,
-      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"]
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
     }
   }
 ]

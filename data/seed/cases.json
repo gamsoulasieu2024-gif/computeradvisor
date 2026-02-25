@@ -13,7 +13,10 @@
       "drive_bays_3_5": 6,
       "expansion_slots": 7,
       "supports_radiator_mm": [240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 7
     }
   },
   {
@@ -30,7 +33,10 @@
       "drive_bays_3_5": 2,
       "expansion_slots": 7,
       "supports_radiator_mm": [120, 240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 7
     }
   },
   {
@@ -47,7 +53,10 @@
       "drive_bays_3_5": 2,
       "expansion_slots": 4,
       "supports_radiator_mm": [240, 280],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 5
     }
   },
   {
@@ -64,7 +73,10 @@
       "drive_bays_3_5": 2,
       "expansion_slots": 2,
       "supports_radiator_mm": [240, 280],
-      "max_psu_form_factor": "SFX"
+      "max_psu_form_factor": "SFX",
+      "front_panel": { "usb_a": 2, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 6
     }
   },
   {
@@ -81,7 +93,10 @@
       "drive_bays_3_5": 2,
       "expansion_slots": 7,
       "supports_radiator_mm": [240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 6
     }
   },
   {
@@ -98,7 +113,10 @@
       "drive_bays_3_5": 3,
       "expansion_slots": 7,
       "supports_radiator_mm": [120, 240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 9
     }
   },
   {
@@ -115,7 +133,10 @@
       "drive_bays_3_5": 0,
       "expansion_slots": 2,
       "supports_radiator_mm": [],
-      "max_psu_form_factor": "SFX"
+      "max_psu_form_factor": "SFX",
+      "front_panel": { "usb_a": 1, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 2
     }
   },
   {
@@ -132,7 +153,10 @@
       "drive_bays_3_5": 2,
       "expansion_slots": 7,
       "supports_radiator_mm": [240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 7
     }
   },
   {
@@ -149,7 +173,10 @@
       "drive_bays_3_5": 2,
       "expansion_slots": 7,
       "supports_radiator_mm": [240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 6
     }
   },
   {
@@ -166,7 +193,10 @@
       "drive_bays_3_5": 4,
       "expansion_slots": 8,
       "supports_radiator_mm": [120, 240, 280, 360],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 8
     }
   },
   {
@@ -183,7 +213,10 @@
       "drive_bays_3_5": 1,
       "expansion_slots": 4,
       "supports_radiator_mm": [120, 240],
-      "max_psu_form_factor": "ATX"
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 5
     }
   },
   {
@@ -200,7 +233,10 @@
       "drive_bays_3_5": 0,
       "expansion_slots": 2,
       "supports_radiator_mm": [140],
-      "max_psu_form_factor": "SFX"
+      "max_psu_form_factor": "SFX",
+      "front_panel": { "usb_a": 1, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 1,
+      "max_fans": 2
     }
   }
 ]

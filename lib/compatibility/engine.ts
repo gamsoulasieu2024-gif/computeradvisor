@@ -34,6 +34,7 @@ import {
   noUpgradeRoom,
 } from "./rules";
 import type { RuleContext } from "./rules";
+import { checkFanHeaders, checkRgbHeaders, checkUsbCHeader } from "./header-rules";
 
 export interface CheckOptions {
   /** Optional PSU PCIe connector count (overrides wattage inference) */
@@ -239,6 +240,22 @@ export function checkCompatibility(
   if (build.cooler && build.case) {
     checksRun++;
     const r = radiatorConflict(build.cooler, build.case);
+    if (r) warnings.push(r);
+  }
+
+  if (build.motherboard) {
+    checksRun++;
+    const r = checkFanHeaders(build);
+    if (r) warnings.push(r);
+  }
+  if (build.motherboard && build.cooler) {
+    checksRun++;
+    const r = checkRgbHeaders(build);
+    if (r) warnings.push(r);
+  }
+  if (build.motherboard && build.case) {
+    checksRun++;
+    const r = checkUsbCHeader(build);
     if (r) warnings.push(r);
   }
 

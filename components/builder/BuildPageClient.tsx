@@ -10,14 +10,18 @@ import { PartSearch } from "@/components/builder/PartSearch";
 import { ManualEntry } from "@/components/builder/ManualEntry";
 import { SaveBuildModal } from "@/components/modals/SaveBuildModal";
 import { LoadBuildModal } from "@/components/modals/LoadBuildModal";
+import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
+import { BuildGoalsWizard } from "@/components/wizard/BuildGoalsWizard";
+import type { WizardAnswers } from "@/components/wizard/BuildGoalsWizard";
+import { generateBaselineBuild } from "@/lib/baseline/build-generator";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { checkCompatibility } from "@/lib/compatibility";
 import { filterByPreset } from "@/lib/presets/recommendations";
-import { X, Save, FolderOpen, Target } from "lucide-react";
+import { X, Save, FolderOpen, Target, Menu } from "lucide-react";
 import { TargetSelector } from "@/components/builder/TargetSelector";
 import { getTargetById } from "@/lib/presets/targets";
-import type { PartCategory } from "@/lib/store/types";
+import type { PartCategory, BuildPreset } from "@/lib/store/types";
 import type { CPU, GPU, Motherboard, RAM, Storage, PSU, Cooler, Case } from "@/types/components";
 
 type Catalog = {
@@ -31,38 +35,57 @@ type Catalog = {
   cases: Case[];
 };
 
-const CATEGORIES: PartCategory[] = [
+const CARD_ORDER: PartCategory[] = [
+  "case",
   "cpu",
-  "gpu",
   "motherboard",
+  "gpu",
   "ram",
   "storage",
   "psu",
   "cooler",
-  "case",
 ];
+
+const WIZARD_STORAGE_KEY = "pc-build-advisor-hasSeenBuildWizard";
 
 export default function BuildPageClient() {
   const router = useRouter();
   const { selectedParts, preset, targetId, setPreset, setTargetId, removePart, addPart, manualOverrides, importBuild } = useBuild();
+  const [showWizard, setShowWizard] = useState(false);
+  const [wizardGenerating, setWizardGenerating] = useState(false);
   const [showPresetSelector, setShowPresetSelector] = useState(false);
   const [showTargetSelector, setShowTargetSelector] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showLoadModal, setShowLoadModal] = useState(false);
+  const [showToolbarMenu, setShowToolbarMenu] = useState(false);
   const [searchCategory, setSearchCategory] = useState<PartCategory | null>(null);
   const [manualCategory, setManualCategory] = useState<PartCategory | null>(null);
   const [catalog, setCatalog] = useState<Catalog | null>(null);
 
-  // Set initial preset selector state after mount
+  const hasAnyParts =
+    !!selectedParts.case ||
+    !!selectedParts.cpu ||
+    !!selectedParts.motherboard ||
+    !!selectedParts.gpu ||
+    !!selectedParts.ram ||
+    (selectedParts.storage?.length ?? 0) > 0 ||
+    !!selectedParts.psu ||
+    !!selectedParts.cooler;
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const hasSeen = localStorage.getItem(WIZARD_STORAGE_KEY);
+    if (!hasSeen && !hasAnyParts) setShowWizard(true);
+  }, [hasAnyParts]);
+
   useEffect(() => {
     setShowPresetSelector(!preset || preset === "custom");
   }, [preset]);
 
-  // Keyboard shortcuts: Ctrl+S save, Ctrl+K open part search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "s" && e.key !== "k") return;
-      const isMac = typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
       const mod = isMac ? e.metaKey : e.ctrlKey;
       if (!mod) return;
       if (e.key === "s") {
@@ -72,8 +95,7 @@ export default function BuildPageClient() {
       if (e.key === "k") {
         e.preventDefault();
         if (catalog && !searchCategory && !showSaveModal && !showLoadModal && !showPresetSelector) {
-          const firstCategory: PartCategory = "cpu";
-          setSearchCategory(firstCategory);
+          setSearchCategory("cpu");
         }
       }
     };
@@ -81,7 +103,6 @@ export default function BuildPageClient() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [catalog, searchCategory, showSaveModal, showLoadModal, showPresetSelector]);
 
-  // Load catalog
   useEffect(() => {
     fetch("/api/parts")
       .then((r) => r.json())
@@ -89,7 +110,6 @@ export default function BuildPageClient() {
       .catch(console.error);
   }, []);
 
-  // Run compatibility check
   const compatResult = useMemo(() => {
     return checkCompatibility(
       {
@@ -106,7 +126,6 @@ export default function BuildPageClient() {
     );
   }, [selectedParts, preset]);
 
-  // Collect all issues for ComponentCard
   const allIssues = useMemo(() => {
     return [
       ...compatResult.hardFails.map((i) => ({ ...i, severity: "critical" as const })),
@@ -115,98 +134,269 @@ export default function BuildPageClient() {
     ];
   }, [compatResult]);
 
-  // Check if enough parts selected to view results (at least CPU, GPU, Mobo, PSU, Case)
-  const canViewResults = !!(
+  const corePartsSelected = !!(
     selectedParts.cpu &&
     selectedParts.motherboard &&
     selectedParts.psu &&
     selectedParts.case
   );
 
+  const componentCount = useMemo(() => {
+    let n = 0;
+    if (selectedParts.case) n++;
+    if (selectedParts.cpu) n++;
+    if (selectedParts.motherboard) n++;
+    if (selectedParts.gpu) n++;
+    if (selectedParts.ram) n++;
+    n += selectedParts.storage?.length ?? 0;
+    if (selectedParts.psu) n++;
+    if (selectedParts.cooler) n++;
+    return n;
+  }, [selectedParts]);
+
   const handleViewResults = () => {
     router.push("/results/current");
   };
 
-  const formatPresetName = (presetName: string) => {
-    return presetName
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase());
+  const handleWizardComplete = async (answers: WizardAnswers) => {
+    if (typeof window !== "undefined") localStorage.setItem(WIZARD_STORAGE_KEY, "true");
+    setShowWizard(false);
+    setWizardGenerating(true);
+
+    const presetMap: Record<WizardAnswers["useCase"], BuildPreset> = {
+      gaming: "gaming-1080p",
+      creator: "creator",
+      workstation: "creator",
+      "home-office": "budget",
+      mixed: "gaming-1080p",
+    };
+    setPreset(presetMap[answers.useCase]);
+
+    let cat = catalog;
+    if (!cat) {
+      try {
+        const res = await fetch("/api/parts");
+        cat = await res.json();
+        setCatalog(cat);
+      } catch (e) {
+        console.error("Failed to load catalog for baseline", e);
+        setWizardGenerating(false);
+        return;
+      }
+    }
+    if (!cat) {
+      setWizardGenerating(false);
+      return;
+    }
+
+    const baseline = generateBaselineBuild(answers, cat);
+    if (baseline.case) addPart("case", baseline.case);
+    if (baseline.cpu) addPart("cpu", baseline.cpu);
+    if (baseline.motherboard) addPart("motherboard", baseline.motherboard);
+    if (baseline.gpu) addPart("gpu", baseline.gpu);
+    if (baseline.ram) addPart("ram", baseline.ram);
+    for (const drive of baseline.storage ?? []) addPart("storage", drive);
+    if (baseline.psu) addPart("psu", baseline.psu);
+    if (baseline.cooler) addPart("cooler", baseline.cooler);
+
+    setWizardGenerating(false);
   };
+
+  const handleWizardSkip = () => {
+    if (typeof window !== "undefined") localStorage.setItem(WIZARD_STORAGE_KEY, "true");
+    setShowWizard(false);
+  };
+
+  const formatPresetName = (name: string) =>
+    name.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
 
   const getParts = useCallback(
     (cat: PartCategory): { id: string; name: string; manufacturer: string }[] => {
       if (!catalog) return [];
-      const key =
-        cat === "motherboard" ? "motherboards" : cat === "storage" ? "storage" : `${cat}s`;
-      const raw = ((catalog as Record<string, unknown[]>)[key] ?? []) as {
-        id: string;
-        name: string;
-        manufacturer: string;
-      }[];
+      const key = cat === "motherboard" ? "motherboards" : cat === "storage" ? "storage" : `${cat}s`;
+      const raw = ((catalog as Record<string, unknown[]>)[key] ?? []) as { id: string; name: string; manufacturer: string }[];
       const partType = cat as "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case";
-      return filterByPreset(preset, partType, raw) as {
-        id: string;
-        name: string;
-        manufacturer: string;
-      }[];
+      return filterByPreset(preset, partType, raw) as { id: string; name: string; manufacturer: string }[];
     },
     [catalog, preset]
   );
 
-  const renderPartPreview = (part: { name: string; manufacturer?: string; specs?: Record<string, unknown> }) => (
+  const renderPartPreview = (part: { name: string; manufacturer?: string }) => (
     <div className="text-sm">
       <p className="font-medium">{part.name}</p>
-      {part.manufacturer && (
-        <p className="text-zinc-500">{part.manufacturer}</p>
-      )}
+      {part.manufacturer && <p className="text-zinc-500">{part.manufacturer}</p>}
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Build Your PC</h1>
-            <p className="text-sm text-muted-foreground">
-              {preset && preset !== "custom"
-                ? `Preset: ${formatPresetName(preset)}`
-                : "Custom Build"}
+    <div className="flex min-h-0 flex-1 bg-background">
+      <BuildGoalsWizard
+        isOpen={showWizard}
+        onComplete={handleWizardComplete}
+        onSkip={handleWizardSkip}
+      />
+      {wizardGenerating && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="rounded-lg border border-zinc-200 bg-white px-6 py-4 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+            <div className="animate-spin h-8 w-8 border-2 border-foreground border-t-transparent rounded-full mx-auto mb-2" />
+            <p className="text-sm text-foreground">Generating your build...</p>
+          </div>
+        </div>
+      )}
+      <OnboardingTour />
+
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              Select Your Components
+            </h1>
+            <p className="text-zinc-500 dark:text-zinc-400">
+              Choose parts for your build. We'll check compatibility in real-time.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+
+          <div className="space-y-3">
+            {CARD_ORDER.map((category, index) => {
+              const part =
+                category === "storage"
+                  ? selectedParts.storage?.[0]
+                  : selectedParts[category];
+              return (
+                <ComponentCard
+                  key={category}
+                  category={category}
+                  part={part as never}
+                  issues={allIssues}
+                  onAdd={() => setSearchCategory(category)}
+                  onRemove={() => {
+                    if (category === "storage")
+                      removePart("storage", (selectedParts.storage?.length ?? 0) > 1 ? 0 : undefined);
+                    else removePart(category);
+                  }}
+                  onFixIssue={() => setSearchCategory(category)}
+                  onManualEntry={
+                    category === "case" || category === "cpu"
+                      ? () => setManualCategory(category)
+                      : undefined
+                  }
+                  storageCount={category === "storage" ? (selectedParts.storage?.length ?? 0) : undefined}
+                  dataTour={index === 0 ? "component-card" : undefined}
+                />
+              );
+            })}
+          </div>
+
+          <div className="h-28" />
+        </div>
+      </div>
+
+      <aside
+        className="hidden w-80 shrink-0 border-l border-zinc-200 overflow-y-auto dark:border-zinc-800 lg:block"
+        data-tour="live-status"
+      >
+        <div className="sticky top-0 space-y-4 p-6">
+          <div className="rounded-lg border border-zinc-200 bg-zinc-50/50 p-3 dark:border-zinc-800 dark:bg-zinc-900/30">
+            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-1">
+              Use case
+            </p>
+            <p className="text-sm font-medium text-foreground capitalize">
+              {formatPresetName(preset)}
+            </p>
             <Button
-              onClick={() => setShowLoadModal(true)}
-              variant="outline"
-              aria-label="Load build"
-            >
-              <FolderOpen className="h-4 w-4 mr-1.5" />
-              Load
-            </Button>
-            <Button
-              onClick={() => setShowSaveModal(true)}
-              variant="outline"
-              aria-label="Save build (Ctrl+S)"
-            >
-              <Save className="h-4 w-4 mr-1.5" />
-              Save
-            </Button>
-            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-2 w-full text-xs"
               onClick={() => setShowPresetSelector(true)}
-              variant="outline"
             >
-              Change Preset
-            </Button>
-            <Button
-              onClick={() => setShowTargetSelector(true)}
-              variant="outline"
-              aria-label="Set performance target"
-            >
-              <Target className="h-4 w-4 mr-1.5" />
-              {targetId ? getTargetById(targetId)?.name ?? "Set Target" : "Set Target"}
+              Change preset
             </Button>
           </div>
+          <LiveStatus />
+          <div className="relative">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full gap-2"
+              onClick={() => setShowToolbarMenu(!showToolbarMenu)}
+            >
+              <Menu className="h-4 w-4" />
+              More actions
+            </Button>
+            {showToolbarMenu && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setShowToolbarMenu(false)}
+                  aria-hidden
+                />
+                <div className="absolute left-0 top-full z-20 mt-1 w-56 rounded-md border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    onClick={() => {
+                      setShowLoadModal(true);
+                      setShowToolbarMenu(false);
+                    }}
+                  >
+                    <FolderOpen className="h-4 w-4" />
+                    Load build
+                  </button>
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    onClick={() => {
+                      setShowSaveModal(true);
+                      setShowToolbarMenu(false);
+                    }}
+                  >
+                    <Save className="h-4 w-4" />
+                    Save build
+                  </button>
+                  <button
+                    type="button"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    onClick={() => {
+                      setShowTargetSelector(true);
+                      setShowToolbarMenu(false);
+                    }}
+                  >
+                    <Target className="h-4 w-4" />
+                    {targetId ? getTargetById(targetId)?.name ?? "Set target" : "Set target"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </aside>
+
+      <div
+        className="fixed bottom-0 left-0 right-0 z-30 border-t border-zinc-200 bg-white/95 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/95"
+        data-tour="view-results"
+      >
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-foreground" />
+              <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                {componentCount}/8 components
+              </span>
+            </div>
+            {compatResult.hardFails.length > 0 && (
+              <span className="text-sm font-medium text-red-600 dark:text-red-400">
+                {compatResult.hardFails.length} issue{compatResult.hardFails.length !== 1 ? "s" : ""}
+              </span>
+            )}
+          </div>
+          <Button
+            size="lg"
+            onClick={handleViewResults}
+            disabled={!corePartsSelected}
+            className="min-w-[180px]"
+          >
+            View Analysis
+          </Button>
         </div>
       </div>
 
@@ -243,121 +433,45 @@ export default function BuildPageClient() {
         currentTarget={targetId}
       />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Left Sidebar - Preset + Live Status (sticky) */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4 space-y-4">
-              <div className="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900/50">
-                <h3 className="text-sm font-medium text-foreground mb-2">Use case</h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 capitalize">
-                  {formatPresetName(preset)}
-                </p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="mt-2 w-full"
-                  onClick={() => setShowPresetSelector(true)}
-                >
-                  Change preset
-                </Button>
-              </div>
-              <LiveStatus />
-            </div>
-          </div>
-
-          {/* Main Content - Component Cards */}
-          <div className="lg:col-span-3 space-y-4">
-            {/* Preset Selector Modal - grid of PresetCards */}
-            {showPresetSelector && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                <div className="relative w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-foreground">Select Build Preset</h2>
-                    <button
-                      type="button"
-                      onClick={() => setShowPresetSelector(false)}
-                      className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-foreground dark:hover:bg-zinc-800"
-                      aria-label="Close"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
-                  </div>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
-                    Choose a preset to filter recommended parts and adjust score weights.
-                  </p>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {PRESET_DEFINITIONS.map((def) => (
-                      <PresetCard
-                        key={def.id}
-                        presetId={def.id}
-                        selected={preset === def.id}
-                        onSelect={() => {
-                          setPreset(def.id);
-                          setShowPresetSelector(false);
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-6 flex justify-end">
-                    <Button onClick={() => setShowPresetSelector(false)} variant="primary">
-                      Done
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Component Selection Cards */}
-            {CATEGORIES.map((category) => {
-              const part =
-                category === "storage"
-                  ? selectedParts.storage?.[0]
-                  : selectedParts[category];
-              return (
-                <ComponentCard
-                  key={category}
-                  category={category}
-                  part={part as never}
-                  issues={allIssues}
-                  onAdd={() => setSearchCategory(category)}
-                  onRemove={() => {
-                    if (category === "storage")
-                      removePart("storage", (selectedParts.storage?.length ?? 0) > 1 ? 0 : undefined);
-                    else removePart(category);
-                  }}
-                  onFixIssue={() => setSearchCategory(category)}
-                  onManualEntry={(category === "case" || category === "cpu") ? () => setManualCategory(category) : undefined}
-                  storageCount={
-                    category === "storage" ? (selectedParts.storage?.length ?? 0) : undefined
-                  }
-                />
-              );
-            })}
-
-            {/* View Results Button */}
-            <div className="pt-6 border-t border-border">
-              <Button
-                onClick={handleViewResults}
-                disabled={!canViewResults}
-                className="w-full"
-                size="lg"
+      {showPresetSelector && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="relative w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-foreground">Select Build Preset</h2>
+              <button
+                type="button"
+                onClick={() => setShowPresetSelector(false)}
+                className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-foreground dark:hover:bg-zinc-800"
+                aria-label="Close"
               >
-                {canViewResults
-                  ? "View Results & Scores"
-                  : "Select core components to continue (CPU, Motherboard, PSU, Case)"}
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+              Choose a preset to filter recommended parts and adjust score weights.
+            </p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {PRESET_DEFINITIONS.map((def) => (
+                <PresetCard
+                  key={def.id}
+                  presetId={def.id}
+                  selected={preset === def.id}
+                  onSelect={() => {
+                    setPreset(def.id);
+                    setShowPresetSelector(false);
+                  }}
+                />
+              ))}
+            </div>
+            <div className="mt-6 flex justify-end">
+              <Button variant="primary" onClick={() => setShowPresetSelector(false)}>
+                Done
               </Button>
-              {!canViewResults && (
-                <p className="text-sm text-muted-foreground text-center mt-2">
-                  Required: CPU, Motherboard, PSU, Case
-                </p>
-              )}
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Part Search Modal */}
       {searchCategory && catalog && (
         <PartSearch
           category={searchCategory}
@@ -368,16 +482,19 @@ export default function BuildPageClient() {
             addPart(searchCategory, p as never);
             setSearchCategory(null);
           }}
-          onManualEntry={(searchCategory === "case" || searchCategory === "cpu") ? () => {
-            setSearchCategory(null);
-            setManualCategory(searchCategory);
-          } : undefined}
-          renderPartCard={(p) => renderPartPreview(p as { name: string; manufacturer?: string; specs?: Record<string, unknown> })}
+          onManualEntry={
+            searchCategory === "case" || searchCategory === "cpu"
+              ? () => {
+                  setSearchCategory(null);
+                  setManualCategory(searchCategory);
+                }
+              : undefined
+        }
+          renderPartCard={(p) => renderPartPreview(p as { name: string; manufacturer?: string })}
           getPartName={(p) => (p as { name: string }).name}
         />
       )}
 
-      {/* Manual Entry Modal */}
       {manualCategory && (
         <ManualEntry
           category={manualCategory}

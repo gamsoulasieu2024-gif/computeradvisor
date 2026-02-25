@@ -21,14 +21,20 @@ import { BuildSummary } from "@/components/results/BuildSummary";
 import { ShareButtons } from "@/components/results/ShareButtons";
 import { ExportModal } from "@/components/export/ExportModal";
 import { AutoFixModal } from "@/components/results/AutoFixModal";
+import { FPSEstimateCard } from "@/components/results/FPSEstimateCard";
+import { FPSByGenreExpander } from "@/components/results/FPSByGenreExpander";
+import { ClearanceDiagram } from "@/components/results/ClearanceDiagram";
 import { Button } from "@/components/ui/Button";
 import { Zap } from "lucide-react";
+import { getTargetById } from "@/lib/presets/targets";
+import type { GameTarget } from "@/lib/presets/targets";
+import { estimateFPS, estimateFPSByGenre } from "@/lib/performance/fps-estimation";
 
 export default function ResultsPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
-  const { selectedParts, preset, addPart, removePart, importBuild } = useBuild();
+  const { selectedParts, preset, targetId: storeTargetId, addPart, removePart, importBuild } = useBuild();
 
   const [build, setBuild] = useState<{
     selectedParts: typeof selectedParts;
@@ -54,7 +60,7 @@ export default function ResultsPage() {
       if (id === "current") {
         // Use setTimeout to make setState async and avoid cascading renders
         await Promise.resolve();
-        setBuild({ selectedParts, preset });
+        setBuild({ selectedParts, preset, targetId: storeTargetId });
         setLoading(false);
       } else {
         try {
@@ -152,6 +158,27 @@ export default function ResultsPage() {
     compatResult.hardFails.length +
     compatResult.warnings.length +
     compatResult.notes.length;
+
+  const target = build.targetId ? getTargetById(build.targetId) : null;
+  const isGameTarget = target && "resolution" in target;
+  const gameTarget = isGameTarget ? (target as GameTarget) : null;
+  const fpsEstimate =
+    gameTarget && build.selectedParts.cpu && build.selectedParts.gpu
+      ? estimateFPS(
+          build.selectedParts.cpu,
+          build.selectedParts.gpu,
+          gameTarget
+        )
+      : null;
+  const genreEstimates =
+    fpsEstimate && gameTarget && build.selectedParts.cpu && build.selectedParts.gpu
+      ? {
+          aaa: estimateFPSByGenre(build.selectedParts.cpu, build.selectedParts.gpu, gameTarget, "aaa")!,
+          esports: estimateFPSByGenre(build.selectedParts.cpu, build.selectedParts.gpu, gameTarget, "esports")!,
+          indie: estimateFPSByGenre(build.selectedParts.cpu, build.selectedParts.gpu, gameTarget, "indie")!,
+          simulation: estimateFPSByGenre(build.selectedParts.cpu, build.selectedParts.gpu, gameTarget, "simulation")!,
+        }
+      : null;
 
   const buildJson = JSON.stringify(
     {
@@ -307,6 +334,19 @@ export default function ResultsPage() {
           </div>
         </section>
 
+        {/* FPS Estimate — gaming targets only */}
+        {fpsEstimate && gameTarget && (
+          <section className="mt-8 space-y-4">
+            <FPSEstimateCard
+              estimate={fpsEstimate}
+              targetName={gameTarget.name}
+            />
+            {genreEstimates && (
+              <FPSByGenreExpander estimates={genreEstimates} />
+            )}
+          </section>
+        )}
+
         {/* Top Issues & Fix Suggestions */}
         <section className="mt-8 grid gap-8 lg:grid-cols-2">
           <div>
@@ -335,6 +375,16 @@ export default function ResultsPage() {
         <section className="mt-8">
           <BuildSummary selectedParts={build.selectedParts} />
         </section>
+
+        {/* Physical Fit Check */}
+        {build.selectedParts.case && (
+          <section className="mt-8">
+            <ClearanceDiagram
+              build={build}
+              issues={[...compatResult.hardFails, ...compatResult.warnings]}
+            />
+          </section>
+        )}
 
         {/* Recommendations Tabs */}
         <section className="mt-8">
@@ -397,6 +447,8 @@ export default function ResultsPage() {
               buildId={id}
               buildJson={buildJson}
               build={persistedBuildForShare}
+              scores={scoreResult}
+              compatResult={compatResult}
             />
           </div>
         </section>

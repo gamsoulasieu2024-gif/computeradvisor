@@ -70,6 +70,16 @@ export interface GPU {
 
 // ============ Motherboard ============
 
+export interface MotherboardHeaders {
+  fan_4pin: number; // PWM fan headers
+  fan_3pin?: number; // DC fan headers (optional)
+  rgb_12v?: number; // 12V RGB headers (4-pin)
+  argb_5v: number; // 5V ARGB headers (3-pin)
+  usb2_internal: number; // Internal USB 2.0 headers (9-pin)
+  usb3_internal: number; // Internal USB 3.0 headers (19-pin)
+  usb_c_internal: number; // Internal USB-C header (Type-E, 20-pin)
+}
+
 export interface Motherboard {
   id: string;
   name: string;
@@ -86,6 +96,7 @@ export interface Motherboard {
     sata_ports: number;
     pcie_version: PcieVersion;
     has_bios_flashback: boolean;
+    headers?: MotherboardHeaders;
   };
 }
 
@@ -182,10 +193,20 @@ export interface Cooler {
     sockets: string[]; // compatible sockets
     /** AIO: total radiator + fan thickness in mm (for case mount clearance) */
     radiator_fan_thickness_mm?: number;
+    /** Number of fans (e.g. 1 for single-tower, 2 for D15, 3 for 360 AIO) */
+    fan_count?: number;
+    /** Type of RGB on cooler */
+    rgb_type?: "none" | "12v_rgb" | "5v_argb";
   };
 }
 
 // ============ Case ============
+
+export interface CaseFrontPanel {
+  usb_a?: number;
+  usb_c?: number;
+  audio_jack: boolean;
+}
 
 export interface Case {
   id: string;
@@ -208,6 +229,12 @@ export interface Case {
     /** Max radiator + fan thickness in mm for top/front mount */
     max_radiator_thickness_mm?: number;
     max_psu_form_factor: "ATX" | "SFX" | "SFX-L";
+    /** Front panel I/O */
+    front_panel?: CaseFrontPanel;
+    /** Number of fans included with case */
+    preinstalled_fans?: number;
+    /** Maximum number of fan positions */
+    max_fans?: number;
   };
 }
 

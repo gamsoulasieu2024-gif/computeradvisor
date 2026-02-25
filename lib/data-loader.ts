@@ -62,6 +62,16 @@ const gpuSchema = z.object({
   specs: gpuSpecsSchema,
 });
 
+const motherboardHeadersSchema = z.object({
+  fan_4pin: z.number().int().min(0),
+  fan_3pin: z.number().int().min(0).optional(),
+  rgb_12v: z.number().int().min(0).optional(),
+  argb_5v: z.number().int().min(0),
+  usb2_internal: z.number().int().min(0),
+  usb3_internal: z.number().int().min(0),
+  usb_c_internal: z.number().int().min(0),
+});
+
 const motherboardSpecsSchema = z.object({
   socket: z.string(),
   chipset: z.string(),
@@ -73,6 +83,7 @@ const motherboardSpecsSchema = z.object({
   sata_ports: z.number().int().min(0),
   pcie_version: pcieVersionSchema,
   has_bios_flashback: z.boolean(),
+  headers: motherboardHeadersSchema.optional(),
 });
 
 const motherboardSchema = z.object({
@@ -154,6 +165,9 @@ const coolerSpecsSchema = z.object({
   fan_size_mm: z.number().positive().optional(),
   height_mm: z.number().positive().optional(),
   sockets: z.array(z.string()),
+  radiator_fan_thickness_mm: z.number().positive().optional(),
+  fan_count: z.number().int().min(0).optional(),
+  rgb_type: z.enum(["none", "12v_rgb", "5v_argb"]).optional(),
 });
 
 const coolerSchema = z.object({
@@ -162,6 +176,12 @@ const coolerSchema = z.object({
   manufacturer: z.string(),
   price_usd: z.number().positive().optional(),
   specs: coolerSpecsSchema,
+});
+
+const caseFrontPanelSchema = z.object({
+  usb_a: z.number().int().min(0).optional(),
+  usb_c: z.number().int().min(0).optional(),
+  audio_jack: z.boolean(),
 });
 
 const caseSpecsSchema = z.object({
@@ -174,6 +194,11 @@ const caseSpecsSchema = z.object({
   expansion_slots: z.number().int().min(1),
   supports_radiator_mm: z.array(z.number()).optional(),
   max_psu_form_factor: z.enum(["ATX", "SFX", "SFX-L"]),
+  max_gpu_thickness_slots: z.number().int().min(1).optional(),
+  max_radiator_thickness_mm: z.number().positive().optional(),
+  front_panel: caseFrontPanelSchema.optional(),
+  preinstalled_fans: z.number().int().min(0).optional(),
+  max_fans: z.number().int().min(0).optional(),
 });
 
 const caseSchema = z.object({
