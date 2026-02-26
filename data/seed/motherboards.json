@@ -15,6 +15,10 @@
       "sata_ports": 6,
       "pcie_version": "5.0",
       "has_bios_flashback": true,
+      "max_memory_speed_stock_mhz": 4800,
+      "max_memory_speed_oc_mhz": 7800,
+      "supports_xmp": true,
+      "supports_expo": false,
       "headers": {
         "fan_4pin": 6,
         "argb_5v": 3,
@@ -41,6 +45,11 @@
       "sata_ports": 6,
       "pcie_version": "5.0",
       "has_bios_flashback": true,
+      "max_memory_speed_stock_mhz": 4800,
+      "max_memory_speed_oc_mhz": 6400,
+      "supports_xmp": false,
+      "supports_expo": true,
+      "supports_ecc": true,
       "headers": {
         "fan_4pin": 5,
         "argb_5v": 2,

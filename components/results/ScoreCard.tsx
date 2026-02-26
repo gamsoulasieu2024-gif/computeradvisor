@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
+import { InfoTooltip } from "@/components/ui/InfoTooltip";
+import { SCORE_EXPLANATIONS } from "@/lib/scoring/explanations-detailed";
 import type { Score } from "@/lib/scoring/types";
 
 interface ScoreCardProps {
@@ -29,18 +31,32 @@ export function ScoreCard({ name, score }: ScoreCardProps) {
   const confidenceLabel =
     score.confidence >= 80 ? "High" : score.confidence >= 50 ? "Medium" : "Low";
 
+  const explanation = (SCORE_EXPLANATIONS as Record<string, { title: string; content: React.ReactNode }>)[name];
+
   return (
     <div className="animate-count-up rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/50">
       <div className="flex items-center justify-between">
-        <h3 className="font-medium capitalize text-foreground">{name}</h3>
-        <span
-          className={cn(
-            "text-xs text-zinc-500",
-            score.confidence < 80 && "text-warning"
+        <div className="flex items-center gap-2">
+          <h3 className="font-medium capitalize text-foreground">{name}</h3>
+          {explanation && (
+            <InfoTooltip title={explanation.title} content={explanation.content} size="sm" />
           )}
-        >
-          {confidenceLabel} confidence
-        </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className={cn(
+              "text-xs text-zinc-500",
+              score.confidence < 80 && "text-warning"
+            )}
+          >
+            {confidenceLabel} confidence
+          </span>
+          <InfoTooltip
+            title="Score Confidence"
+            content="Confidence reflects how complete our data is. Missing specs (like case clearances or GPU thickness) reduce confidence."
+            size="sm"
+          />
+        </div>
       </div>
 
       <div className="mt-3 flex items-center gap-4">

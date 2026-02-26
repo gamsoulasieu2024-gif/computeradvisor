@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { CurrencySelector } from "@/components/layout/CurrencySelector";
 import { X } from "lucide-react";
 
 export function LayoutChrome({ children }: { children: React.ReactNode }) {
@@ -25,13 +26,14 @@ export function LayoutChrome({ children }: { children: React.ReactNode }) {
             >
               PC Build Advisor
             </Link>
-            <nav className="flex items-center gap-6">
+            <nav className="flex items-center gap-4">
               <Link
                 href="/build"
                 className="text-sm text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
               >
                 Build
               </Link>
+              <CurrencySelector />
               <ThemeToggle />
             </nav>
           </div>
@@ -54,6 +56,7 @@ export function LayoutChrome({ children }: { children: React.ReactNode }) {
                 Building Your PC
               </span>
             </div>
+            <CurrencySelector />
             <ThemeToggle />
           </div>
         </header>

@@ -24,6 +24,7 @@ import { AutoFixModal } from "@/components/results/AutoFixModal";
 import { FPSEstimateCard } from "@/components/results/FPSEstimateCard";
 import { FPSByGenreExpander } from "@/components/results/FPSByGenreExpander";
 import { ClearanceDiagram } from "@/components/results/ClearanceDiagram";
+import { CoolingAssessmentCard } from "@/components/results/CoolingAssessmentCard";
 import { Button } from "@/components/ui/Button";
 import { Zap } from "lucide-react";
 import { getTargetById } from "@/lib/presets/targets";
@@ -385,6 +386,19 @@ export default function ResultsPage() {
             />
           </section>
         )}
+
+        {/* Cooling Assessment */}
+        {build.selectedParts.cpu &&
+          build.selectedParts.cooler &&
+          (build.selectedParts.cpu.specs?.tdp_w ?? 0) > 0 &&
+          (build.selectedParts.cooler.specs?.tdp_rating_w ?? 0) > 0 && (
+            <section className="mt-8">
+              <CoolingAssessmentCard
+                cpu={build.selectedParts.cpu}
+                cooler={build.selectedParts.cooler}
+              />
+            </section>
+          )}
 
         {/* Recommendations Tabs */}
         <section className="mt-8">

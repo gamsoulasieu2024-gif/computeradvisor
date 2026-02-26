@@ -9,6 +9,8 @@ import {
   Edit,
   Trash2,
   Info,
+  ChevronDown,
+  ChevronUp,
   Cpu,
   Gpu,
   CircuitBoard,
@@ -22,6 +24,8 @@ import {
 } from "lucide-react";
 import type { PartCategory, PartByCategory } from "@/lib/store/types";
 import type { PCComponent } from "@/lib/store/types";
+import { useCurrency } from "@/hooks/useCurrency";
+import { SpecificationTable } from "./SpecificationTable";
 
 const CATEGORY_META: Record<
   PartCategory,
@@ -114,7 +118,9 @@ export function ComponentCard({
 }: ComponentCardProps) {
   const [showActions, setShowActions] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { format: formatPrice } = useCurrency();
 
   const meta = CATEGORY_META[category];
   const Icon = meta.icon;
@@ -211,7 +217,7 @@ export function ComponentCard({
           {price != null && (
             <div className="shrink-0 text-right">
               <span className="font-semibold text-foreground">
-                ${price.toLocaleString()}
+                {formatPrice(price)}
               </span>
             </div>
           )}
@@ -249,10 +255,13 @@ export function ComponentCard({
                     <button
                       type="button"
                       className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                      onClick={() => setShowMenu(false)}
+                      onClick={() => {
+                        setShowMenu(false);
+                        setShowDetails(true);
+                      }}
                     >
                       <Info className="h-4 w-4" />
-                      Details
+                      View specs
                     </button>
                     <button
                       type="button"
@@ -323,6 +332,22 @@ export function ComponentCard({
           </div>
         )}
 
+        {part && (
+          <button
+            type="button"
+            onClick={() => setShowDetails(!showDetails)}
+            className="mt-3 flex w-full items-center justify-center gap-2 text-sm text-foreground transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+          >
+            <Info className="h-4 w-4" />
+            <span>{showDetails ? "Hide" : "View"} Details</span>
+            {showDetails ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </button>
+        )}
+
         {onManualEntry && (
           <button
             type="button"
@@ -334,6 +359,42 @@ export function ComponentCard({
           </button>
         )}
       </div>
+
+      {part && (
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-200 ease-out",
+            showDetails ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          )}
+        >
+          <div className="overflow-hidden">
+            <div className="border-t border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-700 dark:bg-zinc-900/30">
+              <h4 className="mb-3 text-sm font-semibold text-foreground">
+                Specifications
+              </h4>
+              <SpecificationTable
+                specs={(part as { specs?: Record<string, unknown> }).specs ?? {}}
+                category={category}
+              />
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-700">
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {(part as { manufacturer?: string }).manufacturer && (
+                    <>Manufacturer: {(part as { manufacturer: string }).manufacturer}</>
+                  )}
+                </span>
+                <a
+                  href={`https://www.google.com/search?q=${encodeURIComponent((part as { name: string }).name + " review")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-foreground underline-offset-2 hover:underline"
+                >
+                  Search for reviews →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

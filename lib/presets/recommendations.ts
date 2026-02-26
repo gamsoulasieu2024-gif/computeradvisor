@@ -86,6 +86,34 @@ export function filterByPreset(
   }
 }
 
+/** RAM recommendation hints by preset (for UI/sorting) */
+export function getRecommendedRAM(
+  preset: BuildPreset,
+  motherboard: { specs?: { memory_type?: string } } | null
+): { capacity: number; ecc: boolean; speed: number } {
+  const base = { capacity: 16, ecc: false, speed: 3200 };
+  const isDdr5 = motherboard?.specs?.memory_type === "DDR5";
+
+  if (preset === "creator") {
+    return {
+      capacity: 32,
+      ecc: true,
+      speed: isDdr5 ? 4800 : 3200,
+    };
+  }
+  if (preset.startsWith("gaming")) {
+    return {
+      capacity: preset === "gaming-4k" ? 32 : 16,
+      ecc: false,
+      speed: isDdr5 ? 6000 : 3600,
+    };
+  }
+  if (preset === "budget" || preset === "quiet" || preset === "sff") {
+    return { ...base, capacity: 16, ecc: false };
+  }
+  return base;
+}
+
 /** Score a part's match to preset (higher = better) */
 export function scorePartForPreset(
   preset: BuildPreset,
@@ -112,10 +140,13 @@ export function scorePartForPreset(
     const tier = (s.tier as number) ?? 0;
     if (specs.gpuTierMin != null && tier >= specs.gpuTierMin) score += 10;
   }
-  if (category === "ram" && specs.ramGbMin != null) {
-    const cap = (s.capacity_gb as number) ?? 0;
-    const mods = (s.modules as number) ?? 1;
-    if (cap * mods >= specs.ramGbMin) score += 15;
+  if (category === "ram") {
+    if (specs.ramGbMin != null) {
+      const cap = (s.capacity_gb as number) ?? 0;
+      const mods = (s.modules as number) ?? 1;
+      if (cap * mods >= specs.ramGbMin) score += 15;
+    }
+    if (specs.eccPreferred && s.is_ecc === true) score += 20;
   }
   return score;
 }

@@ -5,6 +5,7 @@ import { useBuild } from "@/hooks/use-build";
 import { PresetCard } from "@/components/builder/PresetCard";
 import { PRESET_DEFINITIONS } from "@/lib/presets/definitions";
 import { ComponentCard } from "@/components/builder/ComponentCard";
+import { StorageManager } from "@/components/builder/StorageManager";
 import { LiveStatus } from "@/components/builder/LiveStatus";
 import { PartSearch } from "@/components/builder/PartSearch";
 import { ManualEntry } from "@/components/builder/ManualEntry";
@@ -258,10 +259,16 @@ export default function BuildPageClient() {
 
           <div className="space-y-3">
             {CARD_ORDER.map((category, index) => {
-              const part =
-                category === "storage"
-                  ? selectedParts.storage?.[0]
-                  : selectedParts[category];
+              if (category === "storage") {
+                return (
+                  <StorageManager
+                    key="storage"
+                    issues={allIssues}
+                    onAddDrive={() => setSearchCategory("storage")}
+                  />
+                );
+              }
+              const part = selectedParts[category];
               return (
                 <ComponentCard
                   key={category}
@@ -269,18 +276,13 @@ export default function BuildPageClient() {
                   part={part as never}
                   issues={allIssues}
                   onAdd={() => setSearchCategory(category)}
-                  onRemove={() => {
-                    if (category === "storage")
-                      removePart("storage", (selectedParts.storage?.length ?? 0) > 1 ? 0 : undefined);
-                    else removePart(category);
-                  }}
+                  onRemove={() => removePart(category)}
                   onFixIssue={() => setSearchCategory(category)}
                   onManualEntry={
                     category === "case" || category === "cpu"
                       ? () => setManualCategory(category)
                       : undefined
                   }
-                  storageCount={category === "storage" ? (selectedParts.storage?.length ?? 0) : undefined}
                   dataTour={index === 0 ? "component-card" : undefined}
                 />
               );
@@ -480,7 +482,7 @@ export default function BuildPageClient() {
           onClose={() => setSearchCategory(null)}
           onSelect={(p: unknown) => {
             addPart(searchCategory, p as never);
-            setSearchCategory(null);
+            if (searchCategory !== "storage") setSearchCategory(null);
           }}
           onManualEntry={
             searchCategory === "case" || searchCategory === "cpu"

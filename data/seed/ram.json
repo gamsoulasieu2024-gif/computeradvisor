@@ -166,5 +166,37 @@
       "latency": "CL16",
       "voltage_v": 1.35
     }
+  },
+  {
+    "id": "ram-ecc-001",
+    "name": "Kingston Server Premier 32GB DDR4 ECC (2x16GB)",
+    "manufacturer": "Kingston",
+    "price_usd": 189,
+    "specs": {
+      "memory_type": "DDR4",
+      "capacity_gb": 32,
+      "speed_mhz": 3200,
+      "modules": 2,
+      "latency": "CL22",
+      "voltage_v": 1.2,
+      "is_ecc": true,
+      "is_registered": false
+    }
+  },
+  {
+    "id": "ram-ecc-002",
+    "name": "Samsung 64GB DDR5 ECC UDIMM (2x32GB)",
+    "manufacturer": "Samsung",
+    "price_usd": 399,
+    "specs": {
+      "memory_type": "DDR5",
+      "capacity_gb": 64,
+      "speed_mhz": 4800,
+      "modules": 2,
+      "latency": "CL40",
+      "voltage_v": 1.1,
+      "is_ecc": true,
+      "is_registered": false
+    }
   }
 ]

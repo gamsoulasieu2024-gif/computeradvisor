@@ -35,6 +35,9 @@ import {
 } from "./rules";
 import type { RuleContext } from "./rules";
 import { checkFanHeaders, checkRgbHeaders, checkUsbCHeader } from "./header-rules";
+import { checkECCSupport } from "./ecc-check";
+import { check35DriveClearance } from "./drive-clearance";
+import { checkCoolingAdequacy } from "./cooling-adequacy";
 
 export interface CheckOptions {
   /** Optional PSU PCIe connector count (overrides wattage inference) */
@@ -211,6 +214,25 @@ export function checkCompatibility(
     if (r) hardFails.push(r);
   }
 
+  if (build.case && storage.length > 0) {
+    checksRun++;
+    const r = check35DriveClearance(build);
+    if (r) {
+      if (r.severity === "critical") hardFails.push(r);
+      else notes.push(r);
+    }
+  }
+
+  if (build.cpu && build.cooler) {
+    checksRun++;
+    const coolingIssue = checkCoolingAdequacy(build.cpu, build.cooler);
+    if (coolingIssue) {
+      if (coolingIssue.severity === "critical") hardFails.push(coolingIssue);
+      else if (coolingIssue.severity === "warning") warnings.push(coolingIssue);
+      else notes.push(coolingIssue);
+    }
+  }
+
   // ----- Warnings -----
 
   if (build.psu && load > 0) {
@@ -235,6 +257,16 @@ export function checkCompatibility(
     checksRun++;
     const r = ramSpeedRisk(build.ram, build.cpu);
     if (r) warnings.push(r);
+  }
+
+  if (build.ram && build.motherboard && build.cpu) {
+    checksRun++;
+    const r = checkECCSupport(build.ram, build.motherboard, build.cpu);
+    if (r) {
+      if (r.severity === "critical") hardFails.push(r);
+      else if (r.severity === "warning") warnings.push(r);
+      else notes.push(r);
+    }
   }
 
   if (build.cooler && build.case) {
@@ -279,7 +311,7 @@ export function checkCompatibility(
   }
   if (build.ram && build.cpu) {
     checksRun++;
-    const r = checkRamSpeedValue(build.ram, build.cpu, preset);
+    const r = checkRamSpeedValue(build.ram, build.cpu, preset, build.motherboard);
     if (r) (r.severity === "warning" ? warnings : notes).push(r);
   }
   if (build.motherboard && build.cpu) {

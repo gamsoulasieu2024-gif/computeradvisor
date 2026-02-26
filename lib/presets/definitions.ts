@@ -28,6 +28,8 @@ export interface RecommendedSpecs {
   maxGpuLengthMm?: number;
   /** Quiet: max TDP target */
   maxTdpTarget?: number;
+  /** Workstation/creator: prefer ECC RAM */
+  eccPreferred?: boolean;
 }
 
 export interface PresetDefinition {
@@ -109,6 +111,7 @@ export const PRESET_DEFINITIONS: PresetDefinition[] = [
       storageGbMin: 1000,
       storageInterface: "NVMe",
       cpuCoresMin: 8,
+      eccPreferred: true,
     },
   },
   {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X, Zap, DollarSign, TrendingUp, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { useCurrency } from "@/hooks/useCurrency";
 import type { AutoFixPlan, FixStrategy } from "@/lib/recommendations/auto-fix";
 
 interface AutoFixModalProps {
@@ -25,6 +26,7 @@ export function AutoFixModal({
 }: AutoFixModalProps) {
   const [selectedStrategy, setSelectedStrategy] =
     useState<FixStrategy>("cheapest");
+  const { format: formatPrice } = useCurrency();
 
   if (!isOpen) return null;
 
@@ -94,8 +96,8 @@ export function AutoFixModal({
                           : "text-green-600 dark:text-green-400"
                       }`}
                     >
-                      {cheapestPlan.totalPriceImpact > 0 ? "+" : ""}$
-                      {Math.abs(cheapestPlan.totalPriceImpact)}
+                      {cheapestPlan.totalPriceImpact > 0 ? "+" : ""}
+                      {formatPrice(Math.abs(cheapestPlan.totalPriceImpact))}
                     </span>
                   </div>
                   <div className="mt-1 text-sm">
@@ -144,8 +146,8 @@ export function AutoFixModal({
                           : "text-green-600 dark:text-green-400"
                       }`}
                     >
-                      {performancePlan.totalPriceImpact > 0 ? "+" : ""}$
-                      {Math.abs(performancePlan.totalPriceImpact)}
+                      {performancePlan.totalPriceImpact > 0 ? "+" : ""}
+                      {formatPrice(Math.abs(performancePlan.totalPriceImpact))}
                     </span>
                   </div>
                   <div className="mt-1 text-sm">
@@ -182,8 +184,8 @@ export function AutoFixModal({
                         : "text-green-600 dark:text-green-400"
                     }`}
                   >
-                    {selectedPlan.totalPriceImpact > 0 ? "+" : ""}$
-                    {Math.abs(selectedPlan.totalPriceImpact)}
+                    {selectedPlan.totalPriceImpact > 0 ? "+" : ""}
+                    {formatPrice(Math.abs(selectedPlan.totalPriceImpact))}
                   </span>
                 </div>
               </div>
@@ -221,9 +223,10 @@ export function AutoFixModal({
                             {(fix.oldPart as { price_usd?: number }).price_usd !=
                               null && (
                               <div className="text-zinc-500">
-                                $
-                                {(fix.oldPart as { price_usd?: number })
-                                  .price_usd ?? 0}
+                                {formatPrice(
+                                  (fix.oldPart as { price_usd?: number })
+                                    .price_usd ?? 0
+                                )}
                               </div>
                             )}
                           </div>
@@ -235,9 +238,10 @@ export function AutoFixModal({
                             {(fix.newPart as { price_usd?: number }).price_usd !=
                               null && (
                               <div className="text-foreground">
-                                $
-                                {(fix.newPart as { price_usd?: number })
-                                  .price_usd ?? 0}
+                                {formatPrice(
+                                  (fix.newPart as { price_usd?: number })
+                                    .price_usd ?? 0
+                                )}
                               </div>
                             )}
                           </div>
@@ -259,8 +263,8 @@ export function AutoFixModal({
                                   : "text-green-600 dark:text-green-400"
                               }`}
                             >
-                              {fix.priceImpact > 0 ? "+" : ""}$
-                              {Math.abs(fix.priceImpact)}
+                              {fix.priceImpact > 0 ? "+" : ""}
+                              {formatPrice(Math.abs(fix.priceImpact))}
                             </span>
                           </div>
                         )}

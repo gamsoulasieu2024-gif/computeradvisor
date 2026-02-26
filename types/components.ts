@@ -30,6 +30,8 @@ export interface CPU {
     pcie_version: PcieVersion;
     has_igpu: boolean;
     tier: number; // 1-10, higher = better performance
+    /** ECC memory support (Xeon, EPYC, Ryzen Pro, some consumer) */
+    supports_ecc?: boolean;
   };
 }
 
@@ -97,6 +99,16 @@ export interface Motherboard {
     pcie_version: PcieVersion;
     has_bios_flashback: boolean;
     headers?: MotherboardHeaders;
+    /** Max official JEDEC memory speed in MT/s (stock) */
+    max_memory_speed_stock_mhz?: number;
+    /** Max memory speed with XMP/EXPO enabled in MT/s */
+    max_memory_speed_oc_mhz?: number;
+    /** Whether the board supports Intel XMP profiles */
+    supports_xmp?: boolean;
+    /** Whether the board supports AMD EXPO profiles */
+    supports_expo?: boolean;
+    /** ECC memory support (workstation/server boards) */
+    supports_ecc?: boolean;
   };
 }
 
@@ -114,6 +126,10 @@ export interface RAM {
     modules: number; // number of sticks
     latency: string; // e.g. "CL36"
     voltage_v?: number;
+    /** Error-Correcting Code (workstation/server) */
+    is_ecc?: boolean;
+    /** Registered (RDIMM) vs unbuffered (UDIMM); servers often use RDIMM */
+    is_registered?: boolean;
   };
 }
 
@@ -135,6 +151,8 @@ export interface Storage {
     read_speed_mb_s?: number;
     write_speed_mb_s?: number;
     tbw?: number; // Total Bytes Written endurance
+    /** Physical size for drive-bay clearance (derived from form_factor if omitted) */
+    physical_size?: "2.5" | "3.5" | "m.2";
   };
 }
 
@@ -223,6 +241,12 @@ export interface Case {
     max_gpu_thickness_slots?: number;
     drive_bays_2_5: number;
     drive_bays_3_5: number;
+    /** When a 3.5" drive is installed, GPU max length is reduced by this many mm (ITX/small cases) */
+    drive_35_reduces_gpu_length?: number;
+    /** When a 3.5" drive is installed, PSU max length is reduced by this many mm (ITX/small cases) */
+    drive_35_reduces_psu_length?: number;
+    /** Which clearances are affected by 3.5" drive bay usage */
+    drive_35_conflicts_with?: "psu" | "gpu" | "both";
     expansion_slots: number;
     /** Supported radiator sizes in mm, e.g. [240, 360] */
     supports_radiator_mm?: number[];

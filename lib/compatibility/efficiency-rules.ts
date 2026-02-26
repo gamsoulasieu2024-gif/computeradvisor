@@ -156,12 +156,13 @@ export function checkPsuOverkill(
 }
 
 /**
- * Check for expensive high-speed RAM with minimal benefit
+ * Check RAM speed value vs CPU and motherboard (XMP/EXPO capability)
  */
 export function checkRamSpeedValue(
   ram: RAM | undefined,
   cpu: CPU | undefined,
-  preset: string
+  preset: string,
+  motherboard?: Motherboard
 ): Issue | null {
   if (!ram || !cpu) return null;
 
@@ -171,29 +172,128 @@ export function checkRamSpeedValue(
 
   if (!ramSpeed || !cpuMaxSpeed) return null;
 
-  // Expensive fast RAM that CPU can't fully utilize
-  if (ramSpeed > cpuMaxSpeed + 400) {
-    return {
-      id: "ram-speed-waste",
-      category: "efficiency",
-      severity: "warning",
-      title: "RAM Speed Exceeds CPU Support",
-      description: `Your RAM is ${ramSpeed}MT/s but your CPU officially supports up to ${cpuMaxSpeed}MT/s. You may not achieve rated speeds without overclocking.`,
-      affectedParts: [ram.id, cpu.id],
-      suggestedFixes: [
-        `Choose ${cpuMaxSpeed}MT/s RAM for guaranteed compatibility`,
-        "If overclocking, current RAM is fine",
-        "Faster RAM requires XMP/EXPO and good motherboard",
-      ],
-      evidence: {
-        values: {
-          "RAM speed": `${ramSpeed}MT/s`,
-          "CPU max official": `${cpuMaxSpeed}MT/s`,
-          "Overspeed": `${ramSpeed - cpuMaxSpeed}MT/s`,
-          "Needs": "XMP/EXPO overclocking profile",
+  // If no motherboard info, fall back to simple CPU-based check
+  if (!motherboard) {
+    if (ramSpeed > cpuMaxSpeed + 400) {
+      return {
+        id: "ram-speed-waste",
+        category: "efficiency",
+        severity: "warning",
+        title: "RAM Speed Exceeds CPU Support",
+        description: `Your RAM is ${ramSpeed}MT/s but your CPU officially supports up to ${cpuMaxSpeed}MT/s. You may not achieve rated speeds without overclocking.`,
+        affectedParts: [ram.id, cpu.id],
+        suggestedFixes: [
+          `Choose ${cpuMaxSpeed}MT/s RAM for guaranteed compatibility`,
+          "If overclocking, current RAM is fine",
+          "Faster RAM requires XMP/EXPO and good motherboard",
+        ],
+        evidence: {
+          values: {
+            "RAM speed": `${ramSpeed}MT/s`,
+            "CPU max official": `${cpuMaxSpeed}MT/s`,
+            "Overspeed": `${ramSpeed - cpuMaxSpeed}MT/s`,
+            "Needs": "XMP/EXPO overclocking profile",
+          },
         },
-      },
-    };
+      };
+    }
+  } else {
+    const moboMaxOC = motherboard.specs?.max_memory_speed_oc_mhz;
+    const moboMaxStock = motherboard.specs?.max_memory_speed_stock_mhz;
+    const supportsXMP = motherboard.specs?.supports_xmp ?? false;
+    const supportsEXPO = motherboard.specs?.supports_expo ?? false;
+
+    const exceedsCPU = ramSpeed > cpuMaxSpeed;
+    const exceedsMoboOC = moboMaxOC ? ramSpeed > moboMaxOC : false;
+
+    // CASE 1: RAM within CPU spec - all good
+    if (!exceedsCPU) {
+      // continue to gaming value check below
+    } else {
+      // CASE 2: RAM exceeds CPU spec BUT within motherboard XMP/EXPO range
+      if (!exceedsMoboOC && (supportsXMP || supportsEXPO) && moboMaxOC) {
+        const profileName = supportsXMP ? "XMP" : "EXPO";
+        return {
+          id: "ram-speed-xmp",
+          category: "efficiency",
+          severity: "info",
+          title: "RAM Requires XMP/EXPO",
+          description: `Your RAM (${ramSpeed}MT/s) runs faster than the CPU's official spec (${cpuMaxSpeed}MT/s), but the motherboard supports ${profileName} profiles up to ${moboMaxOC}MT/s. Enable ${profileName} in BIOS to reach the rated speed.`,
+          affectedParts: [ram.id, cpu.id, motherboard.id],
+          suggestedFixes: [
+            `Enable ${profileName} in BIOS after installation`,
+            "This is standard practice for faster RAM",
+            "Rated speed will be achieved with the memory profile enabled",
+          ],
+          evidence: {
+            values: {
+              "RAM speed": `${ramSpeed}MT/s`,
+              "CPU max (JEDEC)": `${cpuMaxSpeed}MT/s`,
+              "Motherboard max (OC)": `${moboMaxOC}MT/s`,
+              "XMP/EXPO support": supportsXMP
+                ? "XMP"
+                : supportsEXPO
+                  ? "EXPO"
+                  : "None",
+            },
+            comparison: `${ramSpeed}MT/s within motherboard's ${moboMaxOC}MT/s OC capability`,
+            calculation: `${profileName} profile will overclock RAM from ${cpuMaxSpeed}MT/s to ${ramSpeed}MT/s`,
+          },
+        };
+      }
+
+      // CASE 3: RAM exceeds BOTH CPU and motherboard capability
+      if (exceedsMoboOC && moboMaxOC) {
+        return {
+          id: "ram-speed-waste",
+          category: "efficiency",
+          severity: "warning",
+          title: "RAM Speed Underutilized",
+          description: `Your RAM (${ramSpeed}MT/s) exceeds both the CPU spec (${cpuMaxSpeed}MT/s) and the motherboard's maximum XMP/EXPO capability (${moboMaxOC}MT/s). You're paying for speed you can't use.`,
+          affectedParts: [ram.id, cpu.id, motherboard.id],
+          suggestedFixes: [
+            `Choose ${moboMaxOC}MT/s RAM to match motherboard capability`,
+            `Upgrade motherboard to one supporting ${ramSpeed}MT/s+`,
+            "Current RAM will run at the motherboard's max supported speed",
+          ],
+          evidence: {
+            values: {
+              "RAM rated speed": `${ramSpeed}MT/s`,
+              "CPU max": `${cpuMaxSpeed}MT/s`,
+              "Motherboard max (OC)": `${moboMaxOC}MT/s`,
+              "Wasted speed": `${ramSpeed - moboMaxOC}MT/s`,
+            },
+            comparison: `${ramSpeed}MT/s > ${moboMaxOC}MT/s (motherboard limit)`,
+            calculation: `RAM will run at ${moboMaxOC}MT/s max, wasting ${ramSpeed - moboMaxOC}MT/s of capability`,
+          },
+        };
+      }
+
+      // CASE 4: RAM exceeds CPU spec but no XMP/EXPO support
+      if (exceedsCPU && !supportsXMP && !supportsEXPO) {
+        return {
+          id: "ram-speed-no-xmp",
+          category: "efficiency",
+          severity: "warning",
+          title: "RAM Speed Not Achievable",
+          description: `Your RAM (${ramSpeed}MT/s) exceeds the CPU spec (${cpuMaxSpeed}MT/s) but the motherboard doesn't advertise XMP/EXPO overclocking support. RAM will typically run at ${cpuMaxSpeed}MT/s or the board's default JEDEC speed.`,
+          affectedParts: [ram.id, cpu.id, motherboard.id],
+          suggestedFixes: [
+            "Choose a motherboard with XMP/EXPO support if you want to run RAM at its rated speed",
+            `Choose ${cpuMaxSpeed}MT/s RAM to match the CPU's official spec`,
+            "Upgrade to a platform with better memory overclocking support",
+          ],
+          evidence: {
+            values: {
+              "RAM rated speed": `${ramSpeed}MT/s`,
+              "CPU max": `${cpuMaxSpeed}MT/s`,
+              "Motherboard XMP/EXPO": "Not supported",
+              "Likely speed": `${moboMaxStock ?? cpuMaxSpeed}MT/s`,
+            },
+          },
+        };
+      }
+    }
   }
 
   // Very fast RAM for gaming with minimal benefit

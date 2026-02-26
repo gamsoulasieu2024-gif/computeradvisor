@@ -7,6 +7,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 1000,
       "read_speed_mb_s": 7450,
       "write_speed_mb_s": 6900,
@@ -21,6 +22,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 2000,
       "read_speed_mb_s": 7300,
       "write_speed_mb_s": 6300,
@@ -35,6 +37,7 @@
     "specs": {
       "interface": "SATA",
       "form_factor": "2.5\" SATA",
+      "physical_size": "2.5",
       "capacity_gb": 1000,
       "read_speed_mb_s": 560,
       "write_speed_mb_s": 510,
@@ -49,6 +52,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 500,
       "read_speed_mb_s": 7000,
       "write_speed_mb_s": 5000,
@@ -63,6 +67,7 @@
     "specs": {
       "interface": "SATA",
       "form_factor": "3.5\" SATA",
+      "physical_size": "3.5",
       "capacity_gb": 2000,
       "read_speed_mb_s": 210,
       "write_speed_mb_s": 210
@@ -76,6 +81,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 1000,
       "read_speed_mb_s": 3500,
       "write_speed_mb_s": 2100,
@@ -90,6 +96,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 2000,
       "read_speed_mb_s": 6600,
       "write_speed_mb_s": 5000,
@@ -104,6 +111,7 @@
     "specs": {
       "interface": "SATA",
       "form_factor": "2.5\" SATA",
+      "physical_size": "2.5",
       "capacity_gb": 1000,
       "read_speed_mb_s": 560,
       "write_speed_mb_s": 530,
@@ -118,6 +126,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 1000,
       "read_speed_mb_s": 4150,
       "write_speed_mb_s": 4150,
@@ -132,6 +141,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 2000,
       "read_speed_mb_s": 7450,
       "write_speed_mb_s": 6900,
@@ -146,6 +156,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 1000,
       "read_speed_mb_s": 7300,
       "write_speed_mb_s": 6000,
@@ -160,6 +171,7 @@
     "specs": {
       "interface": "SATA",
       "form_factor": "2.5\" SATA",
+      "physical_size": "2.5",
       "capacity_gb": 2000,
       "read_speed_mb_s": 560,
       "write_speed_mb_s": 510,
@@ -174,6 +186,7 @@
     "specs": {
       "interface": "NVMe",
       "form_factor": "M.2 2280",
+      "physical_size": "m.2",
       "capacity_gb": 500,
       "read_speed_mb_s": 3500,
       "write_speed_mb_s": 3000,

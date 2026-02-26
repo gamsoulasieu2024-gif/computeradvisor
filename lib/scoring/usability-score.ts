@@ -4,6 +4,7 @@
 
 import type { BuildInput } from "@/lib/compatibility/types";
 import { estimateLoad, getHeadroom } from "@/lib/compatibility/power";
+import { assessCooling } from "@/lib/compatibility/cooling-adequacy";
 import type { Score, ScoreBreakdownItem } from "./types";
 
 /**
@@ -107,6 +108,35 @@ export function calculateUsabilityScore(build: BuildInput): Score {
       impact: -10,
       explanation:
         "High TDP build in compact case. Ensure adequate cooling and airflow.",
+    });
+  }
+
+  // Cooling adequacy (CPU cooler vs CPU TDP)
+  const coolingAssessment = assessCooling(build.cpu, build.cooler);
+  if (coolingAssessment) {
+    let coolingImpact = 0;
+    switch (coolingAssessment.rating) {
+      case "excellent":
+        coolingImpact = 10;
+        break;
+      case "good":
+        coolingImpact = 5;
+        break;
+      case "adequate":
+        coolingImpact = 0;
+        break;
+      case "marginal":
+        coolingImpact = -10;
+        break;
+      case "insufficient":
+        coolingImpact = -20;
+        break;
+    }
+    score += coolingImpact;
+    breakdown.push({
+      factor: "Cooling Adequacy",
+      impact: coolingImpact,
+      explanation: `Cooler is ${coolingAssessment.rating} for CPU TDP (${coolingAssessment.headroom.toFixed(0)}% headroom)`,
     });
   }
 
