@@ -33,6 +33,18 @@ export function LayoutChrome({ children }: { children: React.ReactNode }) {
               >
                 Build
               </Link>
+              <Link
+                href="/templates"
+                className="text-sm text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+              >
+                Templates
+              </Link>
+              <Link
+                href="/builds"
+                className="text-sm text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+              >
+                My Builds
+              </Link>
               <CurrencySelector />
               <ThemeToggle />
             </nav>

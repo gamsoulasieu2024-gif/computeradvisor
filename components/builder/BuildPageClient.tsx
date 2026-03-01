@@ -7,6 +7,7 @@ import { PRESET_DEFINITIONS } from "@/lib/presets/definitions";
 import { ComponentCard } from "@/components/builder/ComponentCard";
 import { StorageManager } from "@/components/builder/StorageManager";
 import { LiveStatus } from "@/components/builder/LiveStatus";
+import { PowerAnalytics } from "@/components/builder/PowerAnalytics";
 import { PartSearch } from "@/components/builder/PartSearch";
 import { ManualEntry } from "@/components/builder/ManualEntry";
 import { SaveBuildModal } from "@/components/modals/SaveBuildModal";
@@ -315,6 +316,7 @@ export default function BuildPageClient() {
             </Button>
           </div>
           <LiveStatus />
+          <PowerAnalytics />
           <div className="relative">
             <Button
               variant="outline"

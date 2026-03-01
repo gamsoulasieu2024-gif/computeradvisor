@@ -3,6 +3,7 @@
 import { useBuildStore } from "@/lib/store/build-store";
 import { useMemo, useCallback } from "react";
 import type { PartCategory, PartByCategory, PCComponent } from "@/lib/store/types";
+import type { TemplateBuildPayload } from "@/types/template";
 
 const CATEGORIES: PartCategory[] = [
   "cpu",
@@ -65,6 +66,20 @@ export function useBuild() {
     [addPart]
   );
 
+  /** Load a template build into the builder (clears current and imports) */
+  const loadBuildFromTemplate = useCallback(
+    (build: TemplateBuildPayload) => {
+      const payload = {
+        selectedParts: build.selectedParts,
+        preset: build.preset,
+        targetId: build.targetId,
+        manualOverrides: build.manualOverrides ?? {},
+      };
+      importBuild(JSON.stringify(payload));
+    },
+    [importBuild]
+  );
+
   return {
     selectedParts,
     buildId,
@@ -81,6 +96,7 @@ export function useBuild() {
     updateManualOverride,
     clearBuild,
     loadBuild,
+    loadBuildFromTemplate,
     exportBuild,
     importBuild,
   };

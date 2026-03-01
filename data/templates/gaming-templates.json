@@ -1,0 +1,513 @@
+[
+  {
+    "metadata": {
+      "id": "gaming-budget-1080p",
+      "name": "Budget 1080p Gaming Beast",
+      "description": "Excellent 1080p gaming performance without breaking the bank. Runs all modern games at high settings with 60+ FPS.",
+      "category": "gaming",
+      "budgetTier": "under-800",
+      "targetResolution": "1080p",
+      "targetRefreshRate": 60,
+      "createdAt": "2026-01-15",
+      "updatedAt": "2026-02-20",
+      "author": "PC Build Advisor Team",
+      "version": "Q1 2026",
+      "tags": ["1080p", "budget", "esports", "aaa-gaming"],
+      "difficulty": "beginner",
+      "pros": [
+        "Excellent value for money",
+        "Handles all 1080p games smoothly",
+        "Great esports performance (144+ FPS)",
+        "Easy to build and maintain",
+        "Room for future upgrades"
+      ],
+      "cons": [
+        "Limited to 1080p resolution",
+        "May struggle with ray tracing",
+        "8GB RAM tight for heavy multitasking"
+      ],
+      "idealFor": [
+        "First-time builders",
+        "1080p 60Hz gaming",
+        "Esports titles",
+        "Students on a budget"
+      ],
+      "notIdealFor": [
+        "1440p or 4K gaming",
+        "Heavy content creation",
+        "VR gaming"
+      ],
+      "estimatedPerformance": "60-90 FPS in AAA games at High settings (1080p), 144+ FPS in esports titles",
+      "featured": true,
+      "popularity": 2847
+    },
+    "build": {
+      "selectedParts": {
+        "cpu": {
+          "id": "cpu-tpl-001",
+          "name": "AMD Ryzen 5 5600",
+          "manufacturer": "AMD",
+          "price_usd": 139,
+          "specs": {
+            "brand": "AMD",
+            "socket": "AM4",
+            "cores": 6,
+            "threads": 12,
+            "base_clock_ghz": 3.5,
+            "boost_clock_ghz": 4.4,
+            "tdp_w": 65,
+            "max_mem_speed_mhz": 3200,
+            "memory_type": "DDR4",
+            "pcie_version": "3.0",
+            "has_igpu": false,
+            "tier": 6
+          }
+        },
+        "gpu": {
+          "id": "gpu-tpl-001",
+          "name": "NVIDIA RTX 4060",
+          "manufacturer": "NVIDIA",
+          "price_usd": 299,
+          "specs": {
+            "brand": "NVIDIA",
+            "length_mm": 244,
+            "thickness_slots": 2,
+            "tdp_w": 115,
+            "power_connectors": ["1x8pin"],
+            "pcie_version": "4.0",
+            "vram_gb": 8,
+            "tier": 6
+          }
+        },
+        "motherboard": {
+          "id": "mobo-tpl-001",
+          "name": "MSI B550M PRO-VDH WIFI",
+          "manufacturer": "MSI",
+          "price_usd": 119,
+          "specs": {
+            "socket": "AM4",
+            "chipset": "B550",
+            "form_factor": "Micro-ATX",
+            "memory_type": "DDR4",
+            "ram_slots": 4,
+            "max_ram_gb": 128,
+            "m2_slots": 2,
+            "sata_ports": 4,
+            "pcie_version": "3.0",
+            "has_bios_flashback": false
+          }
+        },
+        "ram": {
+          "id": "ram-tpl-001",
+          "name": "Corsair Vengeance LPX 16GB (2x8GB) DDR4-3200",
+          "manufacturer": "Corsair",
+          "price_usd": 45,
+          "specs": {
+            "memory_type": "DDR4",
+            "capacity_gb": 16,
+            "speed_mhz": 3200,
+            "modules": 2,
+            "latency": "CL16"
+          }
+        },
+        "storage": [
+          {
+            "id": "storage-tpl-001",
+            "name": "Kingston NV2 500GB NVMe",
+            "manufacturer": "Kingston",
+            "price_usd": 39,
+            "specs": {
+              "interface": "NVMe",
+              "form_factor": "M.2 2280",
+              "capacity_gb": 500
+            }
+          }
+        ],
+        "psu": {
+          "id": "psu-tpl-001",
+          "name": "Corsair CX550M 550W 80+ Bronze",
+          "manufacturer": "Corsair",
+          "price_usd": 69,
+          "specs": {
+            "wattage_w": 550,
+            "efficiency": "80+ Bronze",
+            "form_factor": "ATX",
+            "modular": "Semi-modular",
+            "pcie_5_ready": false
+          }
+        },
+        "cooler": {
+          "id": "cooler-tpl-001",
+          "name": "Deepcool AK400",
+          "manufacturer": "Deepcool",
+          "price_usd": 35,
+          "specs": {
+            "type": "Air",
+            "tdp_rating_w": 120,
+            "height_mm": 155,
+            "sockets": ["AM4", "AM5", "LGA1700", "LGA1851"]
+          }
+        },
+        "case": {
+          "id": "case-tpl-001",
+          "name": "Fractal Design Focus G",
+          "manufacturer": "Fractal Design",
+          "price_usd": 65,
+          "specs": {
+            "form_factor": "ATX",
+            "max_gpu_length_mm": 315,
+            "max_cooler_height_mm": 165,
+            "drive_bays_2_5": 2,
+            "drive_bays_3_5": 2,
+            "expansion_slots": 7,
+            "max_psu_form_factor": "ATX"
+          }
+        }
+      },
+      "preset": "budget",
+      "buildId": null,
+      "manualOverrides": {}
+    }
+  },
+  {
+    "metadata": {
+      "id": "gaming-1440p-high-refresh",
+      "name": "1440p 165Hz Gaming Powerhouse",
+      "description": "High-end gaming build targeting 1440p at 165Hz. Crushes AAA games at ultra settings with excellent competitive performance.",
+      "category": "gaming",
+      "budgetTier": "1200-1800",
+      "targetResolution": "1440p",
+      "targetRefreshRate": 165,
+      "createdAt": "2026-01-20",
+      "updatedAt": "2026-02-25",
+      "author": "PC Build Advisor Team",
+      "version": "Q1 2026",
+      "tags": ["1440p", "high-refresh", "high-end", "competitive"],
+      "difficulty": "intermediate",
+      "pros": [
+        "Excellent 1440p high refresh gaming",
+        "Ray tracing capable",
+        "Great for competitive gaming",
+        "Fast NVMe storage",
+        "Quality components throughout"
+      ],
+      "cons": [
+        "Higher price point",
+        "May be overkill for 1080p",
+        "DDR5 premium pricing"
+      ],
+      "idealFor": [
+        "Competitive gamers",
+        "1440p 144Hz+ monitors",
+        "AAA gaming at ultra",
+        "Streaming while gaming"
+      ],
+      "notIdealFor": [
+        "Budget constraints under $1200",
+        "4K 60Hz+ gaming",
+        "1080p 60Hz only"
+      ],
+      "estimatedPerformance": "100-165 FPS in AAA games at High/Ultra (1440p), 240+ FPS in esports",
+      "featured": true,
+      "popularity": 4521
+    },
+    "build": {
+      "selectedParts": {
+        "cpu": {
+          "id": "cpu-tpl-002",
+          "name": "AMD Ryzen 7 7700X",
+          "manufacturer": "AMD",
+          "price_usd": 299,
+          "specs": {
+            "brand": "AMD",
+            "socket": "AM5",
+            "cores": 8,
+            "threads": 16,
+            "base_clock_ghz": 4.5,
+            "boost_clock_ghz": 5.4,
+            "tdp_w": 105,
+            "max_mem_speed_mhz": 5200,
+            "memory_type": "DDR5",
+            "pcie_version": "5.0",
+            "has_igpu": false,
+            "tier": 8
+          }
+        },
+        "gpu": {
+          "id": "gpu-tpl-002",
+          "name": "NVIDIA RTX 4070 Ti",
+          "manufacturer": "NVIDIA",
+          "price_usd": 749,
+          "specs": {
+            "brand": "NVIDIA",
+            "length_mm": 304,
+            "thickness_slots": 2,
+            "tdp_w": 285,
+            "power_connectors": ["1x16pin"],
+            "pcie_version": "4.0",
+            "vram_gb": 12,
+            "tier": 9
+          }
+        },
+        "motherboard": {
+          "id": "mobo-tpl-002",
+          "name": "ASUS TUF GAMING B650-PLUS WIFI",
+          "manufacturer": "ASUS",
+          "price_usd": 209,
+          "specs": {
+            "socket": "AM5",
+            "chipset": "B650",
+            "form_factor": "ATX",
+            "memory_type": "DDR5",
+            "ram_slots": 4,
+            "max_ram_gb": 128,
+            "m2_slots": 2,
+            "sata_ports": 4,
+            "pcie_version": "5.0",
+            "has_bios_flashback": true
+          }
+        },
+        "ram": {
+          "id": "ram-tpl-002",
+          "name": "G.Skill Flare X5 32GB (2x16GB) DDR5-6000",
+          "manufacturer": "G.Skill",
+          "price_usd": 119,
+          "specs": {
+            "memory_type": "DDR5",
+            "capacity_gb": 32,
+            "speed_mhz": 6000,
+            "modules": 2,
+            "latency": "CL36"
+          }
+        },
+        "storage": [
+          {
+            "id": "storage-tpl-002",
+            "name": "Samsung 980 Pro 1TB NVMe",
+            "manufacturer": "Samsung",
+            "price_usd": 109,
+            "specs": {
+              "interface": "NVMe",
+              "form_factor": "M.2 2280",
+              "capacity_gb": 1000
+            }
+          }
+        ],
+        "psu": {
+          "id": "psu-tpl-002",
+          "name": "Corsair RM750e 750W 80+ Gold",
+          "manufacturer": "Corsair",
+          "price_usd": 109,
+          "specs": {
+            "wattage_w": 750,
+            "efficiency": "80+ Gold",
+            "form_factor": "ATX",
+            "modular": "Fully modular",
+            "pcie_5_ready": true
+          }
+        },
+        "cooler": {
+          "id": "cooler-tpl-002",
+          "name": "Thermalright Peerless Assassin 120 SE",
+          "manufacturer": "Thermalright",
+          "price_usd": 36,
+          "specs": {
+            "type": "Air",
+            "tdp_rating_w": 220,
+            "height_mm": 158,
+            "sockets": ["AM4", "AM5", "LGA1700", "LGA1851"]
+          }
+        },
+        "case": {
+          "id": "case-tpl-002",
+          "name": "Fractal Design Meshify 2 Compact",
+          "manufacturer": "Fractal Design",
+          "price_usd": 119,
+          "specs": {
+            "form_factor": "ATX",
+            "max_gpu_length_mm": 341,
+            "max_cooler_height_mm": 169,
+            "drive_bays_2_5": 2,
+            "drive_bays_3_5": 2,
+            "expansion_slots": 7,
+            "max_psu_form_factor": "ATX"
+          }
+        }
+      },
+      "preset": "gaming-1440p",
+      "buildId": null,
+      "manualOverrides": {}
+    }
+  },
+  {
+    "metadata": {
+      "id": "gaming-4k-ultimate",
+      "name": "Ultimate 4K Gaming Machine",
+      "description": "No-compromise 4K gaming build. Maxed out components for the best possible gaming experience at 4K resolution.",
+      "category": "enthusiast",
+      "budgetTier": "2500-plus",
+      "targetResolution": "4K",
+      "targetRefreshRate": 120,
+      "createdAt": "2026-02-01",
+      "updatedAt": "2026-02-28",
+      "author": "PC Build Advisor Team",
+      "version": "Q1 2026",
+      "tags": ["4k", "enthusiast", "ray-tracing", "flagship"],
+      "difficulty": "advanced",
+      "pros": [
+        "Best-in-class 4K gaming",
+        "Full ray tracing at 4K",
+        "Flagship components",
+        "Excellent multitasking",
+        "Future-proof for years"
+      ],
+      "cons": [
+        "Very expensive",
+        "Diminishing returns vs 1440p",
+        "High power consumption",
+        "Overkill for most users"
+      ],
+      "idealFor": [
+        "4K gaming enthusiasts",
+        "Content creators who game",
+        "VR gaming",
+        "No budget constraints"
+      ],
+      "notIdealFor": [
+        "Budget under $2500",
+        "1080p or 1440p gaming only",
+        "Casual gamers"
+      ],
+      "estimatedPerformance": "60-120 FPS in AAA games at Ultra with RT (4K), 240+ FPS in esports at 1440p",
+      "featured": true,
+      "popularity": 1893
+    },
+    "build": {
+      "selectedParts": {
+        "cpu": {
+          "id": "cpu-tpl-003",
+          "name": "Intel Core i9-14900K",
+          "manufacturer": "Intel",
+          "price_usd": 589,
+          "specs": {
+            "brand": "Intel",
+            "socket": "LGA1700",
+            "cores": 24,
+            "threads": 32,
+            "base_clock_ghz": 3.2,
+            "boost_clock_ghz": 6.0,
+            "tdp_w": 125,
+            "max_mem_speed_mhz": 5600,
+            "memory_type": "DDR5",
+            "pcie_version": "5.0",
+            "has_igpu": true,
+            "tier": 10
+          }
+        },
+        "gpu": {
+          "id": "gpu-tpl-003",
+          "name": "NVIDIA RTX 4090",
+          "manufacturer": "NVIDIA",
+          "price_usd": 1599,
+          "specs": {
+            "brand": "NVIDIA",
+            "length_mm": 336,
+            "thickness_slots": 3,
+            "tdp_w": 450,
+            "power_connectors": ["1x16pin"],
+            "pcie_version": "4.0",
+            "vram_gb": 24,
+            "tier": 10
+          }
+        },
+        "motherboard": {
+          "id": "mobo-tpl-003",
+          "name": "ASUS ROG STRIX Z790-E GAMING WIFI",
+          "manufacturer": "ASUS",
+          "price_usd": 399,
+          "specs": {
+            "socket": "LGA1700",
+            "chipset": "Z790",
+            "form_factor": "ATX",
+            "memory_type": "DDR5",
+            "ram_slots": 4,
+            "max_ram_gb": 128,
+            "m2_slots": 3,
+            "sata_ports": 6,
+            "pcie_version": "5.0",
+            "has_bios_flashback": true
+          }
+        },
+        "ram": {
+          "id": "ram-tpl-003",
+          "name": "G.Skill Trident Z5 RGB 32GB (2x16GB) DDR5-6400",
+          "manufacturer": "G.Skill",
+          "price_usd": 149,
+          "specs": {
+            "memory_type": "DDR5",
+            "capacity_gb": 32,
+            "speed_mhz": 6400,
+            "modules": 2,
+            "latency": "CL32"
+          }
+        },
+        "storage": [
+          {
+            "id": "storage-tpl-003",
+            "name": "Samsung 990 Pro 2TB NVMe Gen 4",
+            "manufacturer": "Samsung",
+            "price_usd": 189,
+            "specs": {
+              "interface": "NVMe",
+              "form_factor": "M.2 2280",
+              "capacity_gb": 2000
+            }
+          }
+        ],
+        "psu": {
+          "id": "psu-tpl-003",
+          "name": "Corsair HX1000i 1000W 80+ Platinum",
+          "manufacturer": "Corsair",
+          "price_usd": 199,
+          "specs": {
+            "wattage_w": 1000,
+            "efficiency": "80+ Platinum",
+            "form_factor": "ATX",
+            "modular": "Fully modular",
+            "pcie_5_ready": true
+          }
+        },
+        "cooler": {
+          "id": "cooler-tpl-003",
+          "name": "Arctic Liquid Freezer II 360",
+          "manufacturer": "Arctic",
+          "price_usd": 129,
+          "specs": {
+            "type": "AIO",
+            "tdp_rating_w": 250,
+            "radiator_size_mm": 360,
+            "sockets": ["AM4", "AM5", "LGA1700", "LGA1851"]
+          }
+        },
+        "case": {
+          "id": "case-tpl-003",
+          "name": "Lian Li O11 Dynamic EVO",
+          "manufacturer": "Lian Li",
+          "price_usd": 169,
+          "specs": {
+            "form_factor": "ATX",
+            "max_gpu_length_mm": 420,
+            "max_cooler_height_mm": 167,
+            "drive_bays_2_5": 4,
+            "drive_bays_3_5": 0,
+            "expansion_slots": 8,
+            "max_psu_form_factor": "ATX"
+          }
+        }
+      },
+      "preset": "gaming-4k",
+      "buildId": null,
+      "manualOverrides": {}
+    }
+  }
+]

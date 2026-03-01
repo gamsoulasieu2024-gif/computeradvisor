@@ -1,0 +1,349 @@
+[
+  {
+    "metadata": {
+      "id": "creator-1080p-video",
+      "name": "Entry 1080p Video Editing",
+      "description": "Balanced build for 1080p video editing and light creative work. Great for YouTubers and content creators starting out.",
+      "category": "creator",
+      "budgetTier": "800-1200",
+      "createdAt": "2026-01-18",
+      "updatedAt": "2026-02-22",
+      "author": "PC Build Advisor Team",
+      "version": "Q1 2026",
+      "tags": ["video-editing", "1080p", "youtube", "content-creation"],
+      "difficulty": "beginner",
+      "pros": [
+        "Good multi-core performance",
+        "32GB RAM for smooth editing",
+        "Fast NVMe for quick exports",
+        "Balanced CPU/GPU for Adobe apps",
+        "Quiet operation"
+      ],
+      "cons": [
+        "Limited to 1080p workflows",
+        "GPU not ideal for heavy 3D",
+        "May struggle with 4K timelines"
+      ],
+      "idealFor": [
+        "1080p video editing",
+        "Photo editing",
+        "YouTube content creation",
+        "Light motion graphics"
+      ],
+      "notIdealFor": [
+        "4K video editing",
+        "Heavy 3D rendering",
+        "High-end color grading"
+      ],
+      "estimatedPerformance": "Smooth 1080p editing in Premiere/DaVinci, 10-15 min 1080p export times",
+      "featured": true,
+      "popularity": 1654
+    },
+    "build": {
+      "selectedParts": {
+        "cpu": {
+          "id": "cpu-creator-001",
+          "name": "AMD Ryzen 7 5700X",
+          "manufacturer": "AMD",
+          "price_usd": 189,
+          "specs": {
+            "brand": "AMD",
+            "socket": "AM4",
+            "cores": 8,
+            "threads": 16,
+            "base_clock_ghz": 3.4,
+            "boost_clock_ghz": 4.6,
+            "tdp_w": 65,
+            "max_mem_speed_mhz": 3600,
+            "memory_type": "DDR4",
+            "pcie_version": "3.0",
+            "has_igpu": false,
+            "tier": 7
+          }
+        },
+        "gpu": {
+          "id": "gpu-creator-001",
+          "name": "NVIDIA RTX 4060 Ti",
+          "manufacturer": "NVIDIA",
+          "price_usd": 499,
+          "specs": {
+            "brand": "NVIDIA",
+            "length_mm": 267,
+            "thickness_slots": 2,
+            "tdp_w": 165,
+            "power_connectors": ["1x8pin"],
+            "pcie_version": "4.0",
+            "vram_gb": 16,
+            "tier": 7
+          }
+        },
+        "motherboard": {
+          "id": "mobo-creator-001",
+          "name": "MSI B550-A PRO",
+          "manufacturer": "MSI",
+          "price_usd": 139,
+          "specs": {
+            "socket": "AM4",
+            "chipset": "B550",
+            "form_factor": "ATX",
+            "memory_type": "DDR4",
+            "ram_slots": 4,
+            "max_ram_gb": 128,
+            "m2_slots": 2,
+            "sata_ports": 6,
+            "pcie_version": "3.0",
+            "has_bios_flashback": false
+          }
+        },
+        "ram": {
+          "id": "ram-creator-001",
+          "name": "Corsair Vengeance 32GB (2x16GB) DDR4-3600",
+          "manufacturer": "Corsair",
+          "price_usd": 79,
+          "specs": {
+            "memory_type": "DDR4",
+            "capacity_gb": 32,
+            "speed_mhz": 3600,
+            "modules": 2,
+            "latency": "CL18"
+          }
+        },
+        "storage": [
+          {
+            "id": "storage-creator-001",
+            "name": "Samsung 970 EVO Plus 1TB NVMe",
+            "manufacturer": "Samsung",
+            "price_usd": 89,
+            "specs": {
+              "interface": "NVMe",
+              "form_factor": "M.2 2280",
+              "capacity_gb": 1000
+            }
+          }
+        ],
+        "psu": {
+          "id": "psu-creator-001",
+          "name": "EVGA SuperNOVA 650 GT 650W 80+ Gold",
+          "manufacturer": "EVGA",
+          "price_usd": 89,
+          "specs": {
+            "wattage_w": 650,
+            "efficiency": "80+ Gold",
+            "form_factor": "ATX",
+            "modular": "Fully modular",
+            "pcie_5_ready": false
+          }
+        },
+        "cooler": {
+          "id": "cooler-creator-001",
+          "name": "be quiet! Dark Rock 4",
+          "manufacturer": "be quiet!",
+          "price_usd": 74,
+          "specs": {
+            "type": "Air",
+            "tdp_rating_w": 200,
+            "height_mm": 159,
+            "sockets": ["AM4", "AM5", "LGA1700", "LGA1151"]
+          }
+        },
+        "case": {
+          "id": "case-creator-001",
+          "name": "Fractal Design Define R5",
+          "manufacturer": "Fractal Design",
+          "price_usd": 109,
+          "specs": {
+            "form_factor": "ATX",
+            "max_gpu_length_mm": 310,
+            "max_cooler_height_mm": 180,
+            "drive_bays_2_5": 2,
+            "drive_bays_3_5": 3,
+            "expansion_slots": 7,
+            "max_psu_form_factor": "ATX"
+          }
+        }
+      },
+      "preset": "creator",
+      "buildId": null,
+      "manualOverrides": {}
+    }
+  },
+  {
+    "metadata": {
+      "id": "creator-4k-video-pro",
+      "name": "Professional 4K Video Editing",
+      "description": "High-end workstation for 4K video editing, color grading, and heavy creative workflows. Built for professionals.",
+      "category": "workstation",
+      "budgetTier": "1800-2500",
+      "createdAt": "2026-02-05",
+      "updatedAt": "2026-03-01",
+      "author": "PC Build Advisor Team",
+      "version": "Q1 2026",
+      "tags": ["4k", "video-editing", "professional", "color-grading"],
+      "difficulty": "intermediate",
+      "pros": [
+        "Excellent multi-core for renders",
+        "64GB RAM for 4K timelines",
+        "Fast GPU encoding",
+        "Large storage capacity",
+        "Professional-grade components"
+      ],
+      "cons": [
+        "Expensive",
+        "Overkill for 1080p work",
+        "High power consumption"
+      ],
+      "idealFor": [
+        "4K video editing",
+        "Professional colorists",
+        "Multi-cam editing",
+        "After Effects work"
+      ],
+      "notIdealFor": [
+        "1080p-only workflows",
+        "Budget under $1800",
+        "Gaming-focused builds"
+      ],
+      "estimatedPerformance": "Smooth 4K editing, 5-8 min 4K export times, real-time color grading",
+      "featured": true,
+      "popularity": 892
+    },
+    "build": {
+      "selectedParts": {
+        "cpu": {
+          "id": "cpu-creator-002",
+          "name": "AMD Ryzen 9 7950X",
+          "manufacturer": "AMD",
+          "price_usd": 599,
+          "specs": {
+            "brand": "AMD",
+            "socket": "AM5",
+            "cores": 16,
+            "threads": 32,
+            "base_clock_ghz": 4.5,
+            "boost_clock_ghz": 5.7,
+            "tdp_w": 170,
+            "max_mem_speed_mhz": 5200,
+            "memory_type": "DDR5",
+            "pcie_version": "5.0",
+            "has_igpu": false,
+            "tier": 10
+          }
+        },
+        "gpu": {
+          "id": "gpu-creator-002",
+          "name": "NVIDIA RTX 4070 Ti",
+          "manufacturer": "NVIDIA",
+          "price_usd": 749,
+          "specs": {
+            "brand": "NVIDIA",
+            "length_mm": 304,
+            "thickness_slots": 2,
+            "tdp_w": 285,
+            "power_connectors": ["1x16pin"],
+            "pcie_version": "4.0",
+            "vram_gb": 12,
+            "tier": 9
+          }
+        },
+        "motherboard": {
+          "id": "mobo-creator-002",
+          "name": "ASUS ProArt X670E-CREATOR WIFI",
+          "manufacturer": "ASUS",
+          "price_usd": 489,
+          "specs": {
+            "socket": "AM5",
+            "chipset": "X670E",
+            "form_factor": "ATX",
+            "memory_type": "DDR5",
+            "ram_slots": 4,
+            "max_ram_gb": 128,
+            "m2_slots": 4,
+            "sata_ports": 8,
+            "pcie_version": "5.0",
+            "has_bios_flashback": true
+          }
+        },
+        "ram": {
+          "id": "ram-creator-002",
+          "name": "Kingston FURY Beast 64GB (2x32GB) DDR5-5600",
+          "manufacturer": "Kingston",
+          "price_usd": 219,
+          "specs": {
+            "memory_type": "DDR5",
+            "capacity_gb": 64,
+            "speed_mhz": 5600,
+            "modules": 2,
+            "latency": "CL40"
+          }
+        },
+        "storage": [
+          {
+            "id": "storage-creator-002a",
+            "name": "Samsung 990 Pro 2TB NVMe",
+            "manufacturer": "Samsung",
+            "price_usd": 189,
+            "specs": {
+              "interface": "NVMe",
+              "form_factor": "M.2 2280",
+              "capacity_gb": 2000
+            }
+          },
+          {
+            "id": "storage-creator-002b",
+            "name": "Seagate Barracuda 4TB HDD",
+            "manufacturer": "Seagate",
+            "price_usd": 89,
+            "specs": {
+              "interface": "SATA",
+              "form_factor": "3.5\" SATA",
+              "capacity_gb": 4000
+            }
+          }
+        ],
+        "psu": {
+          "id": "psu-creator-002",
+          "name": "Seasonic Focus GX-850 850W 80+ Gold",
+          "manufacturer": "Seasonic",
+          "price_usd": 129,
+          "specs": {
+            "wattage_w": 850,
+            "efficiency": "80+ Gold",
+            "form_factor": "ATX",
+            "modular": "Fully modular",
+            "pcie_5_ready": true
+          }
+        },
+        "cooler": {
+          "id": "cooler-creator-002",
+          "name": "Noctua NH-D15",
+          "manufacturer": "Noctua",
+          "price_usd": 109,
+          "specs": {
+            "type": "Air",
+            "tdp_rating_w": 250,
+            "height_mm": 165,
+            "sockets": ["AM4", "AM5", "LGA1700", "LGA1851"]
+          }
+        },
+        "case": {
+          "id": "case-creator-002",
+          "name": "Fractal Design Define 7 XL",
+          "manufacturer": "Fractal Design",
+          "price_usd": 189,
+          "specs": {
+            "form_factor": "ATX",
+            "max_gpu_length_mm": 491,
+            "max_cooler_height_mm": 185,
+            "drive_bays_2_5": 2,
+            "drive_bays_3_5": 4,
+            "expansion_slots": 9,
+            "max_psu_form_factor": "ATX"
+          }
+        }
+      },
+      "preset": "creator",
+      "buildId": null,
+      "manualOverrides": {}
+    }
+  }
+]

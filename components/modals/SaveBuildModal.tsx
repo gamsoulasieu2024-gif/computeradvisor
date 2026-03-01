@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { X, Save, Copy } from "lucide-react";
 import { saveBuild } from "@/lib/persistence/build-saver";
+import { saveBuild as saveToDashboard } from "@/lib/storage/build-storage";
 import { useToast } from "@/components/ui/Toast";
 import { buildShareUrl } from "@/lib/persistence/url-encoder";
 import type { PersistedBuild } from "@/lib/persistence/storage";
@@ -64,6 +65,15 @@ export function SaveBuildModal({
         saveToCloud: saveToAccount,
       });
       setSavedId(id);
+      saveToDashboard(
+        {
+          parts: build.parts,
+          preset: build.preset,
+          manualOverrides: build.manualOverrides,
+          targetId: build.targetId,
+        },
+        name.trim() || "My Build"
+      );
       toast("success", "Build saved");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to save");

@@ -23,6 +23,18 @@ export interface Build {
   };
 }
 
+// ============ Build metadata (for saved builds dashboard) ============
+
+export interface BuildMetadata {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  description?: string;
+  tags?: string[];
+  isFavorite?: boolean;
+}
+
 // ============ Compatibility ============
 
 export type CompatibilityStatus = "compatible" | "warning" | "error";

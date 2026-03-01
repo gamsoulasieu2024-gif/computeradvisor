@@ -9,6 +9,7 @@ import { calculateScores } from "@/lib/scoring";
 import { getRecommendations } from "@/lib/recommendations/engine";
 import { generateAutoFixPlan } from "@/lib/recommendations/auto-fix";
 import { loadBuild } from "@/lib/persistence/build-saver";
+import { getSavedBuildById } from "@/lib/storage/build-storage";
 import { VerdictBanner, type VerdictType } from "@/components/results/VerdictBanner";
 import { MissingDataPanel } from "@/components/results/MissingDataPanel";
 import { ScoreCard } from "@/components/results/ScoreCard";
@@ -65,7 +66,22 @@ export default function ResultsPage() {
         setLoading(false);
       } else {
         try {
-          const stored = await loadBuild(id);
+          let stored = await loadBuild(id);
+          if (!stored && typeof window !== "undefined") {
+            const saved = getSavedBuildById(id);
+            if (saved) {
+              stored = {
+                id: saved.metadata.id,
+                name: saved.metadata.name,
+                createdAt: saved.metadata.createdAt,
+                updatedAt: saved.metadata.updatedAt,
+                preset: saved.preset,
+                parts: saved.parts,
+                manualOverrides: saved.manualOverrides ?? {},
+                targetId: saved.targetId,
+              };
+            }
+          }
           if (stored) {
             setBuild({
               selectedParts: stored.parts,
