@@ -10,6 +10,17 @@ import type { PartCategory } from "@/lib/store/types";
 import { useBuild } from "@/hooks/use-build";
 import { useCurrency } from "@/hooks/useCurrency";
 
+interface CompatibilityFilters {
+  requiredSocket?: string;
+  memoryType?: string;
+  maxSlots?: number;
+  maxLength?: number;
+  maxThickness?: number;
+  minTdp?: number;
+  cpuSocket?: string;
+  maxHeight?: number;
+}
+
 interface PartSearchProps<T> {
   category: PartCategory;
   parts: T[];
@@ -40,8 +51,8 @@ export function PartSearch<
   const listRef = useRef<HTMLDivElement>(null);
 
   // Derive simple compatibility requirements from the current build
-  const compatibilityFilters = useMemo(() => {
-    const filters: Record<string, unknown> = {};
+  const compatibilityFilters = useMemo((): CompatibilityFilters => {
+    const filters: CompatibilityFilters = {};
 
     if (category === "motherboard" && selectedParts.cpu) {
       filters.requiredSocket = selectedParts.cpu.specs?.socket;
@@ -300,28 +311,28 @@ export function PartSearch<
               <div>
                 <span className="font-medium">Filtering for compatibility:</span>
                 <div className="mt-1 space-y-0.5">
-                  {compatibilityFilters.requiredSocket && (
-                    <div>Socket: {String(compatibilityFilters.requiredSocket)}</div>
+                  {Boolean(compatibilityFilters.requiredSocket) && (
+                    <div>Socket: {compatibilityFilters.requiredSocket}</div>
                   )}
-                  {compatibilityFilters.memoryType && (
+                  {Boolean(compatibilityFilters.memoryType) && (
                     <div>
                       Memory:{" "}
-                      {String(compatibilityFilters.memoryType).toUpperCase()}
+                      {compatibilityFilters.memoryType!.toUpperCase()}
                     </div>
                   )}
-                  {compatibilityFilters.maxLength && (
+                  {Boolean(compatibilityFilters.maxLength) && (
                     <div>
-                      Max GPU length: {String(compatibilityFilters.maxLength)}mm
+                      Max GPU length: {compatibilityFilters.maxLength}mm
                     </div>
                   )}
-                  {compatibilityFilters.maxHeight && (
+                  {Boolean(compatibilityFilters.maxHeight) && (
                     <div>
-                      Max cooler height: {String(compatibilityFilters.maxHeight)}mm
+                      Max cooler height: {compatibilityFilters.maxHeight}mm
                     </div>
                   )}
-                  {compatibilityFilters.minTdp && (
+                  {Boolean(compatibilityFilters.minTdp) && (
                     <div>
-                      CPU TDP: {String(compatibilityFilters.minTdp)}W
+                      CPU TDP: {compatibilityFilters.minTdp}W
                     </div>
                   )}
                 </div>
