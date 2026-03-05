@@ -1,0 +1,166 @@
+[
+  {
+    "id": "mobo-001",
+    "name": "ASUS ROG STRIX Z790-E",
+    "manufacturer": "ASUS",
+    "price_usd": 449,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 4,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true,
+      "max_memory_speed_stock_mhz": 4800,
+      "max_memory_speed_oc_mhz": 7800,
+      "supports_xmp": true,
+      "supports_expo": false,
+      "headers": {
+        "fan_4pin": 6,
+        "argb_5v": 3,
+        "rgb_12v": 2,
+        "usb2_internal": 2,
+        "usb3_internal": 2,
+        "usb_c_internal": 1
+      }
+    }
+  },
+  {
+    "id": "mobo-002",
+    "name": "MSI MAG B650 TOMAHAWK",
+    "manufacturer": "MSI",
+    "price_usd": 219,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true,
+      "max_memory_speed_stock_mhz": 4800,
+      "max_memory_speed_oc_mhz": 6400,
+      "supports_xmp": false,
+      "supports_expo": true,
+      "supports_ecc": true,
+      "headers": {
+        "fan_4pin": 5,
+        "argb_5v": 2,
+        "rgb_12v": 1,
+        "usb2_internal": 2,
+        "usb3_internal": 2,
+        "usb_c_internal": 1
+      }
+    }
+  },
+  {
+    "id": "mobo-003",
+    "name": "ASUS ROG STRIX X670E-F",
+    "manufacturer": "ASUS",
+    "price_usd": 449,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "X670E",
+      "form_factor": "ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 4,
+      "sata_ports": 6,
+      "pcie_version": "5.0",
+      "has_bios_flashback": true,
+      "headers": {
+        "fan_4pin": 6,
+        "argb_5v": 3,
+        "rgb_12v": 2,
+        "usb2_internal": 2,
+        "usb3_internal": 2,
+        "usb_c_internal": 1
+      }
+    }
+  },
+  {
+    "id": "mobo-004",
+    "name": "Gigabyte B550 AORUS PRO",
+    "manufacturer": "Gigabyte",
+    "price_usd": 179,
+    "specs": {
+      "socket": "AM4",
+      "chipset": "B550",
+      "form_factor": "ATX",
+      "memory_type": "DDR4",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 6,
+      "pcie_version": "4.0",
+      "has_bios_flashback": true,
+      "headers": {
+        "fan_4pin": 5,
+        "argb_5v": 2,
+        "rgb_12v": 1,
+        "usb2_internal": 2,
+        "usb3_internal": 1,
+        "usb_c_internal": 0
+      }
+    }
+  },
+  {
+    "id": "mobo-005",
+    "name": "ASRock B650M PRO RS",
+    "manufacturer": "ASRock",
+    "price_usd": 149,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "form_factor": "Micro-ATX",
+      "memory_type": "DDR5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "5.0",
+      "has_bios_flashback": false,
+      "headers": {
+        "fan_4pin": 4,
+        "argb_5v": 1,
+        "usb2_internal": 2,
+        "usb3_internal": 1,
+        "usb_c_internal": 0
+      }
+    }
+  },
+  {
+    "id": "mobo-006",
+    "name": "ASUS ROG STRIX B550-I",
+    "manufacturer": "ASUS",
+    "price_usd": 229,
+    "specs": {
+      "socket": "AM4",
+      "chipset": "B550",
+      "form_factor": "Mini-ITX",
+      "memory_type": "DDR4",
+      "ram_slots": 2,
+      "max_ram_gb": 64,
+      "m2_slots": 2,
+      "sata_ports": 4,
+      "pcie_version": "4.0",
+      "has_bios_flashback": true,
+      "headers": {
+        "fan_4pin": 3,
+        "argb_5v": 1,
+        "usb2_internal": 1,
+        "usb3_internal": 1,
+        "usb_c_internal": 0
+      }
+    }
+  }
+]
+

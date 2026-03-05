@@ -40,6 +40,12 @@ export function LayoutChrome({ children }: { children: React.ReactNode }) {
                 Templates
               </Link>
               <Link
+                href="/wishlist"
+                className="text-sm text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+              >
+                Wishlist
+              </Link>
+              <Link
                 href="/builds"
                 className="text-sm text-zinc-500 transition-colors hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
               >

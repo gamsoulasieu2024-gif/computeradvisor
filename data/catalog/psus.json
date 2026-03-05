@@ -1,0 +1,119 @@
+[
+  {
+    "id": "psu-001",
+    "name": "Corsair RM850x",
+    "manufacturer": "Corsair",
+    "price_usd": 139,
+    "specs": {
+      "wattage_w": 850,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "atx_standard": "ATX2.x",
+      "pcie_5_ready": false,
+      "length_mm": 160,
+      "connectors": {
+        "pin_24_main": 1,
+        "pin_8_cpu": 2,
+        "pin_8_pcie": 4,
+        "sata": 8,
+        "molex": 4
+      }
+    }
+  },
+  {
+    "id": "psu-002",
+    "name": "Seasonic FOCUS GX-850",
+    "manufacturer": "Seasonic",
+    "price_usd": 129,
+    "specs": {
+      "wattage_w": 850,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "atx_standard": "ATX2.x",
+      "pcie_5_ready": false,
+      "length_mm": 140,
+      "connectors": {
+        "pin_24_main": 1,
+        "pin_8_cpu": 2,
+        "pin_8_pcie": 4,
+        "sata": 8,
+        "molex": 4
+      }
+    }
+  },
+  {
+    "id": "psu-003",
+    "name": "Corsair RM1000e",
+    "manufacturer": "Corsair",
+    "price_usd": 179,
+    "specs": {
+      "wattage_w": 1000,
+      "efficiency": "80+ Gold",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "3.0",
+      "atx_standard": "ATX3.0",
+      "pcie_5_ready": true,
+      "length_mm": 160,
+      "connectors": {
+        "pin_24_main": 1,
+        "pin_8_cpu": 2,
+        "pin_8_pcie": 4,
+        "pin_16_12vhpwr": 1,
+        "sata": 8,
+        "molex": 4
+      }
+    }
+  },
+  {
+    "id": "psu-004",
+    "name": "Seasonic PRIME TX-1000",
+    "manufacturer": "Seasonic",
+    "price_usd": 259,
+    "specs": {
+      "wattage_w": 1000,
+      "efficiency": "80+ Titanium",
+      "form_factor": "ATX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "atx_standard": "ATX2.x",
+      "pcie_5_ready": false,
+      "length_mm": 170,
+      "connectors": {
+        "pin_24_main": 1,
+        "pin_8_cpu": 2,
+        "pin_8_pcie": 6,
+        "sata": 10,
+        "molex": 5
+      }
+    }
+  },
+  {
+    "id": "psu-005",
+    "name": "Corsair SF750",
+    "manufacturer": "Corsair",
+    "price_usd": 169,
+    "specs": {
+      "wattage_w": 750,
+      "efficiency": "80+ Platinum",
+      "form_factor": "SFX",
+      "modular": "Fully modular",
+      "atx_version": "2.x",
+      "atx_standard": "ATX2.x",
+      "pcie_5_ready": false,
+      "length_mm": 100,
+      "connectors": {
+        "pin_24_main": 1,
+        "pin_8_cpu": 2,
+        "pin_8_pcie": 4,
+        "sata": 8,
+        "molex": 3
+      }
+    }
+  }
+]
+

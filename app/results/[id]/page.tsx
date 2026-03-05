@@ -26,6 +26,12 @@ import { FPSEstimateCard } from "@/components/results/FPSEstimateCard";
 import { FPSByGenreExpander } from "@/components/results/FPSByGenreExpander";
 import { ClearanceDiagram } from "@/components/results/ClearanceDiagram";
 import { CoolingAssessmentCard } from "@/components/results/CoolingAssessmentCard";
+import { BottleneckVisualizer } from "@/components/results/BottleneckVisualizer";
+import { DifficultyRatingCard } from "@/components/results/DifficultyRatingCard";
+import { NoiseEstimatorCard } from "@/components/results/NoiseEstimatorCard";
+import { AssemblyChecklist } from "@/components/assembly/AssemblyChecklist";
+import { RgbSyncChecker } from "@/components/results/RgbSyncChecker";
+import type { Build as SavedBuild } from "@/types/build";
 import { Button } from "@/components/ui/Button";
 import { Zap } from "lucide-react";
 import { getTargetById } from "@/lib/presets/targets";
@@ -214,6 +220,23 @@ export default function ResultsPage() {
     manualOverrides: {},
     createdAt: "",
     updatedAt: new Date().toISOString(),
+  };
+
+  const savedBuildForAnalysis: SavedBuild = {
+    id,
+    name: "",
+    createdAt: "",
+    updatedAt: "",
+    components: {
+      cpu: build.selectedParts.cpu ?? undefined,
+      gpu: build.selectedParts.gpu ?? undefined,
+      motherboard: build.selectedParts.motherboard ?? undefined,
+      ram: build.selectedParts.ram ?? undefined,
+      storage: build.selectedParts.storage ?? [],
+      psu: build.selectedParts.psu ?? undefined,
+      cooler: build.selectedParts.cooler ?? undefined,
+      case: build.selectedParts.case ?? undefined,
+    },
   };
 
   const catalogKey: Record<string, string> = {
@@ -415,6 +438,51 @@ export default function ResultsPage() {
               />
             </section>
           )}
+
+        {/* Bottleneck Visualizer */}
+        {build.selectedParts.cpu && build.selectedParts.gpu && (
+          <section className="mt-8">
+            <BottleneckVisualizer
+              cpu={build.selectedParts.cpu}
+              gpu={build.selectedParts.gpu}
+              preset={build.preset}
+              defaultResolution="1440p"
+            />
+          </section>
+        )}
+
+        {/* Build Difficulty */}
+        <section className="mt-8">
+          <DifficultyRatingCard
+            build={{
+              cpu: build.selectedParts.cpu,
+              gpu: build.selectedParts.gpu,
+              motherboard: build.selectedParts.motherboard,
+              ram: build.selectedParts.ram,
+              storage: build.selectedParts.storage ?? [],
+              psu: build.selectedParts.psu,
+              cooler: build.selectedParts.cooler,
+              case: build.selectedParts.case,
+            }}
+          />
+        </section>
+
+        {/* Noise Estimate */}
+        <section className="mt-8">
+          <NoiseEstimatorCard
+            build={savedBuildForAnalysis}
+          />
+        </section>
+
+        {/* Assembly Checklist */}
+        <section className="mt-8">
+          <AssemblyChecklist build={savedBuildForAnalysis} />
+        </section>
+
+        {/* RGB Sync Checker */}
+        <section className="mt-8">
+          <RgbSyncChecker build={savedBuildForAnalysis} />
+        </section>
 
         {/* Recommendations Tabs */}
         <section className="mt-8">

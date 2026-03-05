@@ -130,6 +130,8 @@ export interface RAM {
     is_ecc?: boolean;
     /** Registered (RDIMM) vs unbuffered (UDIMM); servers often use RDIMM */
     is_registered?: boolean;
+    /** Type of RGB on RAM, if any */
+    rgb_type?: "none" | "12v_rgb" | "5v_argb";
   };
 }
 
@@ -259,6 +261,10 @@ export interface Case {
     preinstalled_fans?: number;
     /** Maximum number of fan positions */
     max_fans?: number;
+    /** Type of RGB on case lighting / fans, if any */
+    rgb_type?: "none" | "12v_rgb" | "5v_argb";
+    /** Number of pre-installed RGB fans (subset of preinstalled_fans) */
+    rgb_fans?: number;
   };
 }
 

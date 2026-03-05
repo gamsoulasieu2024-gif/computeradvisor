@@ -1,0 +1,75 @@
+[
+  {
+    "id": "cooler-001",
+    "name": "Noctua NH-D15",
+    "manufacturer": "Noctua",
+    "price_usd": 109,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 220,
+      "fan_size_mm": 140,
+      "height_mm": 165,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
+    }
+  },
+  {
+    "id": "cooler-002",
+    "name": "Corsair iCUE H150i ELITE",
+    "manufacturer": "Corsair",
+    "price_usd": 199,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 360,
+      "fan_size_mm": 120,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 3,
+      "rgb_type": "5v_argb"
+    }
+  },
+  {
+    "id": "cooler-003",
+    "name": "be quiet! Dark Rock Pro 4",
+    "manufacturer": "be quiet!",
+    "price_usd": 89,
+    "specs": {
+      "type": "Air",
+      "tdp_rating_w": 250,
+      "fan_size_mm": 135,
+      "height_mm": 163,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
+    }
+  },
+  {
+    "id": "cooler-004",
+    "name": "Arctic Liquid Freezer II 280",
+    "manufacturer": "Arctic",
+    "price_usd": 119,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 280,
+      "fan_size_mm": 140,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "none"
+    }
+  },
+  {
+    "id": "cooler-005",
+    "name": "NZXT Kraken 240 RGB",
+    "manufacturer": "NZXT",
+    "price_usd": 149,
+    "specs": {
+      "type": "AIO",
+      "radiator_size_mm": 240,
+      "fan_size_mm": 120,
+      "sockets": ["LGA1700", "LGA1200", "LGA1151", "AM5", "AM4"],
+      "fan_count": 2,
+      "rgb_type": "5v_argb"
+    }
+  }
+]
+

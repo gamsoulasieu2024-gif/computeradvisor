@@ -5,10 +5,14 @@ import { searchParts, type SortOption } from "@/lib/utils/search";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { X, Search, CheckCircle, XCircle, Info } from "lucide-react";
+import { X, Search, CheckCircle, XCircle, Info, Heart } from "lucide-react";
 import type { PartCategory } from "@/lib/store/types";
 import { useBuild } from "@/hooks/use-build";
 import { useCurrency } from "@/hooks/useCurrency";
+import {
+  addToWishlist,
+  isInWishlist,
+} from "@/lib/wishlist/wishlist-storage";
 
 interface CompatibilityFilters {
   requiredSocket?: string;
@@ -441,23 +445,49 @@ export function PartSearch<
                         </div>
                       )}
                     </div>
-                    {typeof p.price_usd === "number" && (
-                      <div className="ml-2 text-right">
-                        <div className="font-semibold text-foreground">
-                          {formatPrice(p.price_usd)}
+                    <div className="ml-2 flex flex-col items-end gap-2">
+                      {typeof p.price_usd === "number" && (
+                        <div className="text-right">
+                          <div className="font-semibold text-foreground">
+                            {formatPrice(p.price_usd)}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!isInWishlist(part.id)) {
+                            addToWishlist(part as any, category);
+                          }
+                        }}
+                        className="rounded p-1 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800"
+                        aria-label={
+                          isInWishlist(part.id)
+                            ? "In wishlist"
+                            : "Add to wishlist"
+                        }
+                      >
+                        <Heart
+                          className={cn(
+                            "h-4 w-4",
+                            isInWishlist(part.id) && "fill-red-500 text-red-500"
+                          )}
+                        />
+                      </button>
+                    </div>
                   </div>
 
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => isCompatible && handleSelect(part)}
-                    disabled={!isCompatible}
-                  >
-                    {isCompatible ? "Select" : "Incompatible"}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => isCompatible && handleSelect(part)}
+                      disabled={!isCompatible}
+                    >
+                      {isCompatible ? "Select" : "Incompatible"}
+                    </Button>
+                  </div>
                 </div>
               );
             })}

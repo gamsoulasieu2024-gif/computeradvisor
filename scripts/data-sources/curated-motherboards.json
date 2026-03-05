@@ -1,0 +1,73 @@
+[
+  {
+    "id": "mobo-am5-001",
+    "name": "ASUS ROG STRIX X670E-E GAMING WIFI",
+    "manufacturer": "ASUS",
+    "category": "motherboard",
+    "specs": {
+      "socket": "AM5",
+      "chipset": "X670E",
+      "form_factor": "ATX",
+      "memory_type": "ddr5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "max_memory_speed_stock": 4800,
+      "max_memory_speed_oc": 6400,
+      "supports_xmp": false,
+      "supports_expo": true,
+      "m2_slots": 4,
+      "sata_ports": 4,
+      "pcie_x16_slots": 2,
+      "pcie_version": "5.0",
+      "has_wifi": true,
+      "has_bluetooth": true,
+      "has_bios_flashback": true,
+      "headers": {
+        "argb_5v": 3,
+        "rgb_12v": 2,
+        "fan_4pin": 7
+      },
+      "rear_usb": {
+        "usb_31_gen2_typec": 1,
+        "usb_31_gen2_typea": 4,
+        "usb_31_gen1": 4,
+        "usb_20": 2
+      },
+      "price_usd": 449,
+      "tier": 9
+    }
+  },
+  {
+    "id": "mobo-lga1700-001",
+    "name": "MSI MAG Z790 TOMAHAWK WIFI",
+    "manufacturer": "MSI",
+    "category": "motherboard",
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "form_factor": "ATX",
+      "memory_type": "ddr5",
+      "ram_slots": 4,
+      "max_ram_gb": 128,
+      "max_memory_speed_stock": 4800,
+      "max_memory_speed_oc": 7200,
+      "supports_xmp": true,
+      "supports_expo": false,
+      "m2_slots": 5,
+      "sata_ports": 6,
+      "pcie_x16_slots": 2,
+      "pcie_version": "5.0",
+      "has_wifi": true,
+      "has_bluetooth": true,
+      "has_bios_flashback": true,
+      "headers": {
+        "argb_5v": 3,
+        "rgb_12v": 2,
+        "fan_4pin": 6
+      },
+      "price_usd": 329,
+      "tier": 8
+    }
+  }
+]
+

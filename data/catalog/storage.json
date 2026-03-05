@@ -1,0 +1,73 @@
+[
+  {
+    "id": "storage-001",
+    "name": "Samsung 990 Pro 1TB",
+    "manufacturer": "Samsung",
+    "price_usd": 109,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 7450,
+      "write_speed_mb_s": 6900,
+      "tbw": 600
+    }
+  },
+  {
+    "id": "storage-002",
+    "name": "WD Black SN850X 2TB",
+    "manufacturer": "Western Digital",
+    "price_usd": 179,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 7300,
+      "write_speed_mb_s": 6300,
+      "tbw": 1200
+    }
+  },
+  {
+    "id": "storage-003",
+    "name": "Crucial MX500 1TB",
+    "manufacturer": "Crucial",
+    "price_usd": 69,
+    "specs": {
+      "interface": "SATA",
+      "form_factor": "2.5\" SATA",
+      "capacity_gb": 1000,
+      "read_speed_mb_s": 560,
+      "write_speed_mb_s": 510,
+      "tbw": 360
+    }
+  },
+  {
+    "id": "storage-004",
+    "name": "Samsung 980 Pro 500GB",
+    "manufacturer": "Samsung",
+    "price_usd": 79,
+    "specs": {
+      "interface": "NVMe",
+      "form_factor": "M.2 2280",
+      "capacity_gb": 500,
+      "read_speed_mb_s": 7000,
+      "write_speed_mb_s": 5000,
+      "tbw": 300
+    }
+  },
+  {
+    "id": "storage-005",
+    "name": "Seagate Barracuda 2TB",
+    "manufacturer": "Seagate",
+    "price_usd": 59,
+    "specs": {
+      "interface": "SATA",
+      "form_factor": "3.5\" SATA",
+      "capacity_gb": 2000,
+      "read_speed_mb_s": 220,
+      "write_speed_mb_s": 200,
+      "tbw": 600
+    }
+  }
+]
+

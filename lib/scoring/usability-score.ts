@@ -6,6 +6,7 @@ import type { BuildInput } from "@/lib/compatibility/types";
 import { estimateLoad, getHeadroom } from "@/lib/compatibility/power";
 import { assessCooling } from "@/lib/compatibility/cooling-adequacy";
 import type { Score, ScoreBreakdownItem } from "./types";
+import { calculateBuildDifficulty } from "@/lib/difficulty/difficulty-analyzer";
 
 /**
  * Calculate usability score from build
@@ -137,6 +138,26 @@ export function calculateUsabilityScore(build: BuildInput): Score {
       factor: "Cooling Adequacy",
       impact: coolingImpact,
       explanation: `Cooler is ${coolingAssessment.rating} for CPU TDP (${coolingAssessment.headroom.toFixed(0)}% headroom)`,
+    });
+  }
+
+  // Difficulty weighting: easier builds score higher for usability
+  const difficulty = calculateBuildDifficulty(build);
+  if (difficulty.level === "beginner") {
+    score += 5;
+    breakdown.push({
+      factor: "Beginner-friendly build",
+      impact: 5,
+      explanation:
+        "Easy to assemble with standard components and comfortable clearances.",
+    });
+  } else if (difficulty.level === "expert") {
+    score -= 5;
+    breakdown.push({
+      factor: "High build complexity",
+      impact: -5,
+      explanation:
+        "Complex assembly with tight clearances or advanced cooling, better suited to experienced builders.",
     });
   }
 

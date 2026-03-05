@@ -215,7 +215,14 @@ export default function BuildPageClient() {
   const getParts = useCallback(
     (cat: PartCategory): { id: string; name: string; manufacturer: string }[] => {
       if (!catalog) return [];
-      const key = cat === "motherboard" ? "motherboards" : cat === "storage" ? "storage" : `${cat}s`;
+      const key =
+        cat === "motherboard"
+          ? "motherboards"
+          : cat === "storage"
+            ? "storage"
+            : cat === "ram"
+              ? "ram"
+              : `${cat}s`;
       const raw = ((catalog as Record<string, unknown[]>)[key] ?? []) as { id: string; name: string; manufacturer: string }[];
       const partType = cat as "cpu" | "gpu" | "motherboard" | "ram" | "storage" | "psu" | "cooler" | "case";
       return filterByPreset(preset, partType, raw) as { id: string; name: string; manufacturer: string }[];

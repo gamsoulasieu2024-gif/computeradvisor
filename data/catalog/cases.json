@@ -1,0 +1,105 @@
+[
+  {
+    "id": "case-001",
+    "name": "Fractal Design Meshify 2",
+    "manufacturer": "Fractal Design",
+    "price_usd": 159,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 360,
+      "max_cooler_height_mm": 185,
+      "max_psu_length_mm": 250,
+      "drive_bays_2_5": 4,
+      "drive_bays_3_5": 6,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [240, 280, 360],
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 7
+    }
+  },
+  {
+    "id": "case-002",
+    "name": "NZXT H7 Flow",
+    "manufacturer": "NZXT",
+    "price_usd": 149,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 413,
+      "max_cooler_height_mm": 185,
+      "max_psu_length_mm": 200,
+      "drive_bays_2_5": 3,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [120, 240, 280, 360],
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 7
+    }
+  },
+  {
+    "id": "case-003",
+    "name": "Fractal Design Define 7 Compact",
+    "manufacturer": "Fractal Design",
+    "price_usd": 109,
+    "specs": {
+      "form_factor": "Micro-ATX",
+      "max_gpu_length_mm": 341,
+      "max_cooler_height_mm": 162,
+      "max_psu_length_mm": 175,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 4,
+      "supports_radiator_mm": [240, 280],
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 5
+    }
+  },
+  {
+    "id": "case-004",
+    "name": "Cooler Master NR200P",
+    "manufacturer": "Cooler Master",
+    "price_usd": 99,
+    "specs": {
+      "form_factor": "Mini-ITX",
+      "max_gpu_length_mm": 330,
+      "max_cooler_height_mm": 155,
+      "max_psu_length_mm": 130,
+      "drive_bays_2_5": 3,
+      "drive_bays_3_5": 2,
+      "drive_35_reduces_psu_length": 30,
+      "drive_35_conflicts_with": "psu",
+      "expansion_slots": 2,
+      "supports_radiator_mm": [240, 280],
+      "max_psu_form_factor": "SFX",
+      "front_panel": { "usb_a": 2, "usb_c": 1, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 6
+    }
+  },
+  {
+    "id": "case-005",
+    "name": "Corsair 4000D Airflow",
+    "manufacturer": "Corsair",
+    "price_usd": 104,
+    "specs": {
+      "form_factor": "ATX",
+      "max_gpu_length_mm": 360,
+      "max_cooler_height_mm": 170,
+      "max_psu_length_mm": 180,
+      "drive_bays_2_5": 2,
+      "drive_bays_3_5": 2,
+      "expansion_slots": 7,
+      "supports_radiator_mm": [240, 280, 360],
+      "max_psu_form_factor": "ATX",
+      "front_panel": { "usb_a": 2, "usb_c": 0, "audio_jack": true },
+      "preinstalled_fans": 0,
+      "max_fans": 6
+    }
+  }
+]
+
