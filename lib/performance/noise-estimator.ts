@@ -197,7 +197,7 @@ function analyzeCoolerNoise(cooler: Cooler, cpu?: CPU) {
   let contributor: NoiseContributor | undefined;
   let recommendation: string | undefined;
 
-  if (coolerType === "aio") {
+  if (coolerType === "AIO") {
     // AIOs have pump noise at idle
     idle = { min: 2, max: 5 };
     normal = { min: 5, max: 10 };
@@ -214,7 +214,7 @@ function analyzeCoolerNoise(cooler: Cooler, cpu?: CPU) {
       recommendation =
         "Large radiator with many fans can be loud under load. Use gentle fan curves.";
     }
-  } else if (coolerType === "air") {
+  } else if (coolerType === "Air") {
     // Air coolers quieter at idle
     idle = { min: 0, max: 2 };
 
