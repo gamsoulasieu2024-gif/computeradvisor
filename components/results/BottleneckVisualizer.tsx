@@ -9,7 +9,7 @@ import {
   getBottleneckBgColor,
 } from "@/lib/performance/bottleneck-analyzer";
 import type { CPU, GPU } from "@/types/components";
-import type { BuildPreset } from "@/types/build";
+import type { BuildPreset } from "@/lib/store/types";
 
 interface BottleneckVisualizerProps {
   cpu: CPU;
