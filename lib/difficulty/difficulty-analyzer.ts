@@ -58,10 +58,10 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
   // Cooling Complexity
   const cooler = build.cooler;
   if (cooler?.specs?.type === "AIO") {
-    const radiatorSize = cooler.specs.radiator_size;
+    const radiatorSize = cooler.specs.radiator_size_mm ?? 0;
     let impact = 2;
 
-    if (radiatorSize?.includes("360") || radiatorSize?.includes("420")) {
+    if (radiatorSize >= 360) {
       impact = 3;
       warnings.push("Large radiators require careful case compatibility planning");
     }
@@ -112,7 +112,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
 
   // Cable Management
   const psuModular = build.psu?.specs?.modular;
-  if (psuModular === "non-modular") {
+  if (psuModular === "Non-modular") {
     const impact = 2;
     factors.push({
       factor: "Non-Modular PSU",
@@ -124,7 +124,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
     tips.push(
       "Plan cable routing before installing PSU. Use cable ties to bundle unused cables."
     );
-  } else if (psuModular === "semi") {
+  } else if (psuModular === "Semi-modular") {
     const impact = 1;
     factors.push({
       factor: "Semi-Modular PSU",
@@ -148,16 +148,21 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
     baseScore += impact;
   }
 
-  // M.2 Installation
-  if (build.storage?.some((s) => s.specs?.interface === "m2")) {
+  // M.2 / NVMe installation
+  if (build.storage?.some((s) => s.specs?.interface === "NVMe")) {
     tips.push("Install M.2 drives before installing GPU - easier access to M.2 slots");
   }
 
   // RGB Complexity
   const hasRGB =
-    cooler?.specs?.rgb_type !== "none" ||
-    build.ram?.specs?.rgb_type !== "none" ||
-    build.case?.specs?.has_rgb;
+    (cooler?.specs?.rgb_type && cooler.specs.rgb_type !== "none") ||
+    // RAM/case may or may not have rgb_type depending on dataset; treat presence as signal
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ((build.ram as any)?.specs?.rgb_type &&
+      (build.ram as any).specs.rgb_type !== "none") ||
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ((build.case as any)?.specs?.rgb_type &&
+      (build.case as any).specs.rgb_type !== "none");
 
   if (hasRGB) {
     const impact = 1;
@@ -173,7 +178,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
 
   // Tight Clearances (CPU cooler)
   const coolerHeight = cooler?.specs?.height_mm || 0;
-  const caseMaxCooler = build.case?.specs?.max_cpu_cooler_height_mm || 999;
+  const caseMaxCooler = build.case?.specs?.max_cooler_height_mm || 999;
 
   if (coolerHeight > caseMaxCooler - 5) {
     const impact = 1;
@@ -217,7 +222,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
   else if (formFactor === "Micro-ATX") baseTime += 15;
 
   if (cooler?.specs?.type === "AIO") baseTime += 30;
-  if (psuModular === "non-modular") baseTime += 20;
+  if (psuModular === "Non-modular") baseTime += 20;
   if (storageCount > 2) baseTime += 10 * (storageCount - 2);
   if (hasRGB) baseTime += 15;
 
