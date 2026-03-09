@@ -265,6 +265,10 @@ export interface Case {
     rgb_type?: "none" | "12v_rgb" | "5v_argb";
     /** Number of pre-installed RGB fans (subset of preinstalled_fans) */
     rgb_fans?: number;
+    /** Whether the case has sound-dampening panels */
+    noise_dampening?: boolean;
+    /** Whether the front panel is mesh (more airflow, less damping) */
+    mesh_front?: boolean;
   };
 }
 
