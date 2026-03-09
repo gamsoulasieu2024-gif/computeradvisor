@@ -1,5 +1,5 @@
 import type { CPU, GPU } from "@/types/components";
-import type { BuildPreset } from "@/types/build";
+import type { BuildPreset } from "@/lib/store/types";
 
 export type BottleneckType = "cpu" | "gpu" | "balanced" | "unknown";
 export type BottleneckSeverity = "none" | "slight" | "moderate" | "severe";
