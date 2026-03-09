@@ -30,7 +30,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
 
   // Form Factor Complexity
   const formFactor = build.case?.specs?.form_factor;
-  if (formFactor === "ITX") {
+  if (formFactor === "Mini-ITX") {
     const impact = 3;
     factors.push({
       factor: "Mini-ITX Form Factor",
@@ -44,7 +44,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
     tips.push(
       "Install PSU and motherboard standoffs first, then plan cable routing before installing components"
     );
-  } else if (formFactor === "mATX") {
+  } else if (formFactor === "Micro-ATX") {
     const impact = 1;
     factors.push({
       factor: "Micro-ATX Form Factor",
@@ -57,7 +57,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
 
   // Cooling Complexity
   const cooler = build.cooler;
-  if (cooler?.specs?.type === "aio") {
+  if (cooler?.specs?.type === "AIO") {
     const radiatorSize = cooler.specs.radiator_size;
     let impact = 2;
 
@@ -74,7 +74,7 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
     });
     baseScore += impact;
     tips.push("Test radiator fit before final installation. Mount radiator with fans first.");
-  } else if (cooler?.specs?.type === "air") {
+  } else if (cooler?.specs?.type === "Air") {
     const height = cooler.specs.height_mm || 0;
     if (height > 160) {
       const impact = 1;
@@ -213,10 +213,10 @@ export function calculateBuildDifficulty(build: BuildInput): DifficultyRating {
   // Estimate assembly time
   let baseTime = 90; // 1.5 hours for standard ATX build
 
-  if (formFactor === "ITX") baseTime += 60;
-  else if (formFactor === "mATX") baseTime += 15;
+  if (formFactor === "Mini-ITX") baseTime += 60;
+  else if (formFactor === "Micro-ATX") baseTime += 15;
 
-  if (cooler?.specs?.type === "aio") baseTime += 30;
+  if (cooler?.specs?.type === "AIO") baseTime += 30;
   if (psuModular === "non-modular") baseTime += 20;
   if (storageCount > 2) baseTime += 10 * (storageCount - 2);
   if (hasRGB) baseTime += 15;
@@ -247,16 +247,16 @@ function generateSummary(
     return "This is a beginner-friendly build with standard components and good clearances. Perfect for first-time builders.";
   } else if (level === "intermediate") {
     return `Moderately challenging build${
-      formFactor === "ITX" ? " due to compact size" : ""
-    }${coolerType === "aio" ? " with liquid cooling" : ""}. Recommended for builders with some experience.`;
+      formFactor === "Mini-ITX" ? " due to compact size" : ""
+    }${coolerType === "AIO" ? " with liquid cooling" : ""}. Recommended for builders with some experience.`;
   } else if (level === "advanced") {
     return `Challenging build requiring careful planning${
-      formFactor === "ITX" ? " in a small form factor" : ""
+      formFactor === "Mini-ITX" ? " in a small form factor" : ""
     }. Best suited for experienced builders.`;
   } else {
     return `Very challenging build${
-      formFactor === "ITX" ? " in mini-ITX form factor" : ""
-    }${coolerType === "aio" ? " with liquid cooling" : ""}. Requires expert-level skills and patience.`;
+      formFactor === "Mini-ITX" ? " in mini-ITX form factor" : ""
+    }${coolerType === "AIO" ? " with liquid cooling" : ""}. Requires expert-level skills and patience.`;
   }
 }
 
