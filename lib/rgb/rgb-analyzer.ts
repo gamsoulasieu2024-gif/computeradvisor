@@ -277,11 +277,15 @@ export function analyzeRgbCompatibility(build: Build): RgbAnalysis | null {
 
   // Ecosystems in play
   const ecosystems = Array.from(
-    new Set(rgbComponents.map((c) => c.ecosystem).filter((e) => e !== "none"))
+    new Set(
+      rgbComponents
+        .map((c) => c.ecosystem)
+        .filter((e) => e !== "none")
+    )
   );
 
   const dominantEcosystem: RgbEcosystem =
-    ecosystems.includes(moboEcosystem) && moboEcosystem !== "none"
+    moboEcosystem !== "none" && ecosystems.some((e) => e === moboEcosystem)
       ? moboEcosystem
       : ecosystems[0] ?? moboEcosystem;
 
