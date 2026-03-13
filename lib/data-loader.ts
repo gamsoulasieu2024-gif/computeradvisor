@@ -4,7 +4,8 @@ import path from "path";
 // Simple file-based loader for server-side use (API routes, scripts).
 // Tries catalog first, then falls back to seed data.
 
-const USE_CATALOG = process.env.USE_CATALOG !== "false"; // default true
+// Prefer seed data by default. Only use catalog when USE_CATALOG === "true".
+const USE_CATALOG = process.env.USE_CATALOG === "true";
 const catalogDir = path.join(process.cwd(), "data", "catalog");
 const seedDir = path.join(process.cwd(), "data", "seed");
 
